@@ -67,7 +67,7 @@ export function LeadTable({ leads, isLoading, selectedRows, onSelectionChange }:
     {
       title: "Actions",
       key: "actions",
-      render: (_unused: any, record: Lead) => (
+      render: (unused: any, record: Lead) => (
         <Space size="small">
           <Button
             type="text"

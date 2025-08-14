@@ -46,9 +46,8 @@ export function useLeadsWithNamesQuery(filters: LeadFilters) {
       pagination,
       isPaginated,
     }
-  } catch (error) {
-    console.error("Error processing leads data:", error)
-    return {
+      } catch (error) {
+      return {
       ...leadsResponse,
       data: [],
       pagination: null,
