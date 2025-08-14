@@ -1,200 +1,110 @@
-import React from 'react';
-import { Select } from 'antd';
-import { LeftOutlined, RightOutlined } from '@ant-design/icons';
-import { useIsMobile } from '@/hooks/useIsMobile';
+"use client"
 
-const { Option } = Select;
+import { Button } from "antd"
+import { LeftOutlined, RightOutlined } from "@ant-design/icons"
 
 interface CustomPaginationProps {
-  current: number;
-  total: number;
-  pageSize: number;
-  onChange: (page: number, pageSize: number) => void;
-  onShowSizeChange: (size: number) => void;
+  current: number
+  total: number
+  pageSize: number
+  onChange: (page: number) => void
 }
 
-const CustomPagination: React.FC<CustomPaginationProps> = ({
-  current,
-  total,
-  pageSize,
-  onChange,
-  onShowSizeChange,
-}) => {
-  const handlePageChange = (page: number) => {
-    onChange(page, pageSize);
-  };
+export function CustomPagination({ current, total, pageSize, onChange }: CustomPaginationProps) {
+  const totalPages = Math.ceil(total / pageSize)
+  
+  if (totalPages <= 1) return null
 
-  const handleSizeChange = (value: number) => {
-    onShowSizeChange(value);
-  };
-
-  const totalPages = Math.ceil(total / pageSize);
-
-  const renderPageNumbers = () => {
-    const pageNumbers = [];
-    const maxVisiblePages = 5;
-
+  const getPageNumbers = () => {
+    const pages: (number | string)[] = []
+    const maxVisiblePages = 5
+    
     if (totalPages <= maxVisiblePages) {
       for (let i = 1; i <= totalPages; i++) {
-        pageNumbers.push(
-          <button
-            key={i}
-            onClick={() => handlePageChange(i)}
-            className={`w-8 h-8 flex items-center justify-center rounded-[10px] ${
-              current === i
-                ? 'bg-[#F8F8F8] text-[#111827] '
-                : 'bg-white text-[#111827]'
-            }`}
-          >
-            {i}
-          </button>,
-        );
+        pages.push(i)
       }
     } else {
-      // Always show first page
-      pageNumbers.push(
-        <button
-          key={1}
-          onClick={() => handlePageChange(1)}
-          className={`w-8 h-8 flex items-center justify-center rounded-[10px] ${
-            current === 1
-              ? 'bg-[#F8F8F8] text-[#111827]'
-              : 'bg-white text-[#111827]'
-          }`}
-        >
-          1
-        </button>,
-      );
-
-      // Calculate the range of pages to show around current page
-      let startPage = Math.max(2, current - 1);
-      let endPage = Math.min(totalPages - 1, current + 1);
-
-      // Adjust if we're near the start
       if (current <= 3) {
-        endPage = Math.min(4, totalPages - 1);
+        for (let i = 1; i <= 4; i++) {
+          pages.push(i)
+        }
+        pages.push("...")
+        pages.push(totalPages)
+      } else if (current >= totalPages - 2) {
+        pages.push(1)
+        pages.push("...")
+        for (let i = totalPages - 3; i <= totalPages; i++) {
+          pages.push(i)
+        }
+      } else {
+        pages.push(1)
+        pages.push("...")
+        for (let i = current - 1; i <= current + 1; i++) {
+          pages.push(i)
+        }
+        pages.push("...")
+        pages.push(totalPages)
       }
-      // Adjust if we're near the end
-      if (current >= totalPages - 2) {
-        startPage = Math.max(2, totalPages - 3);
-      }
-
-      // Add ellipsis after first page if needed
-      if (startPage > 2) {
-        pageNumbers.push(
-          <span key="leftEllipsis" className="px-2">
-            ...
-          </span>,
-        );
-      }
-
-      // Add middle pages
-      for (let i = startPage; i <= endPage; i++) {
-        pageNumbers.push(
-          <button
-            key={i}
-            onClick={() => handlePageChange(i)}
-            className={`w-8 h-8 flex items-center justify-center rounded-[10px] ${
-              current === i
-                ? 'bg-[#F8F8F8] text-[#111827] '
-                : 'bg-white text-[#111827] '
-            }`}
-          >
-            {i}
-          </button>,
-        );
-      }
-
-      // Add ellipsis before last page if needed
-      if (endPage < totalPages - 1) {
-        pageNumbers.push(
-          <span key="rightEllipsis" className="px-2">
-            ...
-          </span>,
-        );
-      }
-
-      // Always show last page
-      pageNumbers.push(
-        <button
-          key={totalPages}
-          onClick={() => handlePageChange(totalPages)}
-          className={`w-8 h-8 flex items-center justify-center  rounded-[10px] ${
-            current === totalPages
-              ? 'bg-[#F8F8F8] text-[#111827] '
-              : 'bg-white text-[#111827]  hover:bg-gray-100'
-          }`}
-        >
-          {totalPages}
-        </button>,
-      );
     }
+    
+    return pages
+  }
 
-    return pageNumbers;
-  };
+  const handlePageChange = (page: number) => {
+    if (page >= 1 && page <= totalPages) {
+      onChange(page)
+    }
+  }
 
-  const { isMobile } = useIsMobile();
   return (
-    <div className="flex justify-between items-center py-6 px-4  bg-white">
-      <div className="flex items-center space-x-2">
-        <button
-          onClick={() => current > 1 && handlePageChange(current - 1)}
-          disabled={current === 1}
-          className={`w-8 h-8 flex items-center justify-center border rounded-[10px] ${
-            current === 1
-              ? 'text-[#111827] border-gray-200'
-              : 'text-[#111827] border-gray-300 hover:bg-gray-100'
-          }`}
-        >
-          <LeftOutlined />
-        </button>
-        {renderPageNumbers()}
-        <button
-          onClick={() => current < totalPages && handlePageChange(current + 1)}
-          disabled={current === totalPages}
-          className={`w-8 h-8 flex items-center justify-center border rounded-[10px] ${
-            current === totalPages
-              ? 'text-[#111827] border-gray-200'
-              : 'text-[#111827] border-gray-300 hover:bg-gray-100'
-          }`}
-        >
-          <RightOutlined />
-        </button>
+    <div className="flex items-center justify-between" data-cy="pagination-container">
+      <div className="text-sm text-gray-700">
+        Showing {((current - 1) * pageSize) + 1} to {Math.min(current * pageSize, total)} of {total} results
       </div>
-      <div className="flex items-center">
-        {!isMobile && (
-          <span className="mr-2 text-xs text-[#718096]">
-            Showing {Math.min(total, (current - 1) * pageSize + 1)} -{' '}
-            {Math.min(total, current * pageSize)} out of {total} entries
-          </span>
-        )}
-        <Select
-          value={pageSize}
-          className="w-24 h-8"
-          onChange={(value) => handleSizeChange(value)}
-        >
-          <Option value={4}>
-            <span className="text-xs text-[#111827]">Show 4</span>
-          </Option>
-          <Option value={10}>
-            <span className="text-xs text-[#111827]">Show 10</span>
-          </Option>
-          <Option value={25}>
-            <span className="text-xs text-[#111827]">Show 25</span>
-          </Option>
-          <Option value={50}>
-            <span className="text-xs text-[#111827]">Show 50</span>
-          </Option>
-          <Option value={75}>
-            <span className="text-xs text-[#111827]">Show 75</span>
-          </Option>
-          <Option value={100}>
-            <span className="text-xs text-[#111827]">Show 100</span>
-          </Option>
-        </Select>
+      
+      <div className="flex items-center space-x-2" data-cy="pagination-controls">
+        <Button
+          icon={<LeftOutlined />}
+          onClick={() => handlePageChange(current - 1)}
+          disabled={current === 1}
+          size="small"
+          data-cy="pagination-prev-button"
+        />
+        
+        {getPageNumbers().map((page, index) => {
+          if (page === "...") {
+            return (
+              <span
+                key={`ellipsis-${index}`}
+                className="px-3 py-1 text-gray-500"
+                data-cy={index < getPageNumbers().length / 2 ? "pagination-left-ellipsis" : "pagination-right-ellipsis"}
+              >
+                ...
+              </span>
+            )
+          }
+          
+          return (
+            <Button
+              key={page}
+              type={current === page ? "primary" : "default"}
+              onClick={() => handlePageChange(page as number)}
+              size="small"
+              data-cy={`pagination-page-${page}`}
+            >
+              {page}
+            </Button>
+          )
+        })}
+        
+        <Button
+          icon={<RightOutlined />}
+          onClick={() => handlePageChange(current + 1)}
+          disabled={current === totalPages}
+          size="small"
+          data-cy="pagination-next-button"
+        />
       </div>
     </div>
-  );
-};
-
-export default CustomPagination;
+  )
+}
