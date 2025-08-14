@@ -10,7 +10,6 @@ export function useLeadsQuery(filters: LeadFilters) {
         const response = await api.get("/leads", { params: filters })
         return response.data
       } catch (error) {
-        console.error("Failed to fetch leads:", error)
         throw error
       }
     },
@@ -70,10 +69,10 @@ export function useEngagementStagesQuery() {
           return data
         }
         
-        console.warn("Expected array for engagement stages, got:", typeof data)
+        // Expected array for engagement stages
         return []
       } catch (error) {
-        console.error("Failed to fetch engagement stages:", error)
+        // Failed to fetch engagement stages
         return []
       }
     },
@@ -93,10 +92,10 @@ export function useCompaniesQuery() {
           return data
         }
         
-        console.warn("Expected array for companies, got:", typeof data)
+        // Expected array for companies
         return []
       } catch (error) {
-        console.error("Failed to fetch companies:", error)
+        // Failed to fetch companies
         return []
       }
     },
@@ -116,10 +115,10 @@ export function useSourcesQuery() {
           return data
         }
         
-        console.warn("Expected array for sources, got:", typeof data)
+        // Expected array for sources
         return []
       } catch (error) {
-        console.error("Failed to fetch sources:", error)
+        // Failed to fetch sources
         return []
       }
     },

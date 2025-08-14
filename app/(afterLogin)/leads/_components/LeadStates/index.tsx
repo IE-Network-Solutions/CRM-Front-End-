@@ -49,7 +49,7 @@ export function LeadStates({ leadId, currentStage }: LeadStatesProps) {
         setIsOpen(false)
       }
     } catch (error) {
-      console.error("Failed to update lead stage:", error)
+      // Failed to update lead stage
     }
   }
 

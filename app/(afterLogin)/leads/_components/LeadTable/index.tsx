@@ -1,7 +1,6 @@
 "use client"
 
-import { useState } from "react"
-import { Table, Button, Tag, Space, Checkbox } from "antd"
+import { Table, Button, Space } from "antd"
 import { EditOutlined, DeleteOutlined, EyeOutlined } from "@ant-design/icons"
 import { Lead } from "@/store/server/features/leads/interface"
 import { LeadStates } from "../LeadStates"
@@ -68,7 +67,7 @@ export function LeadTable({ leads, isLoading, selectedRows, onSelectionChange }:
     {
       title: "Actions",
       key: "actions",
-      render: (_, record: Lead) => (
+      render: (_unused: any, record: Lead) => (
         <Space size="small">
           <Button
             type="text"

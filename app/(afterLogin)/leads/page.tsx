@@ -4,13 +4,12 @@ import { useState } from "react"
 import { Button, Input, Alert } from "antd"
 import { PlusOutlined, SearchOutlined, FilterOutlined, MoreOutlined } from "@ant-design/icons"
 import { LeadTable } from "./_components/LeadTable"
-import { LeadStates } from "./_components/LeadStates"
+
 import { useLeadsWithNamesQuery } from "@/store/server/features/leads/queries"
 import { useLeadStore } from "@/store/uistate/features/leads/leadStore"
 
 export default function LeadsPage() {
   const [searchTerm, setSearchTerm] = useState("")
-  const [showCreateForm, setShowCreateForm] = useState(false)
 
   const { selectedRows, setSelectedRows, currentPage, setCurrentPage } = useLeadStore()
 
@@ -20,7 +19,7 @@ export default function LeadsPage() {
     limit: 10,
   }
 
-  const { data: leads = [], pagination, isLoading, error, isPaginated } = useLeadsWithNamesQuery(filters)
+  const { data: leads = [], isLoading, error } = useLeadsWithNamesQuery(filters)
 
   const handleSearch = (value: string) => {
     setSearchTerm(value)
@@ -30,7 +29,7 @@ export default function LeadsPage() {
 
 
   const handleBulkAction = () => {
-    console.log("Bulk action on selected rows:", selectedRows)
+    // Bulk action on selected rows
   }
 
   if (error) {
@@ -81,7 +80,6 @@ export default function LeadsPage() {
               type="primary"
               icon={<PlusOutlined />}
               size="large"
-              onClick={() => setShowCreateForm(true)}
               data-cy="create-leads-button"
             >
               Create Lead

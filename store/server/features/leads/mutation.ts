@@ -16,7 +16,7 @@ export function useUpdateLeadStageMutation() {
       queryClient.invalidateQueries({ queryKey: ["leads"] })
     },
     onError: (error) => {
-      console.error("Failed to update lead stage:", error)
+      // Failed to update lead stage
     },
   })
 }

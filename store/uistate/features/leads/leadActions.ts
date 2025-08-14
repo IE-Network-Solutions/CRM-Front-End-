@@ -27,7 +27,7 @@ interface LeadActions {
   setError: (error: string | null) => void
 }
 
-export const useLeadActions = create<LeadActions>((set, get) => ({
+export const useLeadActions = create<LeadActions>((set) => ({
   // Lead CRUD Actions
   createLead: async (leadData: CreateLeadRequest) => {
     try {
