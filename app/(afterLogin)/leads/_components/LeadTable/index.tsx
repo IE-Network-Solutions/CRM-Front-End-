@@ -1,36 +1,41 @@
-"use client"
+'use client';
 
-import { Table, Button, Space } from "antd"
-import { EditOutlined, DeleteOutlined, EyeOutlined } from "@ant-design/icons"
-import { Lead } from "@/store/server/features/leads/interface"
-import { LeadStates } from "../LeadStates"
-import { CustomPagination } from "@/components/customPagination"
-import { useLeadStore } from "@/store/uistate/features/leads/leadStore"
+import { Table, Button, Space } from 'antd';
+import { EditOutlined, DeleteOutlined, EyeOutlined } from '@ant-design/icons';
+import { Lead } from '@/store/server/features/leads/interface';
+import { LeadStates } from '../LeadStates';
+import { CustomPagination } from '@/components/customPagination';
+import { useLeadStore } from '@/store/uistate/features/leads/leadStore';
 
 interface LeadTableProps {
-  leads: Lead[]
-  isLoading: boolean
-  selectedRows: number[]
-  onSelectionChange: (selectedRows: number[]) => void
+  leads: Lead[];
+  isLoading: boolean;
+  selectedRows: number[];
+  onSelectionChange: (selectedRows: number[]) => void;
 }
 
-export function LeadTable({ leads, isLoading, selectedRows, onSelectionChange }: LeadTableProps) {
-  const { currentPage, setCurrentPage } = useLeadStore()
+export function LeadTable({
+  leads,
+  isLoading,
+  selectedRows,
+  onSelectionChange,
+}: LeadTableProps) {
+  const { currentPage, setCurrentPage } = useLeadStore();
 
   const handleSelectionChange = (selectedRowKeys: React.Key[]) => {
-    onSelectionChange(selectedRowKeys.map(key => Number(key)))
-  }
+    onSelectionChange(selectedRowKeys.map((key) => Number(key)));
+  };
 
   const rowSelection = {
     selectedRowKeys: selectedRows,
     onChange: handleSelectionChange,
-  }
+  };
 
   const columns = [
     {
-      title: "Name",
-      dataIndex: "name",
-      key: "name",
+      title: 'Name',
+      dataIndex: 'name',
+      key: 'name',
       render: (name: string, record: Lead) => (
         <div>
           <div className="font-medium text-gray-900">{name}</div>
@@ -39,34 +44,34 @@ export function LeadTable({ leads, isLoading, selectedRows, onSelectionChange }:
       ),
     },
     {
-      title: "Company",
-      dataIndex: "companyName",
-      key: "companyName",
-      render: (companyName: string | null) => companyName || "N/A",
+      title: 'Company',
+      dataIndex: 'companyName',
+      key: 'companyName',
+      render: (companyName: string | null) => companyName || 'N/A',
     },
     {
-      title: "Source",
-      dataIndex: "sourceName",
-      key: "sourceName",
-      render: (sourceName: string | null) => sourceName || "N/A",
+      title: 'Source',
+      dataIndex: 'sourceName',
+      key: 'sourceName',
+      render: (sourceName: string | null) => sourceName || 'N/A',
     },
     {
-      title: "Stage",
-      dataIndex: "stageName",
-      key: "stageName",
+      title: 'Stage',
+      dataIndex: 'stageName',
+      key: 'stageName',
       render: (stageName: string | null, record: Lead) => (
         <LeadStates leadId={record.id} currentStage={stageName} />
       ),
     },
     {
-      title: "Phone",
-      dataIndex: "phone",
-      key: "phone",
-      render: (phone: string) => phone || "N/A",
+      title: 'Phone',
+      dataIndex: 'phone',
+      key: 'phone',
+      render: (phone: string) => phone || 'N/A',
     },
     {
-      title: "Actions",
-      key: "actions",
+      title: 'Actions',
+      key: 'actions',
       render: (unused: any, record: Lead) => (
         <Space size="small">
           <Button
@@ -91,10 +96,13 @@ export function LeadTable({ leads, isLoading, selectedRows, onSelectionChange }:
         </Space>
       ),
     },
-  ]
+  ];
 
   return (
-    <div className="bg-white rounded-lg shadow-sm border border-gray-200" data-cy="leads-table">
+    <div
+      className="bg-white rounded-lg shadow-sm border border-gray-200"
+      data-cy="leads-table"
+    >
       <Table
         columns={columns}
         dataSource={leads}
@@ -104,7 +112,7 @@ export function LeadTable({ leads, isLoading, selectedRows, onSelectionChange }:
         pagination={false}
         className="custom-table"
       />
-      
+
       {leads.length > 0 && (
         <div className="p-4 border-t border-gray-200">
           <CustomPagination
@@ -116,6 +124,5 @@ export function LeadTable({ leads, isLoading, selectedRows, onSelectionChange }:
         </div>
       )}
     </div>
-  )
+  );
 }
-

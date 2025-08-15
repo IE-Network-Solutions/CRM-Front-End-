@@ -1,42 +1,49 @@
-import { useQuery } from "@tanstack/react-query"
-import { api } from "@/config/api"
-import { Lead, PaginatedResponse, LeadFilters, EngagementStage, Company, Source } from "./interface"
+import { useQuery } from '@tanstack/react-query';
+import { api } from '@/config/api';
+import {
+  Lead,
+  PaginatedResponse,
+  LeadFilters,
+  EngagementStage,
+  Company,
+  Source,
+} from './interface';
 
 export function useLeadsQuery(filters: LeadFilters) {
   return useQuery({
-    queryKey: ["leads", filters],
+    queryKey: ['leads', filters],
     queryFn: async (): Promise<PaginatedResponse<Lead> | Lead[]> => {
       try {
-        const response = await api.get("/leads", { params: filters })
-        return response.data
+        const response = await api.get('/leads', { params: filters });
+        return response.data;
       } catch (error) {
-        throw error
+        throw error;
       }
     },
     staleTime: 5 * 60 * 1000,
-  })
+  });
 }
 
 export function useLeadsWithNamesQuery(filters: LeadFilters) {
-  const leadsResponse = useLeadsQuery(filters)
-  
+  const leadsResponse = useLeadsQuery(filters);
+
   if (leadsResponse.isLoading || leadsResponse.error) {
-    return leadsResponse
+    return leadsResponse;
   }
 
   try {
-    let leads: Lead[] = []
-    let pagination = null
-    let isPaginated = false
+    let leads: Lead[] = [];
+    let pagination = null;
+    let isPaginated = false;
 
     if (leadsResponse.data) {
       if (Array.isArray(leadsResponse.data)) {
-        leads = leadsResponse.data
-        isPaginated = false
+        leads = leadsResponse.data;
+        isPaginated = false;
       } else {
-        leads = (leadsResponse.data as PaginatedResponse<Lead>).data
-        pagination = (leadsResponse.data as PaginatedResponse<Lead>).meta
-        isPaginated = true
+        leads = (leadsResponse.data as PaginatedResponse<Lead>).data;
+        pagination = (leadsResponse.data as PaginatedResponse<Lead>).meta;
+        isPaginated = true;
       }
     }
 
@@ -45,83 +52,82 @@ export function useLeadsWithNamesQuery(filters: LeadFilters) {
       data: leads,
       pagination,
       isPaginated,
-    }
-      } catch (error) {
-      return {
+    };
+  } catch (error) {
+    return {
       ...leadsResponse,
       data: [],
       pagination: null,
       isPaginated: false,
-    }
+    };
   }
 }
 
 export function useEngagementStagesQuery() {
   return useQuery({
-    queryKey: ["engagement-stages"],
+    queryKey: ['engagement-stages'],
     queryFn: async (): Promise<EngagementStage[]> => {
       try {
-        const response = await api.get("/engagement-stages")
-        const data = response.data
-        
+        const response = await api.get('/engagement-stages');
+        const data = response.data;
+
         if (Array.isArray(data)) {
-          return data
+          return data;
         }
-        
+
         // Expected array for engagement stages
-        return []
+        return [];
       } catch (error) {
         // Failed to fetch engagement stages
-        return []
+        return [];
       }
     },
     staleTime: 10 * 60 * 1000,
-  })
+  });
 }
 
 export function useCompaniesQuery() {
   return useQuery({
-    queryKey: ["companies"],
+    queryKey: ['companies'],
     queryFn: async (): Promise<Company[]> => {
       try {
-        const response = await api.get("/companies")
-        const data = response.data
-        
+        const response = await api.get('/companies');
+        const data = response.data;
+
         if (Array.isArray(data)) {
-          return data
+          return data;
         }
-        
+
         // Expected array for companies
-        return []
+        return [];
       } catch (error) {
         // Failed to fetch companies
-        return []
+        return [];
       }
     },
     staleTime: 10 * 60 * 1000,
-  })
+  });
 }
 
 export function useSourcesQuery() {
   return useQuery({
-    queryKey: ["sources"],
+    queryKey: ['sources'],
     queryFn: async (): Promise<Source[]> => {
       try {
-        const response = await api.get("/sources")
-        const data = response.data
-        
+        const response = await api.get('/sources');
+        const data = response.data;
+
         if (Array.isArray(data)) {
-          return data
+          return data;
         }
-        
+
         // Expected array for sources
-        return []
+        return [];
       } catch (error) {
         // Failed to fetch sources
-        return []
+        return [];
       }
     },
     staleTime: 10 * 60 * 1000,
-  })
+  });
 }
-

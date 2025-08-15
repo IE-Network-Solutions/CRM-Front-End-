@@ -1,11 +1,11 @@
-import { create } from "zustand"
+import { create } from 'zustand';
 
 interface LeadStore {
-  selectedRows: number[]
-  setSelectedRows: (rows: number[]) => void
-  currentPage: number
-  setCurrentPage: (page: number) => void
-  clearSelection: () => void
+  selectedRows: number[];
+  setSelectedRows: (rows: number[]) => void;
+  currentPage: number;
+  setCurrentPage: (page: number) => void;
+  clearSelection: () => void;
 }
 
 export const useLeadStore = create<LeadStore>((set) => ({
@@ -14,5 +14,4 @@ export const useLeadStore = create<LeadStore>((set) => ({
   currentPage: 1,
   setCurrentPage: (page) => set({ currentPage: page }),
   clearSelection: () => set({ selectedRows: [] }),
-}))
-
+}));
