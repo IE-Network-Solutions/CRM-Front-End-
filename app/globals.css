@@ -11,6 +11,93 @@
   src: url('https://fonts.googleapis.com/css2?family=Manrope:wght@200..800&display=swap');
 }
 
+/* Custom table styles for leads */
+.custom-table {
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+.custom-table .ant-table-thead > tr > th {
+  background-color: #f8fafc !important;
+  border-bottom: 2px solid #e2e8f0 !important;
+  color: #1e293b !important; /* Increased color intensity from gray-600 to gray-800 */
+  font-weight: 800 !important; /* Increased from 700 to 800 for bolder text */
+  font-size: 14px !important;
+  text-transform: uppercase !important;
+  letter-spacing: 0.05em !important;
+  padding: 16px 12px !important;
+  font-family: 'Manrope', sans-serif !important;
+}
+
+.custom-table .ant-table-tbody > tr > td {
+  border-bottom: 2px solid rgba(0, 0, 0, 0.13) !important; /* Changed opacity to 0.13 */
+  padding: 16px 8px !important; /* Reduced horizontal padding to bring columns closer */
+  position: relative;
+}
+
+/* Zebra color effect for alternating rows */
+.custom-table .ant-table-tbody > tr:nth-child(even) > td {
+  background-color: #fafbfc !important; /* Light gray for even rows */
+}
+
+.custom-table .ant-table-tbody > tr:nth-child(odd) > td {
+  background-color: #ffffff !important; /* White for odd rows */
+}
+
+/* Ensure checkbox column also gets zebra effect */
+.custom-table .ant-table-tbody > tr:nth-child(even) > td:first-child {
+  background-color: #fafbfc !important; /* Light gray for even rows - checkbox column */
+}
+
+.custom-table .ant-table-tbody > tr:nth-child(odd) > td:first-child {
+  background-color: #ffffff !important; /* White for odd rows - checkbox column */
+}
+
+/* Add additional blurred line effect */
+.custom-table .ant-table-tbody > tr > td::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 1px; /* Reduced height for better blur effect */
+  background: linear-gradient(90deg, transparent, rgba(0, 0, 0, 0.08), transparent); /* Adjusted opacity */
+  filter: blur(0.3px); /* Reduced blur for cleaner effect */
+  pointer-events: none; /* Ensure it doesn't interfere with interactions */
+}
+
+/* Make checkboxes square instead of circular */
+.custom-table .ant-checkbox-inner {
+  border-radius: 0 !important; /* Square checkboxes */
+}
+
+.custom-table .ant-table-thead > tr > th:first-child {
+  padding: 16px 8px !important; /* Reduced padding for SELECT column */
+}
+
+.custom-table .ant-table-tbody > tr > td:first-child {
+  padding: 16px 8px !important; /* Reduced padding for SELECT column */
+}
+
+.custom-table .ant-table-tbody > tr:hover > td {
+  background-color: #f8fafc;
+}
+
+/* Status button styles for leads */
+.status-button {
+  border-radius: 6px;
+  font-weight: 500;
+  padding: 4px 12px;
+  border: none;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.status-button:hover {
+  opacity: 0.8;
+  transform: translateY(-1px);
+}
+
 /* Hide scrollbar while maintaining scroll functionality */
 .scrollbar-hide {
   -ms-overflow-style: none; /* Internet Explorer 10+ */
