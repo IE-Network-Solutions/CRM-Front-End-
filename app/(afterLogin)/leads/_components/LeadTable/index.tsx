@@ -142,6 +142,7 @@ export default function LeadTable({
         loading={isLoading}
         className="custom-table"
         size="middle"
+        scroll={{ x: 1000 }} // Enable horizontal scrolling for small screens
         rowClassName={(record, index) =>
           index % 2 === 0 ? 'bg-white' : 'bg-gray-100'
         }

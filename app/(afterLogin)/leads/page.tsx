@@ -183,7 +183,7 @@ export default function LeadsPage() {
         {/* Main Content Card */}
         <div className="bg-white rounded-lg shadow-sm border border-gray-200 overflow-hidden">
           {/* Table Section */}
-          <div className="overflow-x-auto">
+          <div className="overflow-x-auto w-full">
             {' '}
             {/* Added horizontal scroll for small screens */}
             <LeadTable

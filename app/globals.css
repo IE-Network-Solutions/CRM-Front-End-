@@ -71,6 +71,30 @@
   border-radius: 0 !important; /* Square checkboxes */
 }
 
+/* Mobile table scrolling improvements */
+.custom-table {
+  -webkit-overflow-scrolling: touch; /* Smooth scrolling on iOS */
+  scrollbar-width: thin; /* Thin scrollbar on Firefox */
+}
+
+.custom-table::-webkit-scrollbar {
+  height: 6px; /* Height for horizontal scrollbar */
+}
+
+.custom-table::-webkit-scrollbar-track {
+  background: #f1f1f1; /* Light gray track */
+  border-radius: 3px;
+}
+
+.custom-table::-webkit-scrollbar-thumb {
+  background: #c1c1c1; /* Gray scrollbar thumb */
+  border-radius: 3px;
+}
+
+.custom-table::-webkit-scrollbar-thumb:hover {
+  background: #a8a8a8; /* Darker on hover */
+}
+
 .custom-table .ant-table-thead > tr > th:first-child {
   padding: 16px 8px !important; /* Reduced padding for SELECT column */
 }
