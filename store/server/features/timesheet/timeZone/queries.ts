@@ -1,21 +1,16 @@
-import { crudRequest } from '@/utils/crudRequest';
-import { TIME_AND_ATTENDANCE_URL } from '@/utils/constants';
-import { requestHeader } from '@/helpers/requestHeader';
 import { useQuery } from 'react-query';
-import { TimeZoneDataType } from './interface';
-
-const getTimeZone = async () => {
-  const requestHeaders = await requestHeader();
-  return await crudRequest({
-    url: `${TIME_AND_ATTENDANCE_URL}/time-zone`,
-    method: 'GET',
-    headers: requestHeaders,
-  });
-};
 
 export const useGetTimeZone = () => {
-  return useQuery<TimeZoneDataType>('time-zone', () => getTimeZone(), {
-    keepPreviousData: true,
-    enabled: true,
+  return useQuery({
+    queryKey: ['timezone'],
+    queryFn: async () => {
+      // Mock data for now
+      return [
+        { id: 1, name: 'UTC', offset: '+00:00' },
+        { id: 2, name: 'EST', offset: '-05:00' },
+        { id: 3, name: 'PST', offset: '-08:00' },
+      ];
+    },
+    staleTime: 10 * 60 * 1000,
   });
 };
