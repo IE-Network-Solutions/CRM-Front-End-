@@ -3,7 +3,7 @@ import { api } from '@/config/api';
 
 export const useCreateRecruitmentStatus = () => {
   const queryClient = useQueryClient();
-
+  
   return useMutation({
     mutationFn: async (data: { name: string; description?: string }) => {
       const response = await api.post('/recruitment/status', data);
@@ -17,7 +17,7 @@ export const useCreateRecruitmentStatus = () => {
 
 export const useDeleteRecruitmentStatus = () => {
   const queryClient = useQueryClient();
-
+  
   return useMutation({
     mutationFn: async (id: string) => {
       const response = await api.delete(`/recruitment/status/${id}`);
