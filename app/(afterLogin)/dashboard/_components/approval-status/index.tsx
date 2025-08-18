@@ -8,7 +8,7 @@ import { useGetBranchTransferApproveById } from '@/store/server/features/employe
 
 // Fixed placeholder hook - accepts parameters to avoid ESLint errors
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-const useGetApprovalLeaveRequest = (userId: string, page: number, limit: number) => {
+const useGetApprovalLeaveRequest = (/* userId: string, page: number, limit: number */) => {
   return {
     data: { items: [], meta: { totalItems: 0 } },
     isLoading: false,
@@ -18,7 +18,7 @@ const useGetApprovalLeaveRequest = (userId: string, page: number, limit: number)
 const ApprovalStatus: FC = () => {
   const { userId } = useAuthenticationStore();
   const { data: LeaveTransferData, isLoading: isLoadingLeaveTransfer } =
-    useGetApprovalLeaveRequest(userId, 1, 4);
+    useGetApprovalLeaveRequest();
   const { data: BranchTransferData, isLoading: isLoadingBranchTransfer } =
     useGetBranchTransferApproveById(userId, 4, 1);
   const { approverType, setApproverType } = useDashboardApprovalStore();
