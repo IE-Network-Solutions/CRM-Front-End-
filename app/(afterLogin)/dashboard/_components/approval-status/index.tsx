@@ -7,12 +7,8 @@ import { useDashboardApprovalStore } from '@/store/uistate/features/dashboard/ap
 import { useGetBranchTransferApproveById } from '@/store/server/features/employees/approval/queries';
 
 // Fixed placeholder hook - accepts parameters to avoid ESLint errors
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 const useGetApprovalLeaveRequest = (userId: string, page: number, limit: number) => {
-  // Use parameters to avoid ESLint warnings - store in variables that are used
-  const _userId = userId;
-  const _page = page;
-  const _limit = limit;
-  
   return {
     data: { items: [], meta: { totalItems: 0 } },
     isLoading: false,
