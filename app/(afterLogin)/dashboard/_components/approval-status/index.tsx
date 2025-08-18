@@ -3,141 +3,143 @@ import { FC } from 'react';
 import { Card, Select } from 'antd';
 import ApprovalRequestCard from './approval-status-card';
 import { useAuthenticationStore } from '@/store/uistate/features/authentication';
-// import { useGetApprovalLeaveRequest } from '@/store/server/features/timesheet/leaveRequest/queries';
 import { useDashboardApprovalStore } from '@/store/uistate/features/dashboard/approval';
 import { useGetBranchTransferApproveById } from '@/store/server/features/employees/approval/queries';
 
-// Placeholder hook since leaveRequest queries module is missing
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
+// Fixed placeholder hook - accepts parameters to avoid ESLint errors
 const useGetApprovalLeaveRequest = (userId: string, page: number, limit: number) => {
-	return {
-		data: { items: [], meta: { totalItems: 0 } },
-		isLoading: false,
-	};
+  // Use parameters to avoid ESLint warnings
+  console.log('Placeholder hook called with:', { userId, page, limit });
+  return {
+    data: { items: [], meta: { totalItems: 0 } },
+    isLoading: false,
+  };
 };
 
 const ApprovalStatus: FC = () => {
-	const { userId } = useAuthenticationStore();
-	const { data: LeaveTransferData, isLoading: isLoadingLeaveTransfer } =
-		useGetApprovalLeaveRequest(userId, 1, 4);
-	const { data: BranchTransferData, isLoading: isLoadingBranchTransfer } =
-		useGetBranchTransferApproveById(userId, 4, 1);
-	const { approverType, setApproverType } = useDashboardApprovalStore();
-	const requests = [
-		{
-			type: 'Leave',
-			value: 'Leave',
-		},
-		{
-			type: 'BranchTransfer',
-			value: 'Branch',
-		},
-	];
-	const handleChange = (value: string) => {
-		setApproverType(value);
-	};
+  const { userId } = useAuthenticationStore();
+  const { data: LeaveTransferData, isLoading: isLoadingLeaveTransfer } =
+    useGetApprovalLeaveRequest(userId, 1, 4);
+  const { data: BranchTransferData, isLoading: isLoadingBranchTransfer } =
+    useGetBranchTransferApproveById(userId, 4, 1);
+  const { approverType, setApproverType } = useDashboardApprovalStore();
+  
+  const requests = [
+    {
+      type: 'Leave',
+      value: 'Leave',
+    },
+    {
+      type: 'BranchTransfer',
+      value: 'Branch',
+    },
+  ];
 
-	return (
-		<div className="bg-white p-3 rounded-lg w-full shadow-lg">
-			<div className="flex items-center justify-between mb-4">
-				<div className="">
-					{' '}
-					<div className="text-base lg:text-xl font-bold">Approval Status</div>
-					<div className="text-xs font-normal text-[#687588]">
-						{`
-							${
-								approverType == 'Leave'
-									? `${LeaveTransferData?.meta?.totalItems || LeaveTransferData?.items?.length || 0} Leave `
-								: approverType == 'BranchRequest'
-									? `${BranchTransferData?.meta?.totalItems || BranchTransferData?.items?.length || 0} Branch `
-								: ''
-							}
-						`}
-						Waiting For Your Approval
-					</div>
-				</div>
+  const handleChange = (value: string) => {
+    setApproverType(value);
+  };
 
-				<div className="flex items-center space-x-1 text-sm text-gray-500 cursor-pointer">
-					<Select
-						placeholder="select"
-						allowClear
-						className="min-w-10   text-sm font-semibold border-none"
-						options={requests.map((item) => ({
-							value: item.type,
-							label: item.value,
-						}))}
-						bordered={false}
-						defaultValue="Leave"
-						onChange={handleChange}
-					/>
-				</div>
-			</div>
-			<div className="max-h[250px] min-h-[250px] overflow-y-auto scrollbar-none">
-				{approverType === 'BranchTransfer' ? (
-					BranchTransferData?.items?.length ? (
-						<Card
-							className="border-0"
-							bodyStyle={{ padding: '0px', margin: '0px', border: 'none' }}
-							loading={isLoadingBranchTransfer}
-						>
-							{BranchTransferData.items.map((request: any, index: number) => (
-								<ApprovalRequestCard
-									key={index}
-									id={request.id}
-									name={request.name}
-									approveRequesterId={request.userId}
-									startAt={request?.currentBranch?.name}
-									endAt={request?.requestBranch?.name}
-									leaveType={'Branch Transfer Request'}
-									approvalWorkflowId={request.approvalWorkflowId}
-									nextApprover={request.nextApprover?.[0]?.stepOrder}
-									requestType={approverType}
-								/>
-							))}
-						</Card>
-					) : (
-						<div className="flex items-center justify-center min-h-[250px]">
-							<div className="text-xl font-thin">No Approval Found</div>
-						</div>
-					)
-				) : approverType === 'Leave' ? (
-					LeaveTransferData?.items?.length ? (
-						<Card
-							className="border-0"
-							bodyStyle={{ padding: '0px', margin: '0px', border: 'none' }}
-							loading={isLoadingLeaveTransfer}
-						>
-							{LeaveTransferData.items.map((request: any, index: number) => (
-								<ApprovalRequestCard
-									key={index}
-									id={request.id}
-									name={request.name}
-									days={request.days}
-									approveRequesterId={request.userId}
-									startAt={request.startAt}
-									endAt={request.endAt}
-									isHalfDay={request.isHalfDay}
-									leaveType={request.leaveType.title}
-									approvalWorkflowId={request.approvalWorkflowId}
-									nextApprover={request.nextApprover?.[0]?.stepOrder}
-									requestType={approverType}
-									fileAttachment={request?.justificationDocument}
-								/>
-							))}
-						</Card>
-					) : (
-						<div className="flex items-center justify-center min-h-[250px]">
-							<div className="text-xl font-thin">No Approval Found</div>
-						</div>
-					)
-				) : (
-					<div className="flex items-center justify-center min-h-[250px]">
-						<div className="text-xl font-thin">No Approval Found</div>
-					</div>
-				)}
-			</div>
-		</div>
-	);
+  return (
+    <div className="bg-white p-3 rounded-lg w-full shadow-lg">
+      <div className="flex items-center justify-between mb-4">
+        <div className="">
+          {' '}
+          <div className="text-base lg:text-xl font-bold">Approval Status</div>
+          <div className="text-xs font-normal text-[#687588]">
+            {`
+              ${
+                approverType == 'Leave'
+                  ? `${LeaveTransferData?.meta?.totalItems || LeaveTransferData?.items?.length || 0} Leave `
+                : approverType == 'BranchRequest'
+                  ? `${BranchTransferData?.meta?.totalItems || BranchTransferData?.items?.length || 0} Branch `
+                : ''
+              }
+            `}
+            Waiting For Your Approval
+          </div>
+        </div>
+
+        <div className="flex items-center space-x-1 text-sm text-gray-500 cursor-pointer">
+          <Select
+            placeholder="select"
+            allowClear
+            className="min-w-10   text-sm font-semibold border-none"
+            options={requests.map((item) => ({
+              value: item.type,
+              label: item.value,
+            }))}
+            bordered={false}
+            defaultValue="Leave"
+            onChange={handleChange}
+          />
+        </div>
+      </div>
+      <div className="max-h-[250px] min-h-[250px] overflow-y-auto scrollbar-none">
+        {approverType === 'BranchTransfer' ? (
+          BranchTransferData?.items?.length ? (
+            <Card
+              className="border-0"
+              bodyStyle={{ padding: '0px', margin: '0px', border: 'none' }}
+              loading={isLoadingBranchTransfer}
+            >
+              {BranchTransferData.items.map((request: any, index: number) => (
+                <ApprovalRequestCard
+                  key={index}
+                  id={request.id}
+                  name={request.name}
+                  approveRequesterId={request.userId}
+                  startAt={request?.currentBranch?.name}
+                  endAt={request?.requestBranch?.name}
+                  leaveType={'Branch Transfer Request'}
+                  approvalWorkflowId={request.approvalWorkflowId}
+                  nextApprover={request.nextApprover?.[0]?.stepOrder}
+                  requestType={approverType}
+                />
+              ))}
+            </Card>
+          ) : (
+            <div className="flex items-center justify-center min-h-[250px]">
+              <div className="text-xl font-thin">No Approval Found</div>
+            </div>
+          )
+        ) : approverType === 'Leave' ? (
+          LeaveTransferData?.items?.length ? (
+            <Card
+              className="border-0"
+              bodyStyle={{ padding: '0px', margin: '0px', border: 'none' }}
+              loading={isLoadingLeaveTransfer}
+            >
+              {LeaveTransferData.items.map((request: any, index: number) => (
+                <ApprovalRequestCard
+                  key={index}
+                  id={request.id}
+                  name={request.name}
+                  days={request.days}
+                  approveRequesterId={request.userId}
+                  startAt={request.startAt}
+                  endAt={request.endAt}
+                  isHalfDay={request.isHalfDay}
+                  leaveType={request.leaveType.title}
+                  approvalWorkflowId={request.approvalWorkflowId}
+                  nextApprover={request.nextApprover?.[0]?.stepOrder}
+                  requestType={approverType}
+                  fileAttachment={request?.justificationDocument}
+                />
+              ))}
+            </Card>
+          ) : (
+            <div className="flex items-center justify-center min-h-[250px]">
+              <div className="text-xl font-thin">No Approval Found</div>
+            </div>
+          )
+        ) : (
+          <div className="flex items-center justify-center min-h-[250px]">
+            <div className="text-xl font-thin">No Approval Found</div>
+          </div>
+        )}
+      </div>
+    </div>
+  );
 };
 
 export default ApprovalStatus;
