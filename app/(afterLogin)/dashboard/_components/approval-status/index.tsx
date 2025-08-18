@@ -8,8 +8,11 @@ import { useGetBranchTransferApproveById } from '@/store/server/features/employe
 
 // Fixed placeholder hook - accepts parameters to avoid ESLint errors
 const useGetApprovalLeaveRequest = (userId: string, page: number, limit: number) => {
-  // Use parameters to avoid ESLint warnings
-  console.log('Placeholder hook called with:', { userId, page, limit });
+  // Use parameters to avoid ESLint warnings - store in variables that are used
+  const _userId = userId;
+  const _page = page;
+  const _limit = limit;
+  
   return {
     data: { items: [], meta: { totalItems: 0 } },
     isLoading: false,
