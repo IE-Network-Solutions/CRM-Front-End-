@@ -1,6 +1,6 @@
 import AllRecognition from '@/app/(afterLogin)/(feedback)/feedback/settings/_components/recognition/allRecognition';
 import { useIsMobile } from '@/hooks/useIsMobile';
-import { useGetAllRecognitionWithRelations } from '@/store/server/features/CFR/recognitionCriteria/queries';
+
 import { useGetIncentiveSummery } from '@/store/server/features/dashboard/incentive/queries';
 import { useDashboardIncentiveStore } from '@/store/uistate/features/dashboard/incentive';
 import { Card, Row, Col, Select, TabsProps, Dropdown, Menu } from 'antd';
@@ -18,7 +18,7 @@ const Incentive = () => {
     setStatus,
   } = useDashboardIncentiveStore();
 
-  const { data: recognitionData } = useGetAllRecognitionWithRelations();
+  // const { data: recognitionData } = useGetAllRecognitionWithRelations(); // Commented out due to missing module
   const { data: IncentiveData, isLoading: incentiveIsLoading } =
     useGetIncentiveSummery(status, recognitionType);
   const { isMobile, isTablet } = useIsMobile();
