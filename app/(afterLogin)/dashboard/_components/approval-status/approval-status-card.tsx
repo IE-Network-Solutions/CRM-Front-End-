@@ -15,22 +15,6 @@ import dayjs from 'dayjs';
 import { useIsMobile } from '@/hooks/useIsMobile';
 import { LuFileDown } from 'react-icons/lu';
 
-// Placeholder functions since the real mutations are missing
-const useSetApproveLeaveRequest = () => ({
-  mutate: () => {},
-  isLoading: false,
-});
-
-const useSetFinalApproveLeaveRequest = () => ({
-  mutate: () => {},
-  isLoading: false,
-});
-
-const useSetFinalApproveBranchRequest = () => ({
-  mutate: () => {},
-  isLoading: false,
-});
-
 interface ApprovalRequestCardProps {
   name: string;
   days?: number;
@@ -63,10 +47,7 @@ const ApprovalRequestCard: FC<ApprovalRequestCardProps> = ({
   //   useSetApproveLeaveRequest();
   // const { mutate: finalLeaveApprover, isLoading: isLoadingFinalLeaveApprover } =
   //   useSetFinalApproveLeaveRequest();
-  const {
-    mutate: finalBranchApprover,
-    isLoading: isLoadingFinalBranchApprover,
-  } = useSetFinalApproveBranchRequest();
+
   const tenantId = useAuthenticationStore.getState().tenantId;
   const { userId } = useAuthenticationStore();
   const userRollId = useAuthenticationStore.getState().userData.roleId;
@@ -83,59 +64,11 @@ const ApprovalRequestCard: FC<ApprovalRequestCardProps> = ({
   // }) => {
   //   // finalBranchApprover(e); // Commented out due to type mismatch
   // };
-  const reject: any = (e: {
-    approvalWorkflowId: any;
-    stepOrder: any;
-    requestId: string;
-    approvedUserId: string;
-    approverRoleId: any;
-    action: string;
-    tenantId: string;
-    comment: { comment: string; commentedBy: string; tenantId: string };
-  }) => {
-    // editApprover(e, { // Commented out due to type mismatch
-    //   onSuccess: () => {
-    //     setRejectComment('');
-    //     if (requestType == 'Leave') {
-    //       finalLeaveApproval({
-    //         leaveRequestId: e.requestId,
-    //         status: 'declined',
-    //       });
-    //     } else if (requestType == 'BranchTransfer') {
-    //       finalBranchApproval({
-    //         requestId: e.requestId,
-    //         status: 'declined',
-    //       });
-    //     }
-    //   },
-    // });
+  const reject: any = () => {
+    // Function implementation commented out due to missing dependencies
   };
-  const confirm: any = (e: {
-    approvalWorkflowId: any;
-    stepOrder: any;
-    requestId: string;
-    approvedUserId: string;
-    approverRoleId: any;
-    action: string;
-    tenantId: string;
-  }) => {
-    // editApprover(e, { // Commented out due to type mismatch
-    //   onSuccess: (data) => {
-    //     if (data?.last == true) {
-    //       if (requestType == 'Leave') {
-    //         finalLeaveApproval({
-    //           leaveRequestId: e.requestId,
-    //           status: 'approved',
-    //       });
-    //       } else if (requestType == 'BranchTransfer') {
-    //         finalLeaveApproval({
-    //           leaveRequestId: e.requestId,
-    //           status: 'approved',
-    //       });
-    //       }
-    //     }
-    //   },
-    // });
+  const confirm: any = () => {
+    // Function implementation commented out due to missing dependencies
   };
 
   const cancel: any = () => {};
@@ -238,14 +171,7 @@ const ApprovalRequestCard: FC<ApprovalRequestCardProps> = ({
           cancelText="Cancel"
           okButtonProps={{ disabled: !rejectComment }}
         >
-          <Button
-            className="p-1 lg:p-4 text-xs lg:text-base"
-            disabled={
-              // isLoadingEditApprover ||
-              // isLoadingFinalLeaveApprover ||
-              isLoadingFinalBranchApprover
-            }
-          >
+          <Button className="p-1 lg:p-4 text-xs lg:text-base" disabled={false}>
             Reject
           </Button>
         </Popconfirm>
@@ -270,11 +196,7 @@ const ApprovalRequestCard: FC<ApprovalRequestCardProps> = ({
           <Button
             type="primary"
             className="p-1 lg:p-4 text-xs lg:text-base"
-            disabled={
-              // isLoadingEditApprover ||
-              // isLoadingFinalLeaveApprover ||
-              isLoadingFinalBranchApprover
-            }
+            disabled={false}
           >
             Approve
           </Button>
