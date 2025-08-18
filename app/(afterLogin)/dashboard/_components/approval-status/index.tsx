@@ -8,8 +8,8 @@ import { useDashboardApprovalStore } from '@/store/uistate/features/dashboard/ap
 import { useGetBranchTransferApproveById } from '@/store/server/features/employees/approval/queries';
 
 // Placeholder hook since leaveRequest queries module is missing
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 const useGetApprovalLeaveRequest = (userId: string, page: number, limit: number) => {
-	// eslint-disable-next-line @typescript-eslint/no-unused-vars
 	return {
 		data: { items: [], meta: { totalItems: 0 } },
 		isLoading: false,
