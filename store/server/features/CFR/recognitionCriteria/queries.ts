@@ -6,7 +6,7 @@ export const useGetAllRecognitionWithRelations = () => {
     queryFn: async () => {
       // Placeholder data - module not fully implemented
       return {
-        items: [],
+        items: []
       };
     },
     staleTime: 5 * 60 * 1000, // 5 minutes
