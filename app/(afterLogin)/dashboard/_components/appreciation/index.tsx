@@ -23,8 +23,7 @@ const Appreciation = () => {
             kpi={getPersonalRecognition?.feedbackReceived?.KPI?.reprimands || 0}
             engagement={
               getPersonalRecognition?.feedbackReceived?.Engagement
-                ?.reprimands ||
-              0
+                ?.reprimands || 0
             }
           />
         </div>

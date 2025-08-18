@@ -8,12 +8,13 @@ import { useGetBranchTransferApproveById } from '@/store/server/features/employe
 
 // Fixed placeholder hook - accepts parameters to avoid ESLint errors
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-const useGetApprovalLeaveRequest = (/* userId: string, page: number, limit: number */) => {
-  return {
-    data: { items: [], meta: { totalItems: 0 } },
-    isLoading: false,
+const useGetApprovalLeaveRequest =
+  (/* userId: string, page: number, limit: number */) => {
+    return {
+      data: { items: [], meta: { totalItems: 0 } },
+      isLoading: false,
+    };
   };
-};
 
 const ApprovalStatus: FC = () => {
   const { userId } = useAuthenticationStore();
@@ -22,7 +23,7 @@ const ApprovalStatus: FC = () => {
   const { data: BranchTransferData, isLoading: isLoadingBranchTransfer } =
     useGetBranchTransferApproveById(userId, 4, 1);
   const { approverType, setApproverType } = useDashboardApprovalStore();
-  
+
   const requests = [
     {
       type: 'Leave',
@@ -49,9 +50,9 @@ const ApprovalStatus: FC = () => {
               ${
                 approverType == 'Leave'
                   ? `${LeaveTransferData?.meta?.totalItems || LeaveTransferData?.items?.length || 0} Leave `
-                : approverType == 'BranchRequest'
-                  ? `${BranchTransferData?.meta?.totalItems || BranchTransferData?.items?.length || 0} Branch `
-                : ''
+                  : approverType == 'BranchRequest'
+                    ? `${BranchTransferData?.meta?.totalItems || BranchTransferData?.items?.length || 0} Branch `
+                    : ''
               }
             `}
             Waiting For Your Approval
