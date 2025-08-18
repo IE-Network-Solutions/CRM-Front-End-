@@ -1,7 +1,8 @@
-export const dynamic = 'force-dynamic'
-
-// pages/authentication/reset-password.tsx
 'use client';
+
+export const dynamic = 'force-dynamic';
+
+// pages/authentication/new-password.tsx
 import { FC } from 'react';
 import Logo from '@/components/common/logo';
 import { useRouter } from 'next/navigation';
