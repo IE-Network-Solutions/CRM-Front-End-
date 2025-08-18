@@ -19,7 +19,7 @@ const Daily = ({
   // const { mutate: updateStatus } = useUpdateStatus(); // Commented out due to missing module
 
   // Placeholder data since modules are missing
-  const activePlanPeriod = { id: 'placeholder-id' };
+  // const activePlanPeriod = { id: 'placeholder-id' }; // Commented out since not used
   const updateStatus = () => {
     // Placeholder function - no actual functionality
   };
@@ -70,9 +70,7 @@ const Daily = ({
                 <div className=" pb-2" key={task?.id}>
                   <Checkbox
                     checked={task?.status == 'pre-achieved'}
-                    onChange={() =>
-                      onChange(task?.id, task?.status, activePlanPeriod?.id)
-                    }
+                    onChange={() => onChange()}
                     disabled={task?.status == 'completed'}
                   >
                     <div
