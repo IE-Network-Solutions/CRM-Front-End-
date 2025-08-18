@@ -1,5 +1,9 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
+  output: 'standalone',
+  experimental: {
+    esmExternals: false,
+  },
   images: {
     domains: [
       'cdn.prod.website-files.com',

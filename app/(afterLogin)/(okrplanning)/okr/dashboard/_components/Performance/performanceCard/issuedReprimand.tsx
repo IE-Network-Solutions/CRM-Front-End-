@@ -5,7 +5,10 @@ interface IssuedReprimandProps {
   engagement: number;
 }
 
-const IssuedReprimand: React.FC<IssuedReprimandProps> = ({ kpi, engagement }) => {
+const IssuedReprimand: React.FC<IssuedReprimandProps> = ({
+  kpi,
+  engagement,
+}) => {
   return (
     <div className="bg-white p-4 rounded-lg border border-gray-200">
       <div className="text-sm font-medium text-gray-600">Issued Reprimands</div>
