@@ -1,3 +1,5 @@
+export const dynamic = 'force-dynamic'
+
 // pages/authentication/reset-password.tsx
 'use client';
 import { FC } from 'react';

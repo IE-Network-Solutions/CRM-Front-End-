@@ -1,3 +1,5 @@
+export const dynamic = 'force-dynamic'
+
 'use client';
 import { FC, useEffect } from 'react';
 import Logo from '@/components/common/logo';
