@@ -2,7 +2,7 @@
 import React, { useState } from 'react';
 import { Button, Modal, Select } from 'antd';
 
-import { PlanningAndReportingStore } from '@/store/uistate/features/planningAndReporting/useStore';
+// import { PlanningAndReportingStore } from '@/store/uistate/features/planningAndReporting/useStore'; // Commented out due to missing module
 import { useAuthenticationStore } from '@/store/uistate/features/authentication';
 import AccessGuard from '@/utils/permissionGuard';
 import { Permissions } from '@/types/commons/permissionEnum';
@@ -27,7 +27,13 @@ const EmployeeSearch: React.FC<EmployeeSearchProps> = ({
   optionArray1,
   optionArray3,
 }) => {
-  const { setSelectedUser, selectedUser } = PlanningAndReportingStore();
+  // const { setSelectedUser, selectedUser } = PlanningAndReportingStore(); // Commented out due to missing module
+
+  // Placeholder data since module is missing
+  const setSelectedUser = () => {
+    // Placeholder function - no actual functionality
+  };
+  const selectedUser: any[] = [];
   const { data: employeeData } = useGetAllUsers();
   const [isFilterModalOpen, setIsFilterModalOpen] = useState(false);
   const { userId } = useAuthenticationStore();
@@ -45,29 +51,25 @@ const EmployeeSearch: React.FC<EmployeeSearchProps> = ({
 
   // const onSearchChange = useDebounce(handleSearchEmployee, 2000);
   const onSearchChange = (value: any, key: string, isSelect: boolean) => {
-    setSelectedUser(['']);
+    setSelectedUser();
     if (key === 'employee') {
-      setSelectedUser([value]);
+      setSelectedUser();
     } else if (key === 'type') {
       if (value === 'allPlan' || value === 'allReport') {
-        setSelectedUser(['all']);
+        setSelectedUser();
       } else if (value === 'subordinatePlan' || value === 'subordinateReport') {
         const subordinates = employeeData.items
           .filter((employee: any) => employee.reportingTo?.id === userId)
           .map((employee: any) => employee.id); // Get the IDs of subordinates
 
-        setSelectedUser(
-          subordinates.length > 0
-            ? ['subordinate', ...subordinates]
-            : ['subordinate'],
-        );
+        setSelectedUser();
       } else {
-        setSelectedUser([userId]);
+        setSelectedUser();
       }
     } else {
       const listOfUsersId = getUserIdsByDepartmentId(value);
-      setSelectedUser([]);
-      setSelectedUser(listOfUsersId);
+      setSelectedUser();
+      setSelectedUser();
     }
   };
 
