@@ -1,4 +1,13 @@
-import { Meta } from '../okrPlanningAndReporting/interface';
+// import { Meta } from '../okrPlanningAndReporting/interface';
+
+// Fallback interface for Meta
+export interface Meta {
+  totalItems: number;
+  itemCount: number;
+  itemsPerPage: number;
+  totalPages: number;
+  currentPage: number;
+}
 
 export interface HierarchyList {
   id: string;

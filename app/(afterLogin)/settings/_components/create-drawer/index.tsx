@@ -61,7 +61,9 @@ const CreateDrawer: React.FC<CreateDrawerProps> = ({
       title={
         <div>
           <div className="text-xl font-bold text-gray-900">{getTitle()}</div>
-          <div className="text-sm text-gray-500 mt-1">Create a {getTitle()}</div>
+          <div className="text-sm text-gray-500 mt-1">
+            Create a {getTitle()}
+          </div>
         </div>
       }
       placement="right"
@@ -95,7 +97,9 @@ const CreateDrawer: React.FC<CreateDrawerProps> = ({
         <Form.Item
           label="Name"
           name="name"
-          rules={[{ required: true, message: `${getTitle()} name is required` }]}
+          rules={[
+            { required: true, message: `${getTitle()} name is required` },
+          ]}
         >
           <Input
             placeholder={`${getTitle()} Name`}
@@ -104,10 +108,7 @@ const CreateDrawer: React.FC<CreateDrawerProps> = ({
         </Form.Item>
 
         {/* Description */}
-        <Form.Item
-          label="Description"
-          name="description"
-        >
+        <Form.Item label="Description" name="description">
           <TextArea
             placeholder="Description"
             rows={4}

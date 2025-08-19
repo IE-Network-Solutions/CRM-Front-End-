@@ -11,12 +11,9 @@ interface CreateCompanySupplierDrawerProps {
   itemType: string;
 }
 
-const CreateCompanySupplierDrawer: React.FC<CreateCompanySupplierDrawerProps> = ({
-  isOpen,
-  onClose,
-  onSave,
-  itemType,
-}) => {
+const CreateCompanySupplierDrawer: React.FC<
+  CreateCompanySupplierDrawerProps
+> = ({ isOpen, onClose, onSave, itemType }) => {
   const [form] = Form.useForm();
 
   const handleSave = () => {
@@ -65,7 +62,9 @@ const CreateCompanySupplierDrawer: React.FC<CreateCompanySupplierDrawerProps> = 
       title={
         <div>
           <div className="text-xl font-bold text-gray-900">{getTitle()}</div>
-          <div className="text-sm text-gray-500 mt-1">Create a {getTitle()}</div>
+          <div className="text-sm text-gray-500 mt-1">
+            Create a {getTitle()}
+          </div>
         </div>
       }
       placement="right"
@@ -115,7 +114,9 @@ const CreateCompanySupplierDrawer: React.FC<CreateCompanySupplierDrawerProps> = 
             <Form.Item
               label="Name"
               name="name"
-              rules={[{ required: true, message: `${getTitle()} name is required` }]}
+              rules={[
+                { required: true, message: `${getTitle()} name is required` },
+              ]}
             >
               <Input
                 placeholder={`${getTitle()} Name`}
@@ -127,7 +128,9 @@ const CreateCompanySupplierDrawer: React.FC<CreateCompanySupplierDrawerProps> = 
             <Form.Item
               label="Phone"
               name="phone"
-              rules={[{ required: true, message: `${getTitle()} phone is required` }]}
+              rules={[
+                { required: true, message: `${getTitle()} phone is required` },
+              ]}
             >
               <Input
                 placeholder={`${getTitle()} Phone`}

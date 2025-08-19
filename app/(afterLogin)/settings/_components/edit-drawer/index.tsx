@@ -18,7 +18,7 @@ const EditDrawer: React.FC<EditDrawerProps> = ({
   onSave,
   itemType,
   itemName,
-  itemDescription = ''
+  itemDescription = '',
 }) => {
   const [form] = Form.useForm();
 
@@ -49,7 +49,7 @@ const EditDrawer: React.FC<EditDrawerProps> = ({
       closable={false}
       styles={{
         header: { borderBottom: 'none' },
-        footer: { borderTop: 'none' }
+        footer: { borderTop: 'none' },
       }}
       footer={
         <div className="flex justify-center gap-3 border-t-0 p-4">
@@ -73,7 +73,7 @@ const EditDrawer: React.FC<EditDrawerProps> = ({
         layout="vertical"
         initialValues={{
           name: itemName,
-          description: itemDescription
+          description: itemDescription,
         }}
       >
         <Form.Item
@@ -81,17 +81,14 @@ const EditDrawer: React.FC<EditDrawerProps> = ({
           name="name"
           rules={[{ required: true, message: `${itemType} name is required` }]}
         >
-          <Input 
+          <Input
             placeholder={`${itemType} Name`}
             className="border-gray-300 focus:border-[#2563eb] focus:ring-[#2563eb]"
           />
         </Form.Item>
 
-        <Form.Item
-          label={`${itemType} Description`}
-          name="description"
-        >
-          <TextArea 
+        <Form.Item label={`${itemType} Description`} name="description">
+          <TextArea
             placeholder="Description"
             rows={4}
             className="border-gray-300 focus:border-[#2563eb] focus:ring-[#2563eb]"

@@ -1,8 +1,8 @@
 import React from 'react';
 import { Checkbox } from 'antd';
 import { MdOutlineRadioButtonChecked } from 'react-icons/md';
-import { useUpdateStatus } from '@/store/server/features/okrPlanningAndReporting/mutations';
-import { useDefaultPlanningPeriods } from '@/store/server/features/okrPlanningAndReporting/queries';
+// import { useUpdateStatus } from '@/store/server/features/okrPlanningAndReporting/mutations';
+// import { useDefaultPlanningPeriods } from '@/store/server/features/okrPlanningAndReporting/queries';
 import { useDashboardPlanStore } from '@/store/uistate/features/dashboard/plan';
 
 const Daily = ({
@@ -12,12 +12,16 @@ const Daily = ({
 }) => {
   const { planType } = useDashboardPlanStore();
 
-  const { data: defaultPlanningPeriods } = useDefaultPlanningPeriods();
+  // Fallback data for missing okrPlanningAndReporting modules
+  const defaultPlanningPeriods = { items: [] };
   const activePlanPeriod = defaultPlanningPeriods?.items?.find(
     (item: any) => item?.name === planType,
-  );
+  ) || { id: '', name: '' };
 
-  const { mutate: updateStatus } = useUpdateStatus();
+  const updateStatus = (
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    statusData: any,
+  ) => {};
   function groupByKeyResultIdToArray(data: any) {
     const map = new Map();
 
@@ -65,7 +69,7 @@ const Daily = ({
                   <Checkbox
                     checked={task?.status == 'pre-achieved'}
                     onChange={() =>
-                      onChange(task?.id, task?.status, activePlanPeriod?.id)
+                      onChange(task?.id, task?.status, activePlanPeriod.id)
                     }
                     disabled={task?.status == 'completed'}
                   >

@@ -15,7 +15,7 @@ const CustomFieldDrawer: React.FC<CustomFieldDrawerProps> = ({
   isOpen,
   onClose,
   onSave,
-  itemData = {}
+  itemData = {},
 }) => {
   const [form] = Form.useForm();
 
@@ -46,7 +46,7 @@ const CustomFieldDrawer: React.FC<CustomFieldDrawerProps> = ({
       closable={false}
       styles={{
         header: { borderBottom: 'none' },
-        footer: { borderTop: 'none' }
+        footer: { borderTop: 'none' },
       }}
       footer={
         <div className="flex justify-center gap-3 border-t-0 p-4">
@@ -65,18 +65,14 @@ const CustomFieldDrawer: React.FC<CustomFieldDrawerProps> = ({
         </div>
       }
     >
-      <Form
-        form={form}
-        layout="vertical"
-        initialValues={itemData}
-      >
+      <Form form={form} layout="vertical" initialValues={itemData}>
         {/* Name */}
         <Form.Item
           label="Name"
           name="name"
           rules={[{ required: true, message: 'Field name is required' }]}
         >
-          <Input 
+          <Input
             placeholder="Field Name"
             className="border-gray-300 focus:border-[#2563eb] focus:ring-[#2563eb]"
           />
@@ -107,7 +103,9 @@ const CustomFieldDrawer: React.FC<CustomFieldDrawerProps> = ({
           <Form.Item
             label="Field Association"
             name="association"
-            rules={[{ required: true, message: 'Field association is required' }]}
+            rules={[
+              { required: true, message: 'Field association is required' },
+            ]}
             className="mb-0"
           >
             <Radio.Group>
@@ -123,19 +121,13 @@ const CustomFieldDrawer: React.FC<CustomFieldDrawerProps> = ({
             valuePropName="checked"
             className="mb-0"
           >
-            <Switch 
-              defaultChecked={true}
-              className="bg-gray-300"
-            />
+            <Switch defaultChecked={true} className="bg-gray-300" />
           </Form.Item>
         </div>
 
         {/* Description */}
-        <Form.Item
-          label="Field Description"
-          name="description"
-        >
-          <TextArea 
+        <Form.Item label="Field Description" name="description">
+          <TextArea
             placeholder="Description"
             rows={4}
             className="border-gray-300 focus:border-[#2563eb] focus:ring-[#2563eb]"

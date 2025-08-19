@@ -34,7 +34,9 @@ const CreateCustomFieldDrawer: React.FC<CreateCustomFieldDrawerProps> = ({
       title={
         <div>
           <div className="text-xl font-bold text-gray-900">Custom Field</div>
-          <div className="text-sm text-gray-500 mt-1">Create a Custom Field</div>
+          <div className="text-sm text-gray-500 mt-1">
+            Create a Custom Field
+          </div>
         </div>
       }
       placement="right"
@@ -101,7 +103,9 @@ const CreateCustomFieldDrawer: React.FC<CreateCustomFieldDrawerProps> = ({
           <Form.Item
             label="Field Association"
             name="association"
-            rules={[{ required: true, message: 'Field association is required' }]}
+            rules={[
+              { required: true, message: 'Field association is required' },
+            ]}
             className="mb-0"
           >
             <Radio.Group>
