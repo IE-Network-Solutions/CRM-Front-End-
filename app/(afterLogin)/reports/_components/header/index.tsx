@@ -9,13 +9,11 @@ import ActionDropdown from '../action-dropdown';
 const { Title, Text } = Typography;
 
 const Header: React.FC = () => {
-  const handleFilter = (dateRange: any) => {
-    console.log('Filter applied with date range:', dateRange);
+  const handleFilter = () => {
     // Add your filter logic here
   };
 
   const handleExport = () => {
-    console.log('Export report clicked');
     // Add your export logic here
   };
 
