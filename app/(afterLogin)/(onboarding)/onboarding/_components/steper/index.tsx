@@ -96,9 +96,9 @@ const OnboardingSteper: React.FC = () => {
 
   const { data: branches } = useGetBranches();
   // const { data: timeZoneRow } = useGetTimeZone();
-  const timeZoneRow = null; // Fallback since the hook doesn't exist
+  // const timeZoneRow = null; // Fallback since the hook doesn't exist
   const tenantId = useAuthenticationStore.getState().tenantId;
-  const userId = useAuthenticationStore.getState().userId;
+  // const userId = useAuthenticationStore.getState().userId;
   const { data: companyInformation } = useGetCompanyProfileByTenantId(tenantId);
 
   /* -------------------------------------------------------------------------- */
@@ -135,11 +135,11 @@ const OnboardingSteper: React.FC = () => {
     contactNumber: companyInformation?.contactPersonPhoneNumber,
     contactEmail: companyInformation?.contactPersonEmail,
   };
-  const applicantStatusPayload = {
-    title: 'Initial Stage',
-    description: 'Initial Stage',
-    createdBy: userId,
-  };
+  // const applicantStatusPayload = {
+  //   title: 'Initial Stage',
+  //   description: 'Initial Stage',
+  //   createdBy: userId,
+  // };
 
   /* -------------------------------------------------------------------------- */
   /*                              server actions                                */
@@ -169,7 +169,7 @@ const OnboardingSteper: React.FC = () => {
     companyInfo: any,
     timeZone: any,
     branch: any,
-    applicantStatus: any,
+    // applicantStatus: any,
   ) {
     yield {
       createFn: createFiscalYear.mutateAsync,
@@ -244,7 +244,7 @@ const OnboardingSteper: React.FC = () => {
       companyInfoPayload,
       timeZonePayload,
       branchPayload,
-      applicantStatusPayload,
+      // applicantStatusPayload,
     );
 
     try {
