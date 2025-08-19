@@ -3,14 +3,15 @@ import { FC } from 'react';
 import { Card, Select } from 'antd';
 import ApprovalRequestCard from './approval-status-card';
 import { useAuthenticationStore } from '@/store/uistate/features/authentication';
-import { useGetApprovalLeaveRequest } from '@/store/server/features/timesheet/leaveRequest/queries';
+// import { useGetApprovalLeaveRequest } from '@/store/server/features/timesheet/leaveRequest/queries';
 import { useDashboardApprovalStore } from '@/store/uistate/features/dashboard/approval';
 import { useGetBranchTransferApproveById } from '@/store/server/features/employees/approval/queries';
 
 const ApprovalStatus: FC = () => {
   const { userId } = useAuthenticationStore();
-  const { data: LeaveTransferData, isLoading: isLoadingLeaveTransfer } =
-    useGetApprovalLeaveRequest(userId, 1, 4);
+  // Fallback for missing timesheet module
+  const LeaveTransferData = { items: [], meta: { totalItems: 0 } };
+  const isLoadingLeaveTransfer = false;
   const { data: BranchTransferData, isLoading: isLoadingBranchTransfer } =
     useGetBranchTransferApproveById(userId, 4, 1);
   const { approverType, setApproverType } = useDashboardApprovalStore();

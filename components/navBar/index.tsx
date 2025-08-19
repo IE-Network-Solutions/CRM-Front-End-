@@ -2,7 +2,11 @@
 import React, { ReactNode, useState, useEffect } from 'react';
 import '../../app/globals.css';
 import { useRouter, usePathname } from 'next/navigation';
-import { AppstoreOutlined, MenuOutlined } from '@ant-design/icons';
+import {
+  AppstoreOutlined,
+  MenuOutlined,
+  BarChartOutlined,
+} from '@ant-design/icons';
 import {
   MdOutlineKeyboardDoubleArrowLeft,
   MdOutlineKeyboardDoubleArrowRight,
@@ -109,6 +113,10 @@ const Nav: React.FC<MyComponentProps> = ({ children }) => {
       key: '/employee-information/[id]',
       permissions: [], // No permissions required
     },
+    {
+      key: '/settings',
+      permissions: [], // No permissions required
+    },
   ];
 
   const getRoutesAndPermissions = (
@@ -118,10 +126,10 @@ const Nav: React.FC<MyComponentProps> = ({ children }) => {
 
     const traverse = (items: CustomMenuItem[]) => {
       items.forEach((item) => {
-        if (item.key && item.permissions) {
+        if (item.key) {
           routes.push({
             route: item.key,
-            permissions: item.permissions,
+            permissions: item.permissions || [],
           });
         }
 
@@ -133,10 +141,10 @@ const Nav: React.FC<MyComponentProps> = ({ children }) => {
 
     // First add hidden routes
     hiddenRoutes.forEach((route) => {
-      if (route.key && route.permissions) {
+      if (route.key) {
         routes.push({
           route: route.key,
-          permissions: route.permissions,
+          permissions: route.permissions || [],
         });
       }
     });
@@ -207,6 +215,23 @@ const Nav: React.FC<MyComponentProps> = ({ children }) => {
           permissions: ['manage_employee_settings'],
         },
       ],
+    },
+    {
+      title: (
+        <div
+          className="flex items-center gap-2 h-12 cursor-pointer"
+          onClick={() => router.push('/settings')}
+        >
+          <BarChartOutlined
+            size={18}
+            className={expandedKeys.includes('/settings') ? 'text-blue' : ''}
+          />
+          <span>Settings</span>
+        </div>
+      ),
+      key: '/settings',
+      className: 'font-bold',
+      permissions: [],
     },
   ];
 

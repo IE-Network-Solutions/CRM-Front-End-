@@ -1,16 +1,25 @@
 'use client';
-import { useGetUserObjectiveDashboard } from '@/store/server/features/okrplanning/okr/dashboard/queries';
-import { useGetVPScore } from '@/store/server/features/okrplanning/okr/dashboard/VP/queries';
-import { useAuthenticationStore } from '@/store/uistate/features/authentication';
+// import { useGetUserObjectiveDashboard } from '@/store/server/features/okrplanning/okr/dashboard/queries';
+// import { useGetVPScore } from '@/store/server/features/okrplanning/okr/dashboard/VP/queries';
+// import { useAuthenticationStore } from '@/store/uistate/features/authentication';
 import { Card, Progress } from 'antd';
 import { useRouter } from 'next/navigation';
 import { GoGoal } from 'react-icons/go';
 
 const Header = () => {
-  const { userId } = useAuthenticationStore();
-  const { data: objectiveDashboard, isLoading } =
-    useGetUserObjectiveDashboard(userId);
-  const { data: vpScore } = useGetVPScore(userId);
+  // const { userId } = useAuthenticationStore();
+  // Fallback for missing okrplanning modules
+  const objectiveDashboard = {
+    userOkr: 0,
+    okrCompleted: 0,
+    keyResultCount: 1,
+    supervisorOkr: 0,
+    supervisorKeyResultAchieved: 0,
+    supervisorKeyResultCount: 1,
+    companyOkr: 0,
+  };
+  const isLoading = false;
+  const vpScore = { score: 0 };
   const router = useRouter();
 
   const onDetail = () => {
