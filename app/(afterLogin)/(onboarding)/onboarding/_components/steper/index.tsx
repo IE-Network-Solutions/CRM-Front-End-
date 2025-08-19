@@ -37,12 +37,12 @@ import {
   useCreateBranch,
   useDeleteBranch,
 } from '@/store/server/features/organizationStructure/branchs/mutation';
-import { useGetTimeZone } from '@/store/server/features/timesheet/timeZone/queries';
-import { useUpdateTimeZone } from '@/store/server/features/timesheet/timeZone/mutation';
-import {
-  useCreateRecruitmentStatus,
-  useDeleteRecruitmentStatus,
-} from '@/store/server/features/recruitment/settings/status/mutation';
+// import { useGetTimeZone } from '@/store/server/features/timesheet/timeZone/queries';
+// import { useUpdateTimeZone } from '@/store/server/features/timesheet/timeZone/mutation';
+// import {
+//   useCreateRecruitmentStatus,
+//   useDeleteRecruitmentStatus,
+// } from '@/store/server/features/recruitment/settings/status/mutation';
 
 // Components
 import WorkSchedule from './workSchedule';
@@ -95,7 +95,8 @@ const OnboardingSteper: React.FC = () => {
     useCompanyProfile();
 
   const { data: branches } = useGetBranches();
-  const { data: timeZoneRow } = useGetTimeZone();
+  // const { data: timeZoneRow } = useGetTimeZone();
+  const timeZoneRow = null; // Fallback since the hook doesn't exist
   const tenantId = useAuthenticationStore.getState().tenantId;
   const userId = useAuthenticationStore.getState().userId;
   const { data: companyInformation } = useGetCompanyProfileByTenantId(tenantId);
@@ -125,7 +126,7 @@ const OnboardingSteper: React.FC = () => {
   };
   const timeZonePayload = {
     timezone: detectedTimeZone,
-    id: timeZoneRow ? timeZoneRow.id : '',
+    id: '', // Fallback since timeZoneRow doesn't exist
   };
   const branchPayload = {
     name: 'HQ',
@@ -153,9 +154,9 @@ const OnboardingSteper: React.FC = () => {
   const deleteCompanyInfo = useDeleteCompanyInfo();
   const createBranch = useCreateBranch();
   const deleteBranch = useDeleteBranch();
-  const updateTimeZone = useUpdateTimeZone();
-  const createApplicantStatus = useCreateRecruitmentStatus();
-  const deleteApplicantStatus = useDeleteRecruitmentStatus();
+  // const updateTimeZone = useUpdateTimeZone();
+  // const createApplicantStatus = useCreateRecruitmentStatus();
+  // const deleteApplicantStatus = useDeleteRecruitmentStatus();
   const updateCompanyImageWithStamp = useUpdateCompanyProfileWithStamp();
 
   /* -------------------------------------------------------------------------- */
@@ -199,17 +200,17 @@ const OnboardingSteper: React.FC = () => {
         companyStamp: companyStamp?.companyStamp,
       },
     };
-    yield { createFn: updateTimeZone.mutateAsync, data: timeZone };
+    // yield { createFn: updateTimeZone.mutateAsync, data: timeZone };
     yield {
       createFn: createBranch.mutateAsync,
       deleteFn: deleteBranch.mutateAsync,
       data: branch,
     };
-    yield {
-      createFn: createApplicantStatus.mutateAsync,
-      deleteFn: deleteApplicantStatus.mutateAsync,
-      data: applicantStatus,
-    };
+    // yield {
+    //   createFn: createApplicantStatus.mutateAsync,
+    //   deleteFn: deleteApplicantStatus.mutateAsync,
+    //   data: applicantStatus,
+    // };
   }
 
   /* -------------------------------------------------------------------------- */
