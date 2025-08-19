@@ -1,10 +1,8 @@
 import axios from 'axios';
 
-// Use real backend by default, mock API only if explicitly enabled
+// Real backend API configuration
 export const API_BASE_URL =
-  process.env.USE_MOCK_API === 'true'
-    ? '/api/v1' // Local mock API (only if explicitly enabled)
-    : process.env.NEXT_PUBLIC_API_URL || 'http://172.20.30.226:3000/api/v1';
+  process.env.NEXT_PUBLIC_API_URL || 'http://172.20.30.226:3000/api/v1';
 
 export const API_ENDPOINTS = {
   leads: '/leads',
@@ -17,7 +15,7 @@ export const API_ENDPOINTS = {
 
 export const api = axios.create({
   baseURL: API_BASE_URL,
-  timeout: 10000,
+  timeout: 30000, // Increased to 30 seconds
   headers: {
     'Content-Type': 'application/json',
   },

@@ -14,10 +14,14 @@ import { useLeadStore } from '@/store/uistate/features/leads/leadStore';
 import { useLeadsWithNamesQuery } from '@/store/server/features/leads/queries';
 import LeadTable from './_components/LeadTable';
 import { Lead } from '@/store/server/features/leads/interface';
+import { useQueryClient } from 'react-query';
+import { useAuthenticationStore } from '@/store/uistate/features/authentication';
 
 export default function LeadsPage() {
   const { selectedRows, setSelectedRows, currentPage, setCurrentPage } =
     useLeadStore();
+  const queryClient = useQueryClient();
+  const { tenantId } = useAuthenticationStore();
 
   const filters = useMemo(
     () => ({
@@ -29,27 +33,32 @@ export default function LeadsPage() {
 
   const leadsQueryResult = useLeadsWithNamesQuery(filters);
 
-  // Extract leads and pagination data from the processed query result
+  // Extract leads and pagination data from the query result
   let leads: Lead[] = [];
   let pagination = null;
   let totalPages = 1;
 
   if (leadsQueryResult?.data) {
-    // The query result is already processed, so data should be the leads array
+    // The real backend response has this structure: { data: Lead[], pagination: {...} }
     if (Array.isArray(leadsQueryResult.data)) {
+      // If data is directly an array (fallback case)
       leads = leadsQueryResult.data;
       totalPages = 1;
+    } else if (
+      leadsQueryResult.data.data &&
+      Array.isArray(leadsQueryResult.data.data)
+    ) {
+      // Real backend response structure with pagination
+      leads = leadsQueryResult.data.data;
+      // Get pagination data from the response
+      const responseData = leadsQueryResult.data as any;
+      pagination = responseData.pagination;
+      totalPages = pagination?.totalPages || 1;
     } else {
-      // This shouldn't happen if the query is working correctly
+      // Fallback for other structures
       leads = leadsQueryResult.data as any;
       totalPages = 1;
     }
-  }
-
-  // Get pagination from the query result
-  if ((leadsQueryResult as any)?.pagination) {
-    pagination = (leadsQueryResult as any).pagination;
-    totalPages = pagination.totalPages || 1;
   }
 
   // React Query will handle refetching automatically when needed
@@ -66,6 +75,18 @@ export default function LeadsPage() {
   const handlePageChange = (page: number) => {
     if (page !== currentPage && page >= 1 && page <= totalPages) {
       setCurrentPage(page);
+
+      // Invalidate the leads cache to force a fresh fetch
+      queryClient.invalidateQueries(['leads']);
+
+      // Invalidate the specific query key to force refetch
+      const queryKey = ['leads', filters, tenantId];
+      queryClient.invalidateQueries(queryKey);
+
+      // Also force a refetch of the current query
+      if (leadsQueryResult.refetch) {
+        leadsQueryResult.refetch();
+      }
     }
   };
 
@@ -191,7 +212,7 @@ export default function LeadsPage() {
               isLoading={leadsQueryResult.isLoading}
               selectedRows={selectedRows}
               onSelectionChange={setSelectedRows}
-              key={`leads-${currentPage}-${leads.length}`}
+              key={`leads-${currentPage}`}
             />
           </div>
 
@@ -232,82 +253,216 @@ export default function LeadsPage() {
                   data-cy="pagination-prev-button"
                 />
 
-                {/* Page Numbers */}
-                {Array.from(
-                  { length: Math.min(5, totalPages) },
-                  (unused, i) => {
-                    const pageNum = i + 1;
-                    return (
+                {/* Page Numbers with Smart Display Logic */}
+                {(() => {
+                  const pages = [];
+                  const maxVisiblePages = 5;
+
+                  if (totalPages <= maxVisiblePages) {
+                    // Show all pages if total is 5 or less
+                    for (let i = 1; i <= totalPages; i++) {
+                      const isCurrentPage = i === currentPage;
+                      pages.push(
+                        <Button
+                          key={i}
+                          type={isCurrentPage ? 'primary' : 'default'}
+                          size="small"
+                          onClick={() => {
+                            handlePageChange(i);
+                          }}
+                          className={`w-8 h-8 p-0 ${isCurrentPage ? 'bg-blue-600 text-white' : ''}`}
+                          style={{
+                            borderColor: isCurrentPage ? '#3b82f6' : '#d1d5db',
+                            color: isCurrentPage ? '#ffffff' : '#6b7280',
+                            backgroundColor: isCurrentPage
+                              ? '#3b82f6'
+                              : '#f9fafb',
+                            transition: 'all 0.2s ease',
+                          }}
+                          onMouseEnter={(e) => {
+                            if (!isCurrentPage) {
+                              e.currentTarget.style.borderColor = '#3b82f6';
+                              e.currentTarget.style.color = '#3b82f6';
+                              e.currentTarget.style.backgroundColor = '#eff6ff';
+                            }
+                          }}
+                          onMouseLeave={(e) => {
+                            if (!isCurrentPage) {
+                              e.currentTarget.style.borderColor = '#d1d5db';
+                              e.currentTarget.style.color = '#6b7280';
+                              e.currentTarget.style.backgroundColor = '#f9fafb';
+                            }
+                          }}
+                          data-cy={`pagination-page-${i}`}
+                        >
+                          {i}
+                        </Button>,
+                      );
+                    }
+                  } else {
+                    // Smart pagination for more than 5 pages
+                    // Always show first page
+                    const isFirstPageCurrent = 1 === currentPage;
+                    pages.push(
                       <Button
-                        key={pageNum}
-                        type="default"
+                        key={1}
+                        type={isFirstPageCurrent ? 'primary' : 'default'}
                         size="small"
                         onClick={() => {
-                          handlePageChange(pageNum);
+                          handlePageChange(1);
                         }}
-                        className="w-8 h-8 p-0"
+                        className={`w-8 h-8 p-0 ${isFirstPageCurrent ? 'bg-blue-600 text-white' : ''}`}
                         style={{
-                          borderColor: '#d1d5db',
-                          color: '#6b7280',
-                          backgroundColor: '#f9fafb',
+                          borderColor: isFirstPageCurrent
+                            ? '#3b82f6'
+                            : '#d1d5db',
+                          color: isFirstPageCurrent ? '#ffffff' : '#6b7280',
+                          backgroundColor: isFirstPageCurrent
+                            ? '#3b82f6'
+                            : '#f9fafb',
                           transition: 'all 0.2s ease',
                         }}
                         onMouseEnter={(e) => {
-                          e.currentTarget.style.borderColor = '#3b82f6';
-                          e.currentTarget.style.color = '#3b82f6';
-                          e.currentTarget.style.backgroundColor = '#eff6ff';
+                          if (!isFirstPageCurrent) {
+                            e.currentTarget.style.borderColor = '#3b82f6';
+                            e.currentTarget.style.color = '#3b82f6';
+                            e.currentTarget.style.backgroundColor = '#eff6ff';
+                          }
                         }}
                         onMouseLeave={(e) => {
-                          e.currentTarget.style.borderColor = '#d1d5db';
-                          e.currentTarget.style.color = '#6b7280';
-                          e.currentTarget.style.backgroundColor = '#f9fafb';
+                          if (!isFirstPageCurrent) {
+                            e.currentTarget.style.borderColor = '#d1d5db';
+                            e.currentTarget.style.color = '#6b7280';
+                            e.currentTarget.style.backgroundColor = '#f9fafb';
+                          }
                         }}
-                        data-cy={`pagination-page-${pageNum}`}
+                        data-cy={`pagination-page-1`}
                       >
-                        {pageNum}
-                      </Button>
+                        1
+                      </Button>,
                     );
-                  },
-                )}
 
-                {totalPages > 5 && (
-                  <>
-                    <span className="px-2 text-sm font-medium text-gray-500">
-                      ...
-                    </span>
-                    <Button
-                      type="default"
-                      size="small"
-                      onClick={() => handlePageChange(totalPages)}
-                      className="w-8 h-8 p-0"
-                      style={{
-                        borderColor: '#d1d5db',
-                        color: '#6b7280',
-                        backgroundColor: '#f9fafb',
-                        transition: 'all 0.2s ease',
-                      }}
-                      onMouseEnter={(e) => {
-                        e.currentTarget.style.borderColor = '#3b82f6';
-                        e.currentTarget.style.color = '#3b82f6';
-                        e.currentTarget.style.backgroundColor = '#eff6ff';
-                      }}
-                      onMouseLeave={(e) => {
-                        e.currentTarget.style.borderColor = '#d1d5db';
-                        e.currentTarget.style.color = '#6b7280';
-                        e.currentTarget.style.backgroundColor = '#f9fafb';
-                      }}
-                      data-cy={`pagination-page-${totalPages}`}
-                    >
-                      {totalPages}
-                    </Button>
-                  </>
-                )}
+                    // Add ellipsis after first page if needed
+                    if (currentPage > 3) {
+                      pages.push(
+                        <span
+                          key="ellipsis-start"
+                          className="px-2 text-sm font-medium text-gray-500"
+                        >
+                          ...
+                        </span>,
+                      );
+                    }
+
+                    // Show pages around current page
+                    const startPage = Math.max(2, currentPage - 1);
+                    const endPage = Math.min(totalPages - 1, currentPage + 1);
+
+                    for (let i = startPage; i <= endPage; i++) {
+                      if (i === 1 || i === totalPages) continue; // Skip first and last as they're handled separately
+
+                      const isCurrentPage = i === currentPage;
+                      pages.push(
+                        <Button
+                          key={i}
+                          type={isCurrentPage ? 'primary' : 'default'}
+                          size="small"
+                          onClick={() => {
+                            handlePageChange(i);
+                          }}
+                          className={`w-8 h-8 p-0 ${isCurrentPage ? 'bg-blue-600 text-white' : ''}`}
+                          style={{
+                            borderColor: isCurrentPage ? '#3b82f6' : '#d1d5db',
+                            color: isCurrentPage ? '#ffffff' : '#6b7280',
+                            backgroundColor: isCurrentPage
+                              ? '#3b82f6'
+                              : '#f9fafb',
+                            transition: 'all 0.2s ease',
+                          }}
+                          onMouseEnter={(e) => {
+                            if (!isCurrentPage) {
+                              e.currentTarget.style.borderColor = '#3b82f6';
+                              e.currentTarget.style.color = '#3b82f6';
+                              e.currentTarget.style.backgroundColor = '#eff6ff';
+                            }
+                          }}
+                          onMouseLeave={(e) => {
+                            if (!isCurrentPage) {
+                              e.currentTarget.style.borderColor = '#d1d5db';
+                              e.currentTarget.style.color = '#6b7280';
+                              e.currentTarget.style.backgroundColor = '#f9fafb';
+                            }
+                          }}
+                          data-cy={`pagination-page-${i}`}
+                        >
+                          {i}
+                        </Button>,
+                      );
+                    }
+
+                    // Add ellipsis before last page if needed
+                    if (currentPage < totalPages - 2) {
+                      pages.push(
+                        <span
+                          key="ellipsis-end"
+                          className="px-2 text-sm font-medium text-gray-500"
+                        >
+                          ...
+                        </span>,
+                      );
+                    }
+
+                    // Always show last page
+                    const isLastPageCurrent = totalPages === currentPage;
+                    pages.push(
+                      <Button
+                        key={totalPages}
+                        type={isLastPageCurrent ? 'primary' : 'default'}
+                        size="small"
+                        onClick={() => {
+                          handlePageChange(totalPages);
+                        }}
+                        className={`w-8 h-8 p-0 ${isLastPageCurrent ? 'bg-blue-600 text-white' : ''}`}
+                        style={{
+                          borderColor: isLastPageCurrent
+                            ? '#3b82f6'
+                            : '#d1d5db',
+                          color: isLastPageCurrent ? '#ffffff' : '#6b7280',
+                          backgroundColor: isLastPageCurrent
+                            ? '#3b82f6'
+                            : '#f9fafb',
+                          transition: 'all 0.2s ease',
+                        }}
+                        onMouseEnter={(e) => {
+                          if (!isLastPageCurrent) {
+                            e.currentTarget.style.borderColor = '#3b82f6';
+                            e.currentTarget.style.color = '#3b82f6';
+                            e.currentTarget.style.backgroundColor = '#eff6ff';
+                          }
+                        }}
+                        onMouseLeave={(e) => {
+                          if (!isLastPageCurrent) {
+                            e.currentTarget.style.borderColor = '#d1d5db';
+                            e.currentTarget.style.color = '#6b7280';
+                            e.currentTarget.style.backgroundColor = '#f9fafb';
+                          }
+                        }}
+                        data-cy={`pagination-page-${totalPages}`}
+                      >
+                        {totalPages}
+                      </Button>,
+                    );
+                  }
+
+                  return pages;
+                })()}
 
                 <Button
                   type="default"
                   size="small"
                   onClick={() => {
                     const nextPage = currentPage + 1;
+
                     if (nextPage <= totalPages) {
                       handlePageChange(nextPage);
                     }

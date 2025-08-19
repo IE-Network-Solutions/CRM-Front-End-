@@ -2,6 +2,10 @@
 import { Table, Checkbox } from 'antd';
 import { LeadStates } from '../LeadStates';
 import type { Lead } from '@/store/server/features/leads/interface';
+import {
+  useSourcesQuery,
+  useCompaniesQuery,
+} from '@/store/server/features/leads/queries';
 
 interface LeadTableProps {
   leads: Lead[];
@@ -16,6 +20,22 @@ export default function LeadTable({
   selectedRows,
   onSelectionChange,
 }: LeadTableProps) {
+  // Fetch sources to map sourceId to source name
+  const {
+    data: sources = [],
+    isLoading: sourcesLoading,
+    error: sourcesError,
+  } = useSourcesQuery();
+  // Fetch companies to map companyId to company name
+  // TODO: Backend companies endpoint doesn't exist yet
+  const { data: companies = [], isLoading: companiesLoading } =
+    useCompaniesQuery();
+
+  // Show warning if no sources are available
+  if (sources.length === 0 && !sourcesLoading && !sourcesError) {
+    // No sources found in system. Lead sources will show as "No Source"
+  }
+
   const handleSelectRow = (leadId: string, checked: boolean) => {
     if (checked) {
       onSelectionChange([...selectedRows, leadId]);
@@ -57,23 +77,51 @@ export default function LeadTable({
     },
     {
       title: 'Leads Name',
-      dataIndex: 'contactPersonFName',
-      key: 'contactPerson',
+      dataIndex: 'name',
+      key: 'leadName',
       width: 140, // Reduced width and positioned closer to checkbox
-      render: (unused: any, record: Lead) => (
+      render: (name: string) => (
         <span className="text-sm font-semibold text-gray-900">
-          {record.contactPersonFName} {record.contactPersonLName}
+          {name || '-'}
         </span>
       ),
     },
     {
       title: 'Company',
-      dataIndex: 'name',
+      dataIndex: 'companyId',
       key: 'company',
       width: 150,
-      render: (name: string) => (
-        <span className="text-sm font-medium text-gray-800">{name}</span>
-      ),
+      render: (companyId: string | null) => {
+        if (!companyId) {
+          return <span className="text-sm font-medium text-gray-700">-</span>;
+        }
+
+        if (companiesLoading) {
+          return (
+            <span className="text-sm font-medium text-gray-500">
+              Loading...
+            </span>
+          );
+        }
+
+        const company = companies.find((c) => c.id === companyId);
+
+        if (!company) {
+          // If company not found, show the ID temporarily
+          // Note: Backend companies endpoint doesn't exist yet, so this will always show UUID
+          return (
+            <span className="text-sm font-medium text-gray-700">
+              {companyId}
+            </span>
+          );
+        }
+
+        return (
+          <span className="text-sm font-medium text-gray-800">
+            {company.name}
+          </span>
+        );
+      },
     },
     {
       title: 'Email',
@@ -100,11 +148,51 @@ export default function LeadTable({
       dataIndex: 'sourceId',
       key: 'source',
       width: 120,
-      render: (sourceId: string | null) => (
-        <span className="text-sm font-medium text-gray-700">
-          {sourceId || '-'}
-        </span>
-      ),
+      render: (sourceId: string | null) => {
+        if (!sourceId)
+          return <span className="text-sm font-medium text-gray-700">-</span>;
+
+        if (sourcesLoading) {
+          return (
+            <span className="text-sm font-medium text-gray-500">
+              Loading sources...
+            </span>
+          );
+        }
+
+        const source = sources.find((s) => s.id === sourceId);
+
+        if (!source) {
+          // If source not found, show the ID temporarily
+
+          // If no sources are loaded at all, show a more helpful message
+          if (sources.length === 0) {
+            return (
+              <span
+                className="text-sm font-medium text-gray-500"
+                title="No sources configured in system"
+              >
+                No Source
+              </span>
+            );
+          }
+
+          return (
+            <span
+              className="text-sm font-medium text-gray-700"
+              title={`Source ID: ${sourceId} (Sources loaded: ${sources.length})`}
+            >
+              {sourceId}
+            </span>
+          );
+        }
+
+        return (
+          <span className="text-sm font-medium text-gray-700">
+            {source.name}
+          </span>
+        );
+      },
     },
     {
       title: 'Lead Stage',
@@ -141,11 +229,12 @@ export default function LeadTable({
         pagination={false}
         loading={isLoading}
         className="custom-table"
-        size="middle"
+        size="small"
         scroll={{ x: 1000 }} // Enable horizontal scrolling for small screens
-        rowClassName={(record, index) =>
-          index % 2 === 0 ? 'bg-white' : 'bg-gray-100'
-        }
+        // Remove custom rowClassName to avoid extra blank row
+        locale={leads.length === 0 ? { emptyText: null } : undefined}
+        bordered={false}
+        showHeader={true}
       />
     </div>
   );

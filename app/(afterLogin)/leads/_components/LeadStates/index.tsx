@@ -84,11 +84,10 @@ export function LeadStates({
 
         onStageChange?.(leadId, newStage);
       } else {
-        // Backend stage not found - this should not happen in normal operation
-        // The mutation will handle the error display
+        // Backend stage not found
       }
     } catch (error) {
-      // Error is handled by the mutation's onError callback
+      // Error updating lead stage
     }
   };
 

@@ -29,7 +29,7 @@ export interface PaginationMeta {
 
 export interface PaginatedResponse<T> {
   data: T[];
-  meta: PaginationMeta;
+  pagination: PaginationMeta; // Changed from 'meta' to 'pagination' to match backend
 }
 
 export interface LeadFilters {

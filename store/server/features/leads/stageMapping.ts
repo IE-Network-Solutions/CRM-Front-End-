@@ -5,6 +5,8 @@ export function getFrontendStageKey(backendStageName: string): string {
     Lost: 'lost',
     Contacted: 'contacted',
     'Follow Up': 'follow-up',
+    'Follow-up': 'follow-up', // Handle both variations
+    'Follow up': 'follow-up', // Handle both variations
   };
 
   return stageMapping[backendStageName] || 'new';

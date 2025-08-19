@@ -1,5 +1,7 @@
 import { useQuery } from 'react-query';
 import { api } from '@/config/api';
+import { getCurrentToken } from '@/utils/getCurrentToken';
+import { useAuthenticationStore } from '@/store/uistate/features/authentication';
 import {
   Lead,
   PaginatedResponse,
@@ -10,21 +12,35 @@ import {
 } from './interface';
 
 export function useLeadsQuery(filters: LeadFilters) {
+  const { tenantId } = useAuthenticationStore();
+
   return useQuery({
-    queryKey: ['leads', filters],
+    queryKey: ['leads', filters, tenantId],
+    // Ensure the query refetches when any filter changes
+    keepPreviousData: false,
     queryFn: async (): Promise<PaginatedResponse<Lead> | Lead[]> => {
       try {
-        const response = await api.get('/leads', { params: filters });
+        const token = await getCurrentToken();
+
+        const response = await api.get('/leads', {
+          params: filters,
+          headers: {
+            Authorization: `Bearer ${token}`,
+            tenantId: tenantId,
+          },
+        });
+
         return response.data;
       } catch (error) {
         throw error;
       }
     },
-    staleTime: 30 * 1000, // 30 seconds - data is fresh for 30 seconds
+    staleTime: 0, // Always refetch when filters change
     cacheTime: 5 * 60 * 1000, // 5 minutes - keep in cache for 5 minutes
     refetchOnWindowFocus: false,
     refetchOnMount: true,
     refetchOnReconnect: true,
+    enabled: !!tenantId, // Only run query if tenantId exists
   });
 }
 
@@ -36,58 +52,49 @@ export function useLeadsWithNamesQuery(filters: LeadFilters) {
   }
 
   try {
-    let leads: Lead[] = [];
-    let pagination = null;
-    let isPaginated = false;
-
-    if (leadsResponse.data) {
-      if (Array.isArray(leadsResponse.data)) {
-        leads = leadsResponse.data;
-        isPaginated = false;
-      } else {
-        leads = (leadsResponse.data as PaginatedResponse<Lead>).data;
-        // Check for both 'meta' and 'pagination' properties
-        pagination =
-          (leadsResponse.data as any).meta ||
-          (leadsResponse.data as any).pagination;
-        isPaginated = true;
-      }
-    }
-
+    // Don't process the data, return the original response structure
+    // This preserves the pagination metadata
     const result = {
       ...leadsResponse,
-      data: leads,
-      pagination,
-      isPaginated,
+      // Keep the original data structure intact
+      data: leadsResponse.data,
     };
 
     return result;
   } catch (error) {
-    return {
-      ...leadsResponse,
-      data: [],
-      pagination: null,
-      isPaginated: false,
-    };
+    return leadsResponse;
   }
 }
 
 export function useEngagementStagesQuery() {
+  const { tenantId } = useAuthenticationStore();
+
   return useQuery({
-    queryKey: ['engagement-stages'],
+    queryKey: ['engagement-stages', tenantId],
     queryFn: async (): Promise<EngagementStage[]> => {
       try {
-        const response = await api.get('/engagement-stage');
+        const token = await getCurrentToken();
+        const response = await api.get('/engagement-stage', {
+          headers: {
+            Authorization: `Bearer ${token}`,
+            tenantId: tenantId,
+          },
+        });
         const data = response.data;
 
+        // Handle paginated response from backend
+        if (data && data.data && Array.isArray(data.data)) {
+          return data.data;
+        }
+
+        // Fallback for direct array response
         if (Array.isArray(data)) {
           return data;
         }
 
-        // Expected array for engagement stages
+        // If no valid data structure found
         return [];
       } catch (error) {
-        // Failed to fetch engagement stages
         return [];
       }
     },
@@ -95,51 +102,87 @@ export function useEngagementStagesQuery() {
     cacheTime: 10 * 60 * 1000, // 10 minutes - keep in cache longer
     refetchOnWindowFocus: false,
     refetchOnMount: true,
+    enabled: !!tenantId, // Only run query if tenantId exists
   });
 }
 
 export function useCompaniesQuery() {
+  const { tenantId } = useAuthenticationStore();
+
   return useQuery({
-    queryKey: ['companies'],
+    queryKey: ['companies', tenantId],
     queryFn: async (): Promise<Company[]> => {
       try {
-        const response = await api.get('/companies');
+        const token = await getCurrentToken();
+        const response = await api.get('/companies', {
+          headers: {
+            Authorization: `Bearer ${token}`,
+            tenantId: tenantId,
+          },
+        });
         const data = response.data;
 
+        // Handle paginated response from backend
+        if (data && data.data && Array.isArray(data.data)) {
+          return data.data;
+        }
+
+        // Fallback for direct array response
         if (Array.isArray(data)) {
           return data;
         }
 
-        // Expected array for companies
+        // If no valid data structure found
         return [];
       } catch (error) {
-        // Failed to fetch companies
         return [];
       }
     },
-    staleTime: 10 * 60 * 1000,
+    staleTime: 5 * 60 * 1000, // 5 minutes - companies don't change often
+    cacheTime: 10 * 60 * 1000, // 10 minutes - keep in cache longer
+    refetchOnWindowFocus: false,
+    refetchOnMount: true,
+    enabled: !!tenantId, // Only run query if tenantId exists
   });
 }
 
 export function useSourcesQuery() {
+  const { tenantId } = useAuthenticationStore();
+
   return useQuery({
-    queryKey: ['sources'],
+    queryKey: ['sources', tenantId],
     queryFn: async (): Promise<Source[]> => {
       try {
-        const response = await api.get('/source');
+        const token = await getCurrentToken();
+        const response = await api.get('/source', {
+          headers: {
+            Authorization: `Bearer ${token}`,
+            tenantId: tenantId,
+          },
+        });
+
         const data = response.data;
 
+        // Handle paginated response from backend
+        if (data && data.data && Array.isArray(data.data)) {
+          return data.data;
+        }
+
+        // Fallback for direct array response
         if (Array.isArray(data)) {
           return data;
         }
 
-        // Expected array for sources
+        // If no valid data structure found
         return [];
       } catch (error) {
-        // Failed to fetch sources
         return [];
       }
     },
     staleTime: 10 * 60 * 1000,
+    cacheTime: 10 * 60 * 1000,
+    refetchOnWindowFocus: false,
+    refetchOnMount: true,
+    enabled: !!tenantId, // Only run query if tenantId exists
   });
 }
