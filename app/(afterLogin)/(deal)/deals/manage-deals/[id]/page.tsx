@@ -1,8 +1,12 @@
 'use client';
 import React from 'react';
-import { ArrowLeftOutlined, EditOutlined, WarningOutlined, FileTextOutlined } from '@ant-design/icons';
-import { Button, Card, Tag, Avatar } from 'antd';
-import PageHeader from '@/components/common/pageHeader/pageHeader';
+import {
+  ArrowLeftOutlined,
+  EditOutlined,
+  WarningOutlined,
+  FileTextOutlined,
+} from '@ant-design/icons';
+import { Button, Card, Tag } from 'antd';
 import CustomButton from '@/components/common/buttons/customButton';
 
 const DealDetails = () => {
@@ -13,17 +17,15 @@ const DealDetails = () => {
 
   const handleActivity = () => {
     // Handle activity button click
-    console.log('Activity clicked');
   };
 
   const handleEdit = (section: string) => {
     // Handle edit for different sections
-    console.log(`Edit ${section}`);
+    section;
   };
 
   const handleRemoveDeal = () => {
     // Handle remove deal
-    console.log('Remove deal clicked');
   };
 
   return (
@@ -58,7 +60,9 @@ const DealDetails = () => {
           {/* Contact Information Card */}
           <Card className="shadow-sm">
             <div className="flex justify-between items-start mb-4">
-              <h3 className="text-lg font-semibold text-gray-900">Contact Information</h3>
+              <h3 className="text-lg font-semibold text-gray-900">
+                Contact Information
+              </h3>
               <Button
                 type="text"
                 icon={<EditOutlined />}
@@ -66,9 +70,11 @@ const DealDetails = () => {
                 className="text-gray-500 hover:text-gray-700"
               />
             </div>
-            
+
             <div className="mb-6">
-              <div className="text-3xl font-bold text-green-600 mb-4">$400,000</div>
+              <div className="text-3xl font-bold text-green-600 mb-4">
+                $400,000
+              </div>
             </div>
 
             <div className="space-y-3">
@@ -113,7 +119,9 @@ const DealDetails = () => {
           {/* Business Information Card */}
           <Card className="shadow-sm">
             <div className="flex justify-between items-start mb-4">
-              <h3 className="text-lg font-semibold text-gray-900">Business Information</h3>
+              <h3 className="text-lg font-semibold text-gray-900">
+                Business Information
+              </h3>
               <Button
                 type="text"
                 icon={<EditOutlined />}
@@ -142,15 +150,20 @@ const DealDetails = () => {
               <div className="flex justify-between items-center">
                 <span className="text-gray-600 font-medium">Roles:</span>
                 <div className="flex gap-2">
-                  {[1, 2, 3, 4].map((_, index) => (
-                    <Tag key={index} className="bg-gray-100 text-gray-600 border-gray-200">
-                      F
+                  {[1, 2, 3, 4].map((item, index) => (
+                    <Tag
+                      key={index}
+                      className="bg-gray-100 text-gray-600 border-gray-200"
+                    >
+                      {item}
                     </Tag>
                   ))}
                 </div>
               </div>
               <div className="flex justify-between">
-                <span className="text-gray-600 font-medium">Account Owner:</span>
+                <span className="text-gray-600 font-medium">
+                  Account Owner:
+                </span>
                 <span className="text-gray-900">Robel Zeleke</span>
               </div>
               <div className="flex justify-between">
@@ -163,7 +176,9 @@ const DealDetails = () => {
               </div>
               <div className="flex justify-between">
                 <span className="text-gray-600 font-medium">Deal Status:</span>
-                <Tag color="green" className="font-medium">Qualified</Tag>
+                <Tag color="green" className="font-medium">
+                  Qualified
+                </Tag>
               </div>
             </div>
           </Card>
@@ -171,7 +186,9 @@ const DealDetails = () => {
           {/* Address Information Card */}
           <Card className="shadow-sm">
             <div className="flex justify-between items-start mb-4">
-              <h3 className="text-lg font-semibold text-gray-900">Address Information</h3>
+              <h3 className="text-lg font-semibold text-gray-900">
+                Address Information
+              </h3>
               <Button
                 type="text"
                 icon={<EditOutlined />}
@@ -182,7 +199,9 @@ const DealDetails = () => {
 
             <div className="space-y-3">
               <div className="flex justify-between">
-                <span className="text-gray-600 font-medium">Billing State:</span>
+                <span className="text-gray-600 font-medium">
+                  Billing State:
+                </span>
                 <span className="text-gray-900">State Name</span>
               </div>
               <div className="flex justify-between">
@@ -194,7 +213,9 @@ const DealDetails = () => {
                 <span className="text-gray-900">Billing Code Number</span>
               </div>
               <div className="flex justify-between">
-                <span className="text-gray-600 font-medium">Shipping Address:</span>
+                <span className="text-gray-600 font-medium">
+                  Shipping Address:
+                </span>
                 <span className="text-gray-900">Shipping Address Name</span>
               </div>
             </div>
@@ -203,7 +224,9 @@ const DealDetails = () => {
           {/* Timeline Information Card */}
           <Card className="shadow-sm">
             <div className="flex justify-between items-start mb-4">
-              <h3 className="text-lg font-semibold text-gray-900">Timeline Information</h3>
+              <h3 className="text-lg font-semibold text-gray-900">
+                Timeline Information
+              </h3>
               <Button
                 type="text"
                 icon={<EditOutlined />}
@@ -222,7 +245,9 @@ const DealDetails = () => {
                 <span className="text-gray-900">Jan 5, 2025, 12:00PM</span>
               </div>
               <div className="flex justify-between">
-                <span className="text-gray-600 font-medium">Total Activities:</span>
+                <span className="text-gray-600 font-medium">
+                  Total Activities:
+                </span>
                 <span className="text-gray-900">2 activities</span>
               </div>
             </div>
@@ -231,7 +256,9 @@ const DealDetails = () => {
           {/* Attached Files Card */}
           <Card className="shadow-sm">
             <div className="flex justify-between items-start mb-4">
-              <h3 className="text-lg font-semibold text-gray-900">Attached Files</h3>
+              <h3 className="text-lg font-semibold text-gray-900">
+                Attached Files
+              </h3>
               <Button
                 type="text"
                 icon={<EditOutlined />}
@@ -241,7 +268,7 @@ const DealDetails = () => {
             </div>
 
             <div className="space-y-3">
-              {[1, 2].map((_, index) => (
+              {[1, 2].map((item, index) => (
                 <div
                   key={index}
                   className="flex items-center gap-3 p-3 bg-gray-50 rounded-lg border border-gray-200"

@@ -1,6 +1,6 @@
-import { Button, Form, Input, Modal, Select } from "antd";
-import { DollarOutlined } from "@ant-design/icons";
-import React from "react";
+import { Button, Form, Input, Modal, Select } from 'antd';
+import { DollarOutlined } from '@ant-design/icons';
+import React from 'react';
 
 interface FilterModalProps {
   open: boolean;
@@ -23,14 +23,12 @@ const FilterModal: React.FC<FilterModalProps> = ({
       onCancel={onClose}
       footer={null}
       width={350}
-      style={{ top: "25%", right: "100px", left: "60%", position: "absolute" }}
+      style={{ top: '25%', right: '100px', left: '60%', position: 'absolute' }}
       title={
         <div className="flex justify-between items-center mb-1">
           <div>
             <h2 className="text-lg font-semibold">Filter</h2>
-            <p className="text-gray-500 text-sm -mt-1">
-              Filter your leads by
-            </p>
+            <p className="text-gray-500 text-sm -mt-1">Filter your leads by</p>
           </div>
           <Button type="link" onClick={onRemoveAll} className="text-blue-500">
             Remove All
@@ -62,10 +60,7 @@ const FilterModal: React.FC<FilterModalProps> = ({
         {/* Revenue Row */}
         <div className="grid grid-cols-2 gap-4">
           <Form.Item name="revenue" label="Revenue">
-            <Input
-              placeholder="Expected Revenue"
-              prefix={<DollarOutlined />}
-            />
+            <Input placeholder="Expected Revenue" prefix={<DollarOutlined />} />
           </Form.Item>
           <Form.Item name="currency" label=" ">
             <Select placeholder="Currency" />

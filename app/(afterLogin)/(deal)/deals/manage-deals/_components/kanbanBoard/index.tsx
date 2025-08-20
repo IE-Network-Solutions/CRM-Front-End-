@@ -1,12 +1,12 @@
-'use client'
-import React, { useState } from 'react'
-import { 
-  PlusOutlined, 
-  PhoneOutlined, 
+'use client';
+import React, { useState } from 'react';
+import {
+  PlusOutlined,
+  PhoneOutlined,
   MailOutlined,
   EditOutlined,
   UserOutlined,
-  DragOutlined
+  DragOutlined,
 } from '@ant-design/icons';
 import {
   DndContext,
@@ -24,9 +24,7 @@ import {
   SortableContext,
   verticalListSortingStrategy,
 } from '@dnd-kit/sortable';
-import {
-  useSortable,
-} from '@dnd-kit/sortable';
+import { useSortable } from '@dnd-kit/sortable';
 import { CSS } from '@dnd-kit/utilities';
 import { Avatar, Button, Card, Col, Row, Space, Typography } from 'antd';
 const { Text } = Typography;
@@ -52,7 +50,9 @@ interface Stage {
 }
 
 // Sortable Deal Card Component
-const SortableDealCard: React.FC<{ deal: Deal; index: number }> = ({ deal, index }) => {
+const SortableDealCard: React.FC<{ deal: Deal; index: number }> = ({
+  deal,
+}) => {
   const {
     attributes,
     listeners,
@@ -75,7 +75,7 @@ const SortableDealCard: React.FC<{ deal: Deal; index: number }> = ({ deal, index
       style={style}
       {...attributes}
       {...listeners}
-      onClick={()=>{
+      onClick={() => {
         router.push(`/deals/manage-deals/${deal.id}`);
       }}
     >
@@ -83,11 +83,13 @@ const SortableDealCard: React.FC<{ deal: Deal; index: number }> = ({ deal, index
         size="small"
         style={{
           borderRadius: '8px',
-          boxShadow: isDragging ? '0 4px 12px rgba(0,0,0,0.15)' : '0 1px 3px rgba(0,0,0,0.08)',
+          boxShadow: isDragging
+            ? '0 4px 12px rgba(0,0,0,0.15)'
+            : '0 1px 3px rgba(0,0,0,0.08)',
           cursor: 'grab',
           userSelect: 'none',
           touchAction: 'none',
-          marginBottom: '12px'
+          marginBottom: '12px',
         }}
         bodyStyle={{ padding: '12px' }}
       >
@@ -100,39 +102,57 @@ const SortableDealCard: React.FC<{ deal: Deal; index: number }> = ({ deal, index
             display: 'flex',
             justifyContent: 'center',
             opacity: 0.6,
-            touchAction: 'none'
+            touchAction: 'none',
           }}
         >
           <DragOutlined style={{ fontSize: '16px', color: '#8c8c8c' }} />
         </div>
 
-        <div className='flex justify-between items-start mb-3'>
+        <div className="flex justify-between items-start mb-3">
           <div>
-            <Text className='text-[14px] font-bold block mb-2'>
+            <Text className="text-[14px] font-bold block mb-2">
               {deal.title}
             </Text>
-            <Text className='text-[12px] text-[#8c8c8c]'>
-              {deal.date}
-            </Text>
+            <Text className="text-[12px] text-[#8c8c8c]">{deal.date}</Text>
           </div>
         </div>
-        
-        <div className='mb-3'>
-          <Text className='text-[18px] font-bold'>
-            {deal.currency === '€' ? '€' : deal.currency === 'AED' ? 'AED ' : deal.currency === 'ETB' ? 'ETB ' : '$'}
+
+        <div className="mb-3">
+          <Text className="text-[18px] font-bold">
+            {deal.currency === '€'
+              ? '€'
+              : deal.currency === 'AED'
+                ? 'AED '
+                : deal.currency === 'ETB'
+                  ? 'ETB '
+                  : '$'}
             {deal.amount}
           </Text>
         </div>
 
-        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+        <div
+          style={{
+            display: 'flex',
+            justifyContent: 'space-between',
+            alignItems: 'center',
+          }}
+        >
           <Space size={4}>
-            <Avatar size={24} icon={<UserOutlined />} style={{ backgroundColor: '#1890ff' }} />
+            <Avatar
+              size={24}
+              icon={<UserOutlined />}
+              style={{ backgroundColor: '#1890ff' }}
+            />
             <Text style={{ fontSize: '12px' }}>{deal.assignee}</Text>
           </Space>
-          
+
           <Space size={8}>
-            <PhoneOutlined style={{ fontSize: '14px', color: '#8c8c8c', cursor: 'pointer' }} />
-            <MailOutlined style={{ fontSize: '14px', color: '#8c8c8c', cursor: 'pointer' }} />
+            <PhoneOutlined
+              style={{ fontSize: '14px', color: '#8c8c8c', cursor: 'pointer' }}
+            />
+            <MailOutlined
+              style={{ fontSize: '14px', color: '#8c8c8c', cursor: 'pointer' }}
+            />
           </Space>
         </div>
       </Card>
@@ -155,10 +175,10 @@ function KanbanBoard() {
           currency: '$',
           date: '24 Mar 2024',
           assignee: 'Nahom Esrael',
-          stage: 'stage1'
-        }
+          stage: 'stage1',
+        },
       ],
-      color:'#d9e6fc'
+      color: '#d9e6fc',
     },
     {
       id: 'stage2',
@@ -173,7 +193,7 @@ function KanbanBoard() {
           currency: '$',
           date: '24 Mar 2024',
           assignee: 'Nahom Esrael',
-          stage: 'stage2'
+          stage: 'stage2',
         },
         {
           id: 'deal33',
@@ -182,10 +202,10 @@ function KanbanBoard() {
           currency: '$',
           date: '24 Mar 2024',
           assignee: 'Nahom Esrael',
-          stage: 'stage2'
-        }
+          stage: 'stage2',
+        },
       ],
-      color: '#d9f2fc'
+      color: '#d9f2fc',
     },
     {
       id: 'stage3',
@@ -201,7 +221,7 @@ function KanbanBoard() {
           currency: '€',
           date: '24 Mar 2024',
           assignee: 'Nahom Esrael',
-          stage: 'stage3'
+          stage: 'stage3',
         },
         {
           id: 'deal3',
@@ -210,7 +230,7 @@ function KanbanBoard() {
           currency: '€',
           date: '24 Mar 2024',
           assignee: 'Nahom Esrael',
-          stage: 'stage3'
+          stage: 'stage3',
         },
         {
           id: 'deal4',
@@ -219,7 +239,7 @@ function KanbanBoard() {
           currency: 'AED',
           date: '24 Mar 2024',
           assignee: 'Nahom Esrael',
-          stage: 'stage3'
+          stage: 'stage3',
         },
         {
           id: 'deal5',
@@ -228,7 +248,7 @@ function KanbanBoard() {
           currency: '$',
           date: '24 Mar 2024',
           assignee: 'Nahom Esrael',
-          stage: 'stage3'
+          stage: 'stage3',
         },
         {
           id: 'deal6',
@@ -237,9 +257,9 @@ function KanbanBoard() {
           currency: 'ETB',
           date: '24 Mar 2024',
           assignee: 'Nahom Esrael',
-          stage: 'stage3'
-        }
-      ]
+          stage: 'stage3',
+        },
+      ],
     },
     {
       id: 'stage4',
@@ -254,7 +274,7 @@ function KanbanBoard() {
           currency: '$',
           date: '24 Mar 2024',
           assignee: 'Nahom Esrael',
-          stage: 'stage4'
+          stage: 'stage4',
         },
         {
           id: 'deal8',
@@ -263,11 +283,11 @@ function KanbanBoard() {
           currency: '€',
           date: '24 Mar 2024',
           assignee: 'Nahom Esrael',
-          stage: 'stage4'
-        }
+          stage: 'stage4',
+        },
       ],
-      color: '#eaf7ed'
-    }
+      color: '#eaf7ed',
+    },
   ]);
 
   const sensors = useSensors(
@@ -276,16 +296,17 @@ function KanbanBoard() {
         distance: 8,
       },
     }),
-    useSensor(KeyboardSensor)
+    useSensor(KeyboardSensor),
   );
 
   const handleDragStart = (event: DragStartEvent) => {
-    console.log('Drag started:', event.active.id);
+    // console.log('Drag started:', event.active.id);
+    event;
   };
 
   const handleDragOver = (event: DragOverEvent) => {
     const { active, over } = event;
-    
+
     if (!over) return;
 
     const activeId = active.id as string;
@@ -294,18 +315,19 @@ function KanbanBoard() {
     if (activeId === overId) return;
 
     // Find the stages containing the active and over items
-    const activeStageIndex = stages.findIndex(stage => 
-      stage.deals.some(deal => deal.id === activeId)
+    const activeStageIndex = stages.findIndex((stage) =>
+      stage.deals.some((deal) => deal.id === activeId),
     );
-    const overStageIndex = stages.findIndex(stage => 
-      stage.deals.some(deal => deal.id === overId) || stage.id === overId
+    const overStageIndex = stages.findIndex(
+      (stage) =>
+        stage.deals.some((deal) => deal.id === overId) || stage.id === overId,
     );
 
     if (activeStageIndex === -1 || overStageIndex === -1) return;
 
     const activeStage = stages[activeStageIndex];
     const overStage = stages[overStageIndex];
-    const activeDeal = activeStage.deals.find(deal => deal.id === activeId);
+    const activeDeal = activeStage.deals.find((deal) => deal.id === activeId);
 
     if (!activeDeal) return;
 
@@ -314,10 +336,10 @@ function KanbanBoard() {
       const newStages = [...stages];
       const sourceDeals = [...newStages[activeStageIndex].deals];
       const [movedDeal] = sourceDeals.splice(
-        sourceDeals.findIndex(deal => deal.id === activeId),
-        1
+        sourceDeals.findIndex((deal) => deal.id === activeId),
+        1,
       );
-      
+
       movedDeal.stage = overStage.id;
       newStages[overStageIndex].deals.push(movedDeal);
       setStages(newStages);
@@ -325,11 +347,13 @@ function KanbanBoard() {
     }
 
     // If dropping on another deal
-    const overDeal = overStage.deals.find(deal => deal.id === overId);
+    const overDeal = overStage.deals.find((deal) => deal.id === overId);
     if (!overDeal) return;
 
-    const activeIndex = activeStage.deals.findIndex(deal => deal.id === activeId);
-    const overIndex = overStage.deals.findIndex(deal => deal.id === overId);
+    const activeIndex = activeStage.deals.findIndex(
+      (deal) => deal.id === activeId,
+    );
+    const overIndex = overStage.deals.findIndex((deal) => deal.id === overId);
 
     if (activeStageIndex === overStageIndex) {
       // Same stage reordering
@@ -337,15 +361,18 @@ function KanbanBoard() {
       newStages[activeStageIndex].deals = arrayMove(
         newStages[activeStageIndex].deals,
         activeIndex,
-        overIndex
+        overIndex,
       );
       setStages(newStages);
     } else {
       // Moving between stages
       const newStages = [...stages];
-      const [movedDeal] = newStages[activeStageIndex].deals.splice(activeIndex, 1);
+      const [movedDeal] = newStages[activeStageIndex].deals.splice(
+        activeIndex,
+        1,
+      );
       movedDeal.stage = overStage.id;
-      
+
       const newOverIndex = overIndex > activeIndex ? overIndex : overIndex;
       newStages[overStageIndex].deals.splice(newOverIndex, 0, movedDeal);
       setStages(newStages);
@@ -354,50 +381,51 @@ function KanbanBoard() {
 
   const handleDragEnd = (event: DragEndEvent) => {
     const { active, over } = event;
-    
+
     if (!over) return;
 
     const activeId = active.id as string;
     const overId = over.id as string;
 
     if (activeId === overId) return;
-
   };
 
   const renderStage = (stage: Stage) => (
     <Col key={stage.id} xs={24} sm={12} md={6} style={{ paddingRight: '12px' }}>
-      <div className='mb-4'>
-        <div 
-        className='flex justify-between items-center p-3'
-        style={{ 
-          borderRadius: '8px 8px 0 0',
-          backgroundColor: `${stage.color || '#d9d9d9'}`
-        }}>
+      <div className="mb-4">
+        <div
+          className="flex justify-between items-center p-3"
+          style={{
+            borderRadius: '8px 8px 0 0',
+            backgroundColor: `${stage.color || '#d9d9d9'}`,
+          }}
+        >
           <div>
-            <Text className='text-[12px] text-[#8c8c8c] block'>
+            <Text className="text-[12px] text-[#8c8c8c] block">
               {stage.title}
             </Text>
           </div>
           <Space>
-            <Button 
-              type="text" 
-              icon={<EditOutlined />} 
+            <Button
+              type="text"
+              icon={<EditOutlined />}
               size="small"
               style={{ color: '#8c8c8c' }}
             />
-            <Button 
-              type="text" 
-              icon={<PlusOutlined />} 
+            <Button
+              type="text"
+              icon={<PlusOutlined />}
               size="small"
               style={{ color: '#8c8c8c' }}
             />
           </Space>
         </div>
-        <div className='p-3'>
-             <Text className='flex text-[20px] font-bold items-center justify-center'>
-              {stage.currency}{stage.total}
-            </Text>
-            </div>
+        <div className="p-3">
+          <Text className="flex text-[20px] font-bold items-center justify-center">
+            {stage.currency}
+            {stage.total}
+          </Text>
+        </div>
 
         <div
           style={{
@@ -406,24 +434,26 @@ function KanbanBoard() {
             padding: '12px',
             borderRadius: '0 0 8px 8px',
             transition: 'background-color 0.2s',
-            position: 'relative'
+            position: 'relative',
           }}
         >
-          <SortableContext 
-            items={stage.deals.map(deal => deal.id)}
+          <SortableContext
+            items={stage.deals.map((deal) => deal.id)}
             strategy={verticalListSortingStrategy}
           >
             {stage.deals.map((deal, index) => (
               <SortableDealCard key={deal.id} deal={deal} index={index} />
             ))}
           </SortableContext>
-          
+
           {stage.deals.length === 0 && (
-            <div style={{ 
-              textAlign: 'center', 
-              padding: '40px 20px',
-              color: '#bfbfbf'
-            }}>
+            <div
+              style={{
+                textAlign: 'center',
+                padding: '40px 20px',
+                color: '#bfbfbf',
+              }}
+            >
               <Text style={{ color: '#bfbfbf' }}>No deals in this stage</Text>
             </div>
           )}
@@ -431,9 +461,9 @@ function KanbanBoard() {
 
         {stage.id === 'stage1' && (
           <div style={{ textAlign: 'center', marginTop: '12px' }}>
-            <Button 
-              type="dashed" 
-              icon={<PlusOutlined />} 
+            <Button
+              type="dashed"
+              icon={<PlusOutlined />}
               block
               style={{ borderRadius: '8px' }}
             >
@@ -444,9 +474,9 @@ function KanbanBoard() {
 
         {stage.id === 'stage3' && (
           <div style={{ textAlign: 'center', marginTop: '12px' }}>
-            <Button 
-              type="dashed" 
-              icon={<PlusOutlined />} 
+            <Button
+              type="dashed"
+              icon={<PlusOutlined />}
               block
               style={{ borderRadius: '8px' }}
             >
@@ -457,10 +487,10 @@ function KanbanBoard() {
       </div>
     </Col>
   );
-    
+
   return (
     <div>
- <DndContext
+      <DndContext
         sensors={sensors}
         collisionDetection={closestCenter}
         onDragStart={handleDragStart}
@@ -468,11 +498,11 @@ function KanbanBoard() {
         onDragEnd={handleDragEnd}
       >
         <Row gutter={[16, 16]} style={{ marginRight: '-12px' }}>
-          {stages.map(stage => renderStage(stage))}
+          {stages.map((stage) => renderStage(stage))}
         </Row>
       </DndContext>
     </div>
-  )
+  );
 }
 
-export default KanbanBoard
+export default KanbanBoard;

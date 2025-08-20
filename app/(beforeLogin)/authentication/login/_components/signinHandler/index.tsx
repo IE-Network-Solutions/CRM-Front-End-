@@ -56,14 +56,14 @@ export const useHandleSignIn = () => {
         setToken('');
         // setLocalId('');
       } else {
-        // if (tenant?.id !== fetchedData?.data?.tenantId) {
-        //   message.error(
-        //     'This user does not belong to this tenant. Please contact your administrator.',
-        //   );
-        //   setToken('');
-        //   // setLocalId('');
-        //   return;
-        // }
+        if (tenant?.id !== fetchedData?.data?.tenantId) {
+          message.error(
+            'This user does not belong to this tenant. Please contact your administrator.',
+          );
+          setToken('');
+          // setLocalId('');
+          return;
+        }
         setTenantId(fetchedData?.data?.tenantId);
         setUserId(fetchedData?.data?.id);
         setUserData(fetchedData?.data);
