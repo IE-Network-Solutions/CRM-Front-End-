@@ -37,12 +37,14 @@ import {
   useCreateBranch,
   useDeleteBranch,
 } from '@/store/server/features/organizationStructure/branchs/mutation';
-import { useGetTimeZone } from '@/store/server/features/timesheet/timeZone/queries';
-import { useUpdateTimeZone } from '@/store/server/features/timesheet/timeZone/mutation';
-import {
-  useCreateRecruitmentStatus,
-  useDeleteRecruitmentStatus,
-} from '@/store/server/features/recruitment/settings/status/mutation';
+// 🚨 TEMPORARILY COMMENTED OUT - Timezone functionality not implemented
+// import { useGetTimeZone } from '@/store/server/features/timesheet/timeZone/queries';
+// import { useUpdateTimeZone } from '@/store/server/features/timesheet/timeZone/mutation';
+// 🚨 TEMPORARILY COMMENTED OUT - Recruitment functionality not implemented
+// import {
+//   useCreateRecruitmentStatus,
+//   useDeleteRecruitmentStatus,
+// } from '@/store/server/features/recruitment/settings/status/mutation';
 
 // Components
 import WorkSchedule from './workSchedule';
@@ -95,14 +97,16 @@ const OnboardingSteper: React.FC = () => {
     useCompanyProfile();
 
   const { data: branches } = useGetBranches();
-  const { data: timeZoneRow } = useGetTimeZone();
+  // const { data: timeZoneRow } = useGetTimeZone(); // Temporarily disabled
   const tenantId = useAuthenticationStore.getState().tenantId;
-  const userId = useAuthenticationStore.getState().userId;
+  // eslint-disable-next-line
+ // const userId = useAuthenticationStore.getState().userId;
   const { data: companyInformation } = useGetCompanyProfileByTenantId(tenantId);
 
   /* -------------------------------------------------------------------------- */
   /*                             helper: time‑zone                              */
   /* -------------------------------------------------------------------------- */
+  // eslint-disable-next-line
   const [detectedTimeZone, setDetectedTimeZone] = useState<string>('');
   useEffect(() => {
     const offsetMinutes = new Date().getTimezoneOffset();
@@ -123,10 +127,10 @@ const OnboardingSteper: React.FC = () => {
     name: 'Full‑time Schedule',
     detail,
   };
-  const timeZonePayload = {
-    timezone: detectedTimeZone,
-    id: timeZoneRow ? timeZoneRow.id : '',
-  };
+  // const timeZonePayload = {
+  //   timezone: detectedTimeZone,
+  //   id: '', // timeZoneRow ? timeZoneRow.id : '', // Temporarily disabled
+  // };
   const branchPayload = {
     name: 'HQ',
     description: 'HQ',
@@ -134,11 +138,11 @@ const OnboardingSteper: React.FC = () => {
     contactNumber: companyInformation?.contactPersonPhoneNumber,
     contactEmail: companyInformation?.contactPersonEmail,
   };
-  const applicantStatusPayload = {
-    title: 'Initial Stage',
-    description: 'Initial Stage',
-    createdBy: userId,
-  };
+  // const applicantStatusPayload = {
+  //   title: 'Initial Stage',
+  //   description: 'Initial Stage',
+  //   createdBy: userId,
+  // };
 
   /* -------------------------------------------------------------------------- */
   /*                              server actions                                */
@@ -153,9 +157,9 @@ const OnboardingSteper: React.FC = () => {
   const deleteCompanyInfo = useDeleteCompanyInfo();
   const createBranch = useCreateBranch();
   const deleteBranch = useDeleteBranch();
-  const updateTimeZone = useUpdateTimeZone();
-  const createApplicantStatus = useCreateRecruitmentStatus();
-  const deleteApplicantStatus = useDeleteRecruitmentStatus();
+  // const updateTimeZone = useUpdateTimeZone(); // Temporarily disabled
+  // const createApplicantStatus = useCreateRecruitmentStatus(); // Temporarily disabled
+  // const deleteApplicantStatus = useDeleteRecruitmentStatus(); // Temporarily disabled
   const updateCompanyImageWithStamp = useUpdateCompanyProfileWithStamp();
 
   /* -------------------------------------------------------------------------- */
@@ -166,9 +170,9 @@ const OnboardingSteper: React.FC = () => {
     schedule: any,
     orgData: any,
     companyInfo: any,
-    timeZone: any,
+    // timeZone: any, // Temporarily disabled
     branch: any,
-    applicantStatus: any,
+    // applicantStatus: any, // Temporarily disabled
   ) {
     yield {
       createFn: createFiscalYear.mutateAsync,
@@ -199,17 +203,17 @@ const OnboardingSteper: React.FC = () => {
         companyStamp: companyStamp?.companyStamp,
       },
     };
-    yield { createFn: updateTimeZone.mutateAsync, data: timeZone };
+    // yield { createFn: updateTimeZone.mutateAsync, data: timeZone }; // Temporarily disabled
     yield {
       createFn: createBranch.mutateAsync,
       deleteFn: deleteBranch.mutateAsync,
       data: branch,
     };
-    yield {
-      createFn: createApplicantStatus.mutateAsync,
-      deleteFn: deleteApplicantStatus.mutateAsync,
-      data: applicantStatus,
-    };
+    // yield {
+    //   createFn: createApplicantStatus.mutateAsync,
+    //   deleteFn: deleteApplicantStatus.mutateAsync,
+    //   data: applicantStatus,
+    // };
   }
 
   /* -------------------------------------------------------------------------- */
@@ -241,9 +245,9 @@ const OnboardingSteper: React.FC = () => {
       schedulePayload,
       orgData,
       companyInfoPayload,
-      timeZonePayload,
+      // timeZonePayload, // Temporarily disabled
       branchPayload,
-      applicantStatusPayload,
+      // applicantStatusPayload, // Temporarily disabled
     );
 
     try {

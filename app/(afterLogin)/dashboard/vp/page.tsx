@@ -1,6 +1,6 @@
 'use client';
-import VPChart from '../../(okrplanning)/okr/dashboard/_components/vpDashboard/chart';
-import CriteriaCard from '../../(okrplanning)/okr/dashboard/_components/vpDashboard/criteriaCard';
+// import VPChart from '../../(okrplanning)/okr/dashboard/_components/vpDashboard/chart';
+// import CriteriaCard from '../../(okrplanning)/okr/dashboard/_components/vpDashboard/criteriaCard';
 
 const VPDashBoard = () => {
   return (
@@ -14,8 +14,8 @@ const VPDashBoard = () => {
         </div>
       </div>
 
-      <VPChart />
-      <CriteriaCard />
+      {/* <VPChart /> */}
+      {/* <CriteriaCard /> */}
     </>
   );
 };
