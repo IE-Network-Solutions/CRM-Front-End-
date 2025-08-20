@@ -169,6 +169,7 @@ const OnboardingSteper: React.FC = () => {
     companyInfo: any,
     timeZone: any,
     branch: any,
+    // applicantStatus: any,
   ) {
     yield {
       createFn: createFiscalYear.mutateAsync,
@@ -243,6 +244,7 @@ const OnboardingSteper: React.FC = () => {
       companyInfoPayload,
       timeZonePayload,
       branchPayload,
+      // applicantStatusPayload,
     );
 
     try {

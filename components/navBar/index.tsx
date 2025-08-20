@@ -114,7 +114,7 @@ const Nav: React.FC<MyComponentProps> = ({ children }) => {
       permissions: [], // No permissions required
     },
     {
-      key: '/reports',
+      key: '/settings',
       permissions: [], // No permissions required
     },
   ];
@@ -220,16 +220,16 @@ const Nav: React.FC<MyComponentProps> = ({ children }) => {
       title: (
         <div
           className="flex items-center gap-2 h-12 cursor-pointer"
-          onClick={() => router.push('/reports')}
+          onClick={() => router.push('/settings')}
         >
           <BarChartOutlined
             size={18}
-            className={expandedKeys.includes('/reports') ? 'text-blue' : ''}
+            className={expandedKeys.includes('/settings') ? 'text-blue' : ''}
           />
-          <span>Reports</span>
+          <span>Settings</span>
         </div>
       ),
-      key: '/reports',
+      key: '/settings',
       className: 'font-bold',
       permissions: [],
     },

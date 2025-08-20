@@ -1,5 +1,5 @@
 import { EntityTypeList } from '@/store/server/features/approver/interface';
-import { useAllAllowanceStore } from '@/store/uistate/features/compensation/allowance';
+// import { useAllAllowanceStore } from '@/store/uistate/features/compensation/allowance';
 import { Button, Col, Input, Modal, Row, Select } from 'antd';
 import React from 'react';
 import { LuSettings2 } from 'react-icons/lu';
@@ -26,8 +26,12 @@ const ApprovalFilterComponent = ({
     },
   ];
   const { Option } = Select;
-  const { isMobileFilterVisible, setIsMobileFilterVisible } =
-    useAllAllowanceStore();
+  // Fallback for missing compensation/allowance module
+  const isMobileFilterVisible = false;
+  const setIsMobileFilterVisible = (
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    value: boolean,
+  ) => {};
 
   return (
     <Row gutter={12} justify="space-between">

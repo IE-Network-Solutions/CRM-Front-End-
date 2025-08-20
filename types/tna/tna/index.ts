@@ -1,6 +1,15 @@
 import { DateInfo } from '@/types/commons/dateInfo';
 import { StatusBadgeTheme } from '@/components/common/statusBadge';
-import { Meta } from '@/store/server/features/okrPlanningAndReporting/interface';
+// import { Meta } from '@/store/server/features/okrPlanningAndReporting/interface';
+
+// Fallback interface for Meta
+export interface Meta {
+  totalItems: number;
+  itemCount: number;
+  itemsPerPage: number;
+  totalPages: number;
+  currentPage: number;
+}
 
 export enum TrainingNeedAssessmentStatus {
   PENDING = 'pending',
