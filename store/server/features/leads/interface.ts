@@ -39,6 +39,13 @@ export interface LeadFilters {
   companyId?: string;
   sourceId?: string;
   stageId?: string;
+  sectorId?: string;
+  jobId?: string;
+  revenue?: string;
+  currency?: string;
+  leadRate?: number;
+  contactPersonEmail?: string;
+  contactPersonPhoneNumber?: string;
 }
 
 export interface EngagementStage {

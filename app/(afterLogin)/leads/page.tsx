@@ -1,6 +1,6 @@
 'use client';
 
-import { useMemo } from 'react';
+import { useMemo, useState } from 'react';
 import { Button, Input } from 'antd';
 import {
   Search,
@@ -10,25 +10,33 @@ import {
   ChevronLeft,
   ChevronRight,
 } from 'lucide-react';
+import { ClearOutlined } from '@ant-design/icons';
 import { useLeadStore } from '@/store/uistate/features/leads/leadStore';
 import { useLeadsWithNamesQuery } from '@/store/server/features/leads/queries';
 import LeadTable from './_components/LeadTable';
 import { Lead } from '@/store/server/features/leads/interface';
 import { useQueryClient } from 'react-query';
-import { useAuthenticationStore } from '@/store/uistate/features/authentication';
+import { FilterModal } from './_components/FilterModal';
+import { LeadFilters } from '@/store/server/features/leads/interface';
 
 export default function LeadsPage() {
   const { selectedRows, setSelectedRows, currentPage, setCurrentPage } =
     useLeadStore();
   const queryClient = useQueryClient();
-  const { tenantId } = useAuthenticationStore();
+
+  // Filter state management
+  const [isFilterModalOpen, setIsFilterModalOpen] = useState(false);
+  const [activeFilters, setActiveFilters] = useState<LeadFilters>({});
+  const [searchValue, setSearchValue] = useState('');
 
   const filters = useMemo(
     () => ({
       page: currentPage,
       limit: 10,
+      ...activeFilters,
+      ...(searchValue && { search: searchValue }),
     }),
-    [currentPage],
+    [currentPage, activeFilters, searchValue],
   );
 
   const leadsQueryResult = useLeadsWithNamesQuery(filters);
@@ -72,6 +80,72 @@ export default function LeadsPage() {
     // Bulk action functionality
   };
 
+  const handleFilterClick = () => {
+    setIsFilterModalOpen(true);
+  };
+
+  const handleApplyFilters = (newFilters: LeadFilters) => {
+    try {
+      // Map frontend filter names to backend field names
+      const mappedFilters = {
+        ...newFilters,
+        // Map stageId to engagementStageId if backend expects it
+        ...(newFilters.stageId && { engagementStageId: newFilters.stageId }),
+        // Remove the frontend field name if we're mapping it
+        ...(newFilters.stageId && { stageId: undefined }),
+      };
+
+      // Remove undefined values and empty strings
+      Object.keys(mappedFilters).forEach((key) => {
+        if (
+          mappedFilters[key as keyof LeadFilters] === undefined ||
+          mappedFilters[key as keyof LeadFilters] === ''
+        ) {
+          delete mappedFilters[key as keyof LeadFilters];
+        }
+      });
+
+      setActiveFilters(mappedFilters);
+      setCurrentPage(1); // Reset to first page when filters change
+
+      // Invalidate the leads cache to force a fresh fetch with new filters
+      queryClient.invalidateQueries(['leads']);
+
+      // Force refetch with new filters
+      if (leadsQueryResult.refetch) {
+        leadsQueryResult.refetch();
+      }
+    } catch (error) {
+      // Fallback: set empty filters
+      setActiveFilters({});
+    }
+  };
+
+  const handleSearchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const value = e.target.value;
+    setSearchValue(value);
+    setCurrentPage(1); // Reset to first page when search changes
+
+    // If search is cleared, invalidate cache to show all results
+    if (!value.trim()) {
+      queryClient.invalidateQueries(['leads']);
+    }
+  };
+
+  const handleClearFilters = () => {
+    setActiveFilters({});
+    setSearchValue('');
+    setCurrentPage(1);
+
+    // Invalidate all leads queries to ensure fresh data
+    queryClient.invalidateQueries(['leads']);
+
+    // Force refetch to get all leads without filters
+    if (leadsQueryResult.refetch) {
+      leadsQueryResult.refetch();
+    }
+  };
+
   const handlePageChange = (page: number) => {
     if (page !== currentPage && page >= 1 && page <= totalPages) {
       setCurrentPage(page);
@@ -79,11 +153,7 @@ export default function LeadsPage() {
       // Invalidate the leads cache to force a fresh fetch
       queryClient.invalidateQueries(['leads']);
 
-      // Invalidate the specific query key to force refetch
-      const queryKey = ['leads', filters, tenantId];
-      queryClient.invalidateQueries(queryKey);
-
-      // Also force a refetch of the current query
+      // Force refetch of the current query
       if (leadsQueryResult.refetch) {
         leadsQueryResult.refetch();
       }
@@ -115,6 +185,15 @@ export default function LeadsPage() {
             </div>
           </div>
         </div>
+
+        {/* Filter Modal */}
+        <FilterModal
+          isOpen={isFilterModalOpen}
+          onClose={() => setIsFilterModalOpen(false)}
+          onApplyFilters={handleApplyFilters}
+          onClearFilters={handleClearFilters}
+          currentFilters={activeFilters}
+        />
       </div>
     );
   }
@@ -158,7 +237,8 @@ export default function LeadsPage() {
               <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 h-4 w-4" />
               <Input
                 placeholder="Search Leads"
-                value={''}
+                value={searchValue}
+                onChange={handleSearchChange}
                 className="pl-10 border-gray-300 bg-white w-full"
                 prefix={<Search className="h-4 w-4 text-gray-400" />}
               />
@@ -167,11 +247,12 @@ export default function LeadsPage() {
               {' '}
               {/* Responsive layout */}
               <Button
-                className="border-blue-500 text-blue-500 bg-white hover:bg-blue-50 py-[13px] px-3 rounded w-full sm:w-auto" // Responsive width
+                className="relative border-blue-500 text-blue-500 bg-white hover:bg-blue-50 hover:shadow-lg hover:-translate-y-0.5 transition-all duration-200 py-[13px] px-3 rounded w-full sm:w-auto" // Responsive width
                 style={{
                   borderColor: '#1890ff',
                   color: '#1890ff',
                 }}
+                onClick={handleFilterClick}
                 icon={
                   <Filter
                     className="h-4 w-4 mr-2"
@@ -180,7 +261,25 @@ export default function LeadsPage() {
                 }
               >
                 Filter
+                {Object.keys(activeFilters).length > 0 && (
+                  <span className="absolute -top-2 -right-2 bg-red-500 text-white text-xs font-bold rounded-full w-5 h-5 flex items-center justify-center animate-pulse">
+                    {Object.keys(activeFilters).length}
+                  </span>
+                )}
               </Button>
+              {Object.keys(activeFilters).length > 0 && (
+                <Button
+                  className="border-red-500 text-red-500 bg-white hover:bg-red-50 py-[13px] px-3 rounded w-full sm:w-auto"
+                  style={{
+                    borderColor: '#ef4444',
+                    color: '#ef4444',
+                  }}
+                  onClick={handleClearFilters}
+                  icon={<ClearOutlined />}
+                >
+                  Clear Filters
+                </Button>
+              )}
               <Button
                 className="border-blue-500 text-blue-500 bg-white hover:bg-blue-50 py-[13px] px-3 rounded w-full sm:w-auto" // Responsive width
                 style={{
@@ -496,6 +595,15 @@ export default function LeadsPage() {
           </div>
         </div>
       </div>
+
+      {/* Filter Modal */}
+      <FilterModal
+        isOpen={isFilterModalOpen}
+        onClose={() => setIsFilterModalOpen(false)}
+        onApplyFilters={handleApplyFilters}
+        onClearFilters={handleClearFilters}
+        currentFilters={activeFilters}
+      />
     </div>
   );
 }

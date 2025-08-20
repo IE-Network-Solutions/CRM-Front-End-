@@ -10,13 +10,28 @@ import {
   Company,
   Source,
 } from './interface';
+import { useMemo } from 'react';
 
 export function useLeadsQuery(filters: LeadFilters) {
   const { tenantId } = useAuthenticationStore();
 
+  // Create a stable query key that changes when filters change
+  const queryKey = useMemo(() => {
+    // Sort filter keys to ensure consistent query key
+    const sortedFilters = Object.keys(filters)
+      .sort()
+      .reduce((acc, key) => {
+        if (filters[key as keyof LeadFilters] !== undefined) {
+          acc[key] = filters[key as keyof LeadFilters];
+        }
+        return acc;
+      }, {} as any);
+
+    return ['leads', sortedFilters, tenantId];
+  }, [filters, tenantId]);
+
   return useQuery({
-    queryKey: ['leads', filters, tenantId],
-    // Ensure the query refetches when any filter changes
+    queryKey,
     keepPreviousData: false,
     queryFn: async (): Promise<PaginatedResponse<Lead> | Lead[]> => {
       try {
@@ -37,6 +52,7 @@ export function useLeadsQuery(filters: LeadFilters) {
     },
     staleTime: 0, // Always refetch when filters change
     cacheTime: 5 * 60 * 1000, // 5 minutes - keep in cache for 5 minutes
+    retry: 3,
     refetchOnWindowFocus: false,
     refetchOnMount: true,
     refetchOnReconnect: true,
@@ -181,6 +197,133 @@ export function useSourcesQuery() {
     },
     staleTime: 10 * 60 * 1000,
     cacheTime: 10 * 60 * 1000,
+    refetchOnWindowFocus: false,
+    refetchOnMount: true,
+    enabled: !!tenantId, // Only run query if tenantId exists
+  });
+}
+
+// New query functions for FilterModal - following the same pattern
+export function useJobsQuery() {
+  const { tenantId } = useAuthenticationStore();
+
+  return useQuery({
+    queryKey: ['jobs', tenantId],
+    queryFn: async (): Promise<Array<{ id: string; name: string }>> => {
+      try {
+        const token = await getCurrentToken();
+        const response = await api.get('/jobs', {
+          headers: {
+            Authorization: `Bearer ${token}`,
+            tenantId: tenantId,
+          },
+        });
+
+        const data = response.data;
+
+        // Handle paginated response from backend
+        if (data && data.data && Array.isArray(data.data)) {
+          return data.data;
+        }
+
+        // Fallback for direct array response
+        if (Array.isArray(data)) {
+          return data;
+        }
+
+        // If no valid data structure found
+        return [];
+      } catch (error) {
+        return [];
+      }
+    },
+    staleTime: 5 * 60 * 1000, // 5 minutes
+    cacheTime: 10 * 60 * 1000, // 10 minutes
+    retry: 3,
+    refetchOnWindowFocus: false,
+    refetchOnMount: true,
+    enabled: !!tenantId, // Only run query if tenantId exists
+  });
+}
+
+export function useSectorsQuery() {
+  const { tenantId } = useAuthenticationStore();
+
+  return useQuery({
+    queryKey: ['sectors', tenantId],
+    queryFn: async (): Promise<Array<{ id: string; name: string }>> => {
+      try {
+        const token = await getCurrentToken();
+        const response = await api.get('/sectors', {
+          headers: {
+            Authorization: `Bearer ${token}`,
+            tenantId: tenantId,
+          },
+        });
+
+        const data = response.data;
+
+        // Handle paginated response from backend
+        if (data && data.data && Array.isArray(data.data)) {
+          return data.data;
+        }
+
+        // Fallback for direct array response
+        if (Array.isArray(data)) {
+          return data;
+        }
+
+        // If no valid data structure found
+        return [];
+      } catch (error) {
+        return [];
+      }
+    },
+    staleTime: 10 * 60 * 1000, // 10 minutes
+    cacheTime: 10 * 60 * 1000, // 10 minutes
+    retry: 3,
+    refetchOnWindowFocus: false,
+    refetchOnMount: true,
+    enabled: !!tenantId, // Only run query if tenantId exists
+  });
+}
+
+export function useCurrenciesQuery() {
+  const { tenantId } = useAuthenticationStore();
+
+  return useQuery({
+    queryKey: ['currencies', tenantId],
+    queryFn: async (): Promise<Array<{ id: string; name: string }>> => {
+      try {
+        const token = await getCurrentToken();
+        const response = await api.get('/estimated-budgets/currency', {
+          headers: {
+            Authorization: `Bearer ${token}`,
+            tenantId: tenantId,
+          },
+        });
+
+        const data = response.data;
+
+        // Handle paginated response from backend
+        if (data && data.data && Array.isArray(data.data)) {
+          return data.data;
+        }
+
+        // Fallback for direct array response
+        if (Array.isArray(data)) {
+          return data;
+        }
+
+        // If no valid data structure found
+        return [];
+      } catch (error) {
+        return [];
+      }
+    },
+    staleTime: 60 * 60 * 1000, // 1 hour
+    cacheTime: 10 * 60 * 1000, // 10 minutes
+    retry: 3,
     refetchOnWindowFocus: false,
     refetchOnMount: true,
     enabled: !!tenantId, // Only run query if tenantId exists

@@ -10,6 +10,11 @@ interface LeadSelectors {
   getLeadsByStage: (leads: Lead[], stageId: string) => Lead[];
   getLeadsByCompany: (leads: Lead[], companyId: string) => Lead[];
   getLeadsBySource: (leads: Lead[], sourceId: string) => Lead[];
+  getLeadsBySector: (leads: Lead[], sectorId: string) => Lead[];
+  getLeadsByRating: (
+    leads: Lead[],
+    ratingFilter: number | { min?: number; max?: number; exact?: number },
+  ) => Lead[];
   getLeadsBySearchTerm: (leads: Lead[], searchTerm: string) => Lead[];
 
   // Computed Selectors
@@ -17,6 +22,8 @@ interface LeadSelectors {
   getLeadsByStageCount: (leads: Lead[]) => Record<string, number>;
   getLeadsByCompanyCount: (leads: Lead[]) => Record<string, number>;
   getLeadsBySourceCount: (leads: Lead[]) => Record<string, number>;
+  getLeadsBySectorCount: (leads: Lead[]) => Record<string, number>;
+  getLeadsByRatingDistribution: (leads: Lead[]) => Record<string, number>;
 
   // Pagination Selectors
   getPaginatedLeads: (leads: Lead[], page: number, pageSize: number) => Lead[];
@@ -35,6 +42,8 @@ interface LeadSelectors {
     byStage: Record<string, number>;
     byCompany: Record<string, number>;
     bySource: Record<string, number>;
+    bySector: Record<string, number>;
+    byRating: Record<string, number>;
     recentLeads: Lead[];
     conversionRate: number;
   };
@@ -64,6 +73,49 @@ export const useLeadSelectors = create<LeadSelectors>((set, get) => ({
 
   getLeadsBySource: (leads: Lead[], sourceId: string) => {
     return leads.filter((lead) => lead.sourceId === sourceId);
+  },
+
+  getLeadsBySector: (leads: Lead[], sectorId: string) => {
+    return leads.filter((lead) => lead.sectorId === sectorId);
+  },
+
+  getLeadsByRating: (
+    leads: Lead[],
+    ratingFilter: number | { min?: number; max?: number; exact?: number },
+  ) => {
+    // Handle different rating filter types
+    if (typeof ratingFilter === 'number') {
+      // Single number: show leads with exactly that rating
+      return leads.filter((lead) => lead.leadRate === ratingFilter);
+    }
+
+    // Object with filter options
+    if (ratingFilter.exact !== undefined) {
+      // Exact rating match
+      return leads.filter((lead) => lead.leadRate === ratingFilter.exact);
+    }
+
+    if (ratingFilter.min !== undefined && ratingFilter.max !== undefined) {
+      // Rating range (min <= rating <= max)
+      return leads.filter(
+        (lead) =>
+          lead.leadRate >= ratingFilter.min! &&
+          lead.leadRate <= ratingFilter.max!,
+      );
+    }
+
+    if (ratingFilter.min !== undefined) {
+      // Minimum rating (rating >= min)
+      return leads.filter((lead) => lead.leadRate >= ratingFilter.min!);
+    }
+
+    if (ratingFilter.max !== undefined) {
+      // Maximum rating (rating <= max)
+      return leads.filter((lead) => lead.leadRate <= ratingFilter.max!);
+    }
+
+    // No valid filter, return all leads
+    return leads;
   },
 
   getLeadsBySearchTerm: (leads: Lead[], searchTerm: string) => {
@@ -113,6 +165,38 @@ export const useLeadSelectors = create<LeadSelectors>((set, get) => ({
     return counts;
   },
 
+  getLeadsBySectorCount: (leads: Lead[]) => {
+    const counts: Record<string, number> = {};
+    leads.forEach((lead) => {
+      const sector = lead.sectorId || 'Unknown';
+      counts[sector] = (counts[sector] || 0) + 1;
+    });
+    return counts;
+  },
+
+  getLeadsByRatingDistribution: (leads: Lead[]) => {
+    const distribution: Record<string, number> = {
+      '1-2': 0,
+      '3': 0,
+      '4': 0,
+      '5': 0,
+    };
+
+    leads.forEach((lead) => {
+      if (lead.leadRate <= 2) {
+        distribution['1-2']++;
+      } else if (lead.leadRate === 3) {
+        distribution['3']++;
+      } else if (lead.leadRate === 4) {
+        distribution['4']++;
+      } else if (lead.leadRate === 5) {
+        distribution['5']++;
+      }
+    });
+
+    return distribution;
+  },
+
   // Pagination Selectors
   getPaginatedLeads: (leads: Lead[], page: number, pageSize: number) => {
     const startIndex = (page - 1) * pageSize;
@@ -157,6 +241,8 @@ export const useLeadSelectors = create<LeadSelectors>((set, get) => ({
     const byStage = get().getLeadsByStageCount(leads);
     const byCompany = get().getLeadsByCompanyCount(leads);
     const bySource = get().getLeadsBySourceCount(leads);
+    const bySector = get().getLeadsBySectorCount(leads);
+    const byRating = get().getLeadsByRatingDistribution(leads);
 
     // Get recent leads (last 30 days)
     const thirtyDaysAgo = new Date();
@@ -182,6 +268,8 @@ export const useLeadSelectors = create<LeadSelectors>((set, get) => ({
       byStage,
       byCompany,
       bySource,
+      bySector,
+      byRating,
       recentLeads,
       conversionRate: Math.round(conversionRate * 100) / 100,
     };
@@ -196,7 +284,9 @@ export const useLeadSelectors = create<LeadSelectors>((set, get) => ({
       Phone: lead.contactPersonPhoneNumber || 'N/A',
       Company: lead.companyId || 'N/A',
       Source: lead.sourceId || 'N/A',
+      Sector: lead.sectorId || 'N/A',
       Stage: lead.engagementStageId || 'N/A',
+      Rating: lead.leadRate || 'N/A',
       'Created Date': new Date(lead.createdAt).toLocaleDateString(),
       'Last Updated': new Date(lead.updatedAt).toLocaleDateString(),
     }));

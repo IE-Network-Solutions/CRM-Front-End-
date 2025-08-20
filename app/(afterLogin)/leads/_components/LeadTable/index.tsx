@@ -27,7 +27,6 @@ export default function LeadTable({
     error: sourcesError,
   } = useSourcesQuery();
   // Fetch companies to map companyId to company name
-  // TODO: Backend companies endpoint doesn't exist yet
   const { data: companies = [], isLoading: companiesLoading } =
     useCompaniesQuery();
 
@@ -107,8 +106,6 @@ export default function LeadTable({
         const company = companies.find((c) => c.id === companyId);
 
         if (!company) {
-          // If company not found, show the ID temporarily
-          // Note: Backend companies endpoint doesn't exist yet, so this will always show UUID
           return (
             <span className="text-sm font-medium text-gray-700">
               {companyId}
@@ -163,9 +160,6 @@ export default function LeadTable({
         const source = sources.find((s) => s.id === sourceId);
 
         if (!source) {
-          // If source not found, show the ID temporarily
-
-          // If no sources are loaded at all, show a more helpful message
           if (sources.length === 0) {
             return (
               <span
