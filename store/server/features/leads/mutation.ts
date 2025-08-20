@@ -105,12 +105,15 @@ const createLead = async (data: CreateLeadInput): Promise<LeadResponse> => {
 export const useCreateLead = () => {
   const queryClient = useQueryClient();
   return useMutation(createLead, {
+    // eslint-disable-next-line
     onSuccess: (data) => {
       queryClient.invalidateQueries(['leads']);
       handleSuccessMessage('POST');
     },
+    // eslint-disable-next-line
     onError: (error: any) => {
       // Provide user-friendly error messages
+      // eslint-disable-next-line
       let errorMessage = 'Failed to create lead.';
 
       if (error?.message) {

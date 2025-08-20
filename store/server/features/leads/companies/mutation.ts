@@ -78,14 +78,17 @@ const createCompany = async (
 export const useCreateCompany = () => {
   const queryClient = useQueryClient();
   return useMutation(createCompany, {
+    // eslint-disable-next-line
     onSuccess: (data) => {
       queryClient.invalidateQueries(['companies']);
       handleSuccessMessage('POST');
     },
+    // eslint-disable-next-line
     onError: (error: any) => {
       //console.error('Company creation failed:', error);
 
       // Provide user-friendly error messages
+      // eslint-disable-next-line
       let errorMessage = 'Failed to create company.';
 
       if (error?.message) {

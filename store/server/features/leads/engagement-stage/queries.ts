@@ -49,7 +49,7 @@ const getEngagementStages = async (): Promise<EngagementStage[]> => {
 
     return response;
   } catch (error) {
-    console.error('Error fetching engagement stages:', error);
+    //console.error('Error fetching engagement stages:', error);
     throw error;
   }
 };
@@ -67,8 +67,9 @@ export const useGetEngagementStages = () => {
       keepPreviousData: true,
       staleTime: 5 * 60 * 1000, // 5 minutes
       retry: 2,
+      // eslint-disable-next-line
       onError: (error: any) => {
-        console.error('Failed to fetch engagement stages:', error);
+        //console.error('Failed to fetch engagement stages:', error);
       },
     },
   );

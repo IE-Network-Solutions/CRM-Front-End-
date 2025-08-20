@@ -1,7 +1,6 @@
 import { useMutation, useQueryClient } from 'react-query';
 import { useAuthenticationStore } from '@/store/uistate/features/authentication';
 import { crudRequest } from '@/utils/crudRequest';
-import { getCurrentToken } from '@/utils/getCurrentToken';
 import { message } from 'antd';
 import { fileUpload } from '@/utils/fileUpload';
 

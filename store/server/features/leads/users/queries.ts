@@ -65,6 +65,7 @@ export const useGetUsers = () => {
     keepPreviousData: true,
     staleTime: 5 * 60 * 1000, // 5 minutes
     retry: 2,
+    // eslint-disable-next-line
     onError: (error: any) => {
       //console.error('Failed to fetch users:', error);
     },

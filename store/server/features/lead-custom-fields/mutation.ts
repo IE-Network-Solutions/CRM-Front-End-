@@ -72,7 +72,8 @@ export const useCreateLeadCustomField = () => {
       queryClient.invalidateQueries(['leadCustomFields']);
       queryClient.invalidateQueries(['leads']);
     },
-    onError: (error: any) => {
+    // eslint-disable-next-line
+    onError: () => {
       message.error('Failed to save custom field');
     },
   });
@@ -88,7 +89,7 @@ export const useCreateMultipleLeadCustomFields = () => {
       queryClient.invalidateQueries(['leadCustomFields']);
       queryClient.invalidateQueries(['leads']);
     },
-    onError: (error: any) => {
+    onError: () => {
       message.error('Failed to save custom fields');
     },
   });

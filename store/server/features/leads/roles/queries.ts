@@ -61,6 +61,7 @@ export const useGetRoles = () => {
     keepPreviousData: true,
     staleTime: 5 * 60 * 1000, // 5 minutes
     retry: 2,
+    // eslint-disable-next-line
     onError: (error: any) => {
       // Error handling can be done here, e.g., showing a notification
     },

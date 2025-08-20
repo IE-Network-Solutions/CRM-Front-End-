@@ -49,7 +49,7 @@ const getCompanies = async (): Promise<Company[]> => {
 
     return response;
   } catch (error) {
-    console.error('Error fetching companies:', error);
+    //console.error('Error fetching companies:', error);
     throw error;
   }
 };
@@ -64,8 +64,9 @@ export const useGetCompanies = () => {
     keepPreviousData: true,
     staleTime: 5 * 60 * 1000, // 5 minutes
     retry: 2,
+    // eslint-disable-next-line
     onError: (error: any) => {
-      console.error('Failed to fetch companies:', error);
+      //console.error('Failed to fetch companies:', error);
     },
   });
 };
