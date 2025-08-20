@@ -13,6 +13,7 @@ import { useUploadLeadDocument } from '@/store/server/features/leads/lead-docume
 import { useCreateMultipleLeadCustomFields } from '@/store/server/features/lead-custom-fields/mutation';
 import { useAuthenticationStore } from '@/store/uistate/features/authentication';
 import { useGetCustomFields } from '@/store/server/features/custom-fields/queries';
+import { leadValidation } from './options';
 import dayjs from 'dayjs';
 
 interface CreateLeadDrawerProps {
@@ -129,6 +130,19 @@ export const CreateLeadDrawer: React.FC<CreateLeadDrawerProps> = ({
         : undefined,
     };
 
+    // Validate required fields
+    const missingRequiredFields = leadValidation.required.filter((field) => {
+      const value = cleanValues[field];
+      return !value || (typeof value === 'string' && value.trim() === '');
+    });
+
+    if (missingRequiredFields.length > 0) {
+      message.error(
+        `Missing required fields: ${missingRequiredFields.join(', ')}`,
+      );
+      return;
+    }
+
     if (!leadName || typeof leadName !== 'string' || leadName.trim() === '') {
       message.error('Lead name is required and must be a non-empty string');
       return;
@@ -140,16 +154,18 @@ export const CreateLeadDrawer: React.FC<CreateLeadDrawerProps> = ({
     const { tenantId } = useAuthenticationStore.getState();
 
     const cleanLeadParticipants = Array.isArray(leadParticipantsData)
-      ? leadParticipantsData.flatMap((item) => {
-          if (item.roleId && item.users && Array.isArray(item.users)) {
-            return item.users.map((userId: string) => ({
-              roleId: item.roleId,
-              userId: userId,
-              tenantId: tenantId,
-            }));
-          }
-          return [];
-        })
+      ? leadParticipantsData
+          .slice(0, leadValidation.limits.leadParticipants)
+          .flatMap((item) => {
+            if (item.roleId && item.users && Array.isArray(item.users)) {
+              return item.users.map((userId: string) => ({
+                roleId: item.roleId,
+                userId: userId,
+                tenantId: tenantId,
+              }));
+            }
+            return [];
+          })
       : [];
 
     const hasValidLeadParticipants = cleanLeadParticipants.every(
@@ -176,7 +192,9 @@ export const CreateLeadDrawer: React.FC<CreateLeadDrawerProps> = ({
       contactPersonPhoneNumber: contactPersonPhoneNumber?.toString() || '',
       companyId: companyId?.toString() || '',
       supplierId: supplierId?.toString() || '',
-      solutionId: solutionId ? [solutionId.toString()] : [],
+      solutionId: solutionId
+        ? [solutionId.toString()].slice(0, leadValidation.limits.solutionIds)
+        : [],
       leadOwner: leadOwner?.toString() || '',
       leadTypeId: leadTypeId?.toString() || '',
       sectorId: sectorId?.toString() || '',
@@ -184,11 +202,13 @@ export const CreateLeadDrawer: React.FC<CreateLeadDrawerProps> = ({
       engagementStageId: engagementStageId?.toString() || '',
       estimatedBudgets:
         estimatedBudgets && currencies
-          ? estimatedBudgets.map((amount: any, index: number) => ({
-              amount: parseFloat(amount) || 0,
-              currency: currencies[index] || 'USD',
-              tenantId: tenantId,
-            }))
+          ? estimatedBudgets
+              .slice(0, leadValidation.limits.estimatedBudgets)
+              .map((amount: any, index: number) => ({
+                amount: parseFloat(amount) || 0,
+                currency: currencies[index] || 'USD',
+                tenantId: tenantId,
+              }))
           : [],
       additionalInformation: additionalInformation?.toString() || '',
       leadRate: leadRate ? parseInt(leadRate) : 0,
@@ -301,7 +321,12 @@ export const CreateLeadDrawer: React.FC<CreateLeadDrawerProps> = ({
         }
 
         if (selectedFiles.length > 0) {
-          selectedFiles.forEach((file) => {
+          // Limit the number of files to upload
+          const filesToUpload = selectedFiles.slice(
+            0,
+            leadValidation.limits.leadDocuments,
+          );
+          filesToUpload.forEach((file) => {
             if (file.originFileObj) {
               uploadDocument({
                 file: file.originFileObj,

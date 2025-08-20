@@ -21,7 +21,7 @@ function getBrowserGMTOffset(): string {
 function TimeZone() {
   const { nextStep } = useStepStore();
   // eslint-disable-next-line
-  const [detectedTimeZone,setDetectedTimeZone] = useState<string>('');
+  const [detectedTimeZone, setDetectedTimeZone] = useState<string>('');
 
   useEffect(() => {
     setDetectedTimeZone(getBrowserGMTOffset());

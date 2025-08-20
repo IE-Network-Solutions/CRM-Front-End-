@@ -8,7 +8,7 @@ import {
   PlusOutlined,
 } from '@ant-design/icons';
 import dayjs from 'dayjs';
-import { currencyOptions } from '../options';
+import { currencyOptions, leadValidation } from '../options';
 import { useGetSources } from '@/store/server/features/leads/source/queries';
 import { useGetEngagementStages } from '@/store/server/features/leads/engagement-stage/queries';
 import { useGetLeadTypes } from '@/store/server/features/leads/lead-types/queries';
@@ -178,7 +178,14 @@ export const LeadInformationSection: React.FC<LeadInformationSectionProps> = ({
       <Form.Item
         name="leadName"
         label="Lead Name"
-        rules={[{ required: true }]}
+        rules={[
+          { required: true, message: leadValidation.messages.required },
+          {
+            pattern: leadValidation.patterns.leadName,
+            message:
+              'Lead name must be 2-100 characters with only letters, spaces, hyphens, and apostrophes',
+          },
+        ]}
         data-cy="lead-name-form-item"
       >
         <Input
@@ -329,7 +336,14 @@ export const LeadInformationSection: React.FC<LeadInformationSectionProps> = ({
               <Form.Item
                 name={['estimatedBudgets', index]}
                 noStyle
-                rules={[{ required: true, message: 'Lead amount is required' }]}
+                rules={[
+                  { required: true, message: 'Lead amount is required' },
+                  {
+                    pattern: /^[0-9]+(\.[0-9]{1,2})?$/,
+                    message:
+                      'Please enter a valid amount (e.g., 1000 or 1000.50)',
+                  },
+                ]}
                 data-cy={`budget-amount-form-item-${index}`}
               >
                 <Input

@@ -12,6 +12,7 @@ import {
 import { useGetCompanies } from '@/store/server/features/leads/companies/queries';
 import { useCreateCompany } from '@/store/server/features/leads/companies/mutation';
 import { useQueryClient } from 'react-query';
+import { leadValidation } from '../options';
 
 // Import the Company type from queries
 import type { Company } from '@/store/server/features/leads/companies/queries';
@@ -99,7 +100,14 @@ export const ContactInformationSection: React.FC = () => {
         <Form.Item
           name="contactPersonFName"
           label="Firstname"
-          rules={[{ required: true }]}
+          rules={[
+            { required: true, message: 'First name is required' },
+            {
+              pattern: leadValidation.patterns.firstName,
+              message:
+                'First name must be 2-50 characters with only letters, spaces, hyphens, and apostrophes',
+            },
+          ]}
           data-cy="firstname-form-item"
         >
           <Input
@@ -111,7 +119,14 @@ export const ContactInformationSection: React.FC = () => {
         <Form.Item
           name="contactPersonLName"
           label="Lastname"
-          rules={[{ required: true }]}
+          rules={[
+            { required: true, message: 'Last name is required' },
+            {
+              pattern: leadValidation.patterns.lastName,
+              message:
+                'Last name must be 2-50 characters with only letters, spaces, hyphens, and apostrophes',
+            },
+          ]}
           data-cy="lastname-form-item"
         >
           <Input
@@ -172,7 +187,14 @@ export const ContactInformationSection: React.FC = () => {
         <Form.Item
           name="contactPersonPosition"
           label="Position"
-          rules={[{ required: true }]}
+          rules={[
+            { required: true, message: 'Position is required' },
+            {
+              pattern: leadValidation.patterns.position,
+              message:
+                'Position must be 2-100 characters with only letters, spaces, hyphens, and apostrophes',
+            },
+          ]}
           data-cy="position-form-item"
         >
           <Input
@@ -208,7 +230,13 @@ export const ContactInformationSection: React.FC = () => {
         <Form.Item
           name="contactPersonPhoneNumber"
           label="Phone"
-          rules={[{ required: true }]}
+          rules={[
+            { required: true, message: 'Phone number is required' },
+            {
+              pattern: leadValidation.patterns.phone,
+              message: leadValidation.messages.phone,
+            },
+          ]}
           data-cy="phone-form-item"
         >
           <Input

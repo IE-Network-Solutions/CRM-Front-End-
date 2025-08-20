@@ -20,6 +20,7 @@ import {
   separateCustomFields,
   CustomField,
 } from '@/store/server/features/custom-fields/queries';
+import { leadValidation } from '../options';
 
 export type DynamicItem = { id: number };
 
@@ -327,6 +328,12 @@ export const AdditionalInformationSection: React.FC<
         <Form.Item
           name="additionalInformation"
           className="mt-2"
+          rules={[
+            {
+              max: leadValidation.limits.additionalInfo,
+              message: `Additional information cannot exceed ${leadValidation.limits.additionalInfo} characters`,
+            },
+          ]}
           data-cy="additional-info-textarea"
         >
           <Input.TextArea placeholder="Description" rows={4} />
@@ -414,6 +421,14 @@ export const AdditionalInformationSection: React.FC<
       <Form.Item
         label="Lead Rating"
         name="leadRate"
+        rules={[
+          {
+            type: 'number',
+            min: leadValidation.limits.leadRate.min,
+            max: leadValidation.limits.leadRate.max,
+            message: `Lead rating must be between ${leadValidation.limits.leadRate.min} and ${leadValidation.limits.leadRate.max}`,
+          },
+        ]}
         data-cy="lead-rating-section"
       >
         <Rate data-cy="lead-rating-stars" />

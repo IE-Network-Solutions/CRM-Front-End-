@@ -100,7 +100,7 @@ const OnboardingSteper: React.FC = () => {
   // const { data: timeZoneRow } = useGetTimeZone(); // Temporarily disabled
   const tenantId = useAuthenticationStore.getState().tenantId;
   // eslint-disable-next-line
- // const userId = useAuthenticationStore.getState().userId;
+  // const userId = useAuthenticationStore.getState().userId;
   const { data: companyInformation } = useGetCompanyProfileByTenantId(tenantId);
 
   /* -------------------------------------------------------------------------- */
