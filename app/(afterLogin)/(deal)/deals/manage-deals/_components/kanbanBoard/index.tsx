@@ -2,10 +2,7 @@
 import React, { useState } from 'react';
 import {
   PlusOutlined,
-  PhoneOutlined,
-  MailOutlined,
   UserOutlined,
-  DragOutlined,
 } from '@ant-design/icons';
 import { GrFormEdit } from 'react-icons/gr';
 import {
@@ -26,7 +23,7 @@ import {
 } from '@dnd-kit/sortable';
 import { useSortable } from '@dnd-kit/sortable';
 import { CSS } from '@dnd-kit/utilities';
-import { Avatar, Button, Card, Col, Row, Space, Typography } from 'antd';
+import { Avatar, Button, Card, Space, Typography } from 'antd';
 const { Text } = Typography;
 import { useRouter } from 'next/navigation';
 import { IoCallOutline, IoMailOutline } from 'react-icons/io5';
