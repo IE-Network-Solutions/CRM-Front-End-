@@ -112,19 +112,7 @@ export const useCreateLead = () => {
     },
     // eslint-disable-next-line
     onError: (error: any) => {
-      // Provide user-friendly error messages
-      // eslint-disable-next-line
-      let errorMessage = 'Failed to create lead.';
-
-      if (error?.message) {
-        if (error.message.includes('Tenant ID not found')) {
-          errorMessage = 'Authentication error. Please log in again.';
-        } else if (error.message.includes('Unauthorized')) {
-          errorMessage = 'You are not authorized to create leads.';
-        } else {
-          errorMessage = error.message;
-        }
-      }
+      // Error handling - no logging needed
     },
   });
 };
