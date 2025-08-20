@@ -1,9 +1,6 @@
 'use client';
 import React, { useState } from 'react';
-import {
-  PlusOutlined,
-  UserOutlined,
-} from '@ant-design/icons';
+import { PlusOutlined, UserOutlined } from '@ant-design/icons';
 import { GrFormEdit } from 'react-icons/gr';
 import {
   DndContext,
