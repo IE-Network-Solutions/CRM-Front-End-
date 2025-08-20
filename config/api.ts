@@ -1,21 +1,14 @@
 import axios from 'axios';
+import { CRM_URL, CRM_ENDPOINTS } from '@/utils/constants';
 
-// Real backend API configuration
-export const API_BASE_URL =
-  process.env.NEXT_PUBLIC_API_URL || 'http://172.20.30.226:3000/api/v1';
+// Real backend API configuration - CRM_URL already has fallback in constants
+export const API_BASE_URL = CRM_URL;
 
-export const API_ENDPOINTS = {
-  leads: '/leads',
-  companies: '/companies',
-  suppliers: '/suppliers',
-  source: '/source',
-  solution: '/solution',
-  engagementStage: '/engagement-stage',
-} as const;
+export const API_ENDPOINTS = CRM_ENDPOINTS;
 
 export const api = axios.create({
   baseURL: API_BASE_URL,
-  timeout: 30000, // Increased to 30 seconds
+  timeout: 30000, 
   headers: {
     'Content-Type': 'application/json',
   },

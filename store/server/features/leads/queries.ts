@@ -1,5 +1,5 @@
 import { useQuery } from 'react-query';
-import { api } from '@/config/api';
+import { api, API_ENDPOINTS } from '@/config/api';
 import { getCurrentToken } from '@/utils/getCurrentToken';
 import { useAuthenticationStore } from '@/store/uistate/features/authentication';
 import {
@@ -22,7 +22,7 @@ export function useLeadsQuery(filters: LeadFilters) {
       try {
         const token = await getCurrentToken();
 
-        const response = await api.get('/leads', {
+        const response = await api.get(API_ENDPOINTS.leads, {
           params: filters,
           headers: {
             Authorization: `Bearer ${token}`,
@@ -74,7 +74,7 @@ export function useEngagementStagesQuery() {
     queryFn: async (): Promise<EngagementStage[]> => {
       try {
         const token = await getCurrentToken();
-        const response = await api.get('/engagement-stage', {
+        const response = await api.get(API_ENDPOINTS.engagementStage, {
           headers: {
             Authorization: `Bearer ${token}`,
             tenantId: tenantId,
@@ -114,7 +114,7 @@ export function useCompaniesQuery() {
     queryFn: async (): Promise<Company[]> => {
       try {
         const token = await getCurrentToken();
-        const response = await api.get('/companies', {
+        const response = await api.get(API_ENDPOINTS.companies, {
           headers: {
             Authorization: `Bearer ${token}`,
             tenantId: tenantId,
@@ -154,7 +154,7 @@ export function useSourcesQuery() {
     queryFn: async (): Promise<Source[]> => {
       try {
         const token = await getCurrentToken();
-        const response = await api.get('/source', {
+        const response = await api.get(API_ENDPOINTS.source, {
           headers: {
             Authorization: `Bearer ${token}`,
             tenantId: tenantId,
