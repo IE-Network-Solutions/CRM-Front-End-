@@ -1,15 +1,13 @@
 'use client';
 import React, { useState } from 'react';
 import { Input, Button, Typography } from 'antd';
-import {
-  SearchOutlined,
-  FilterOutlined,
-  PlusOutlined,
-} from '@ant-design/icons';
+import { SearchOutlined, PlusOutlined } from '@ant-design/icons';
+import { RiExchange2Line } from 'react-icons/ri';
 
 import KanbanBoard from './_components/kanbanBoard';
 import DealSideBar from './_components/sideBar';
 import FilterModal from './_components/filter';
+import { LuSettings2 } from 'react-icons/lu';
 
 const { Title, Text } = Typography;
 
@@ -33,7 +31,7 @@ const ManageDealsPage: React.FC = () => {
         <Button
           type="primary"
           icon={<PlusOutlined />}
-          className="h-10"
+          className="h-10 bg-[#4080f0]"
           onClick={() => {
             setIsSideBarOpen(true);
           }}
@@ -49,25 +47,34 @@ const ManageDealsPage: React.FC = () => {
           prefix={<SearchOutlined style={{ color: '#bfbfbf' }} />}
           value={searchValue}
           onChange={(e) => setSearchValue(e.target.value)}
-          style={{ width: 300 }}
+          style={{ width: 400 }}
           className="h-10"
         />
         <div className="flex gap-2">
           <Button
-            icon={<FilterOutlined />}
-            className="h-10"
+            icon={<LuSettings2 className="text-[#4080f0]" />}
+            className="h-10 border border-[#4080f0] text-[#4080f0]"
             onClick={() => {
               setIsFilterOpen(true);
             }}
           >
             Filter
           </Button>
-          <Button className="h-10">Action</Button>
+          <Button
+            icon={<RiExchange2Line className="text-[#4080f0]" />}
+            className="h-10 text-[#4080f0] border border-[#4080f0]"
+          >
+            Action
+          </Button>
         </div>
       </div>
 
       {/* Kanban Board */}
-      <KanbanBoard />
+      <KanbanBoard
+        onClick={() => {
+          setIsSideBarOpen(true);
+        }}
+      />
       <DealSideBar
         open={isSideBarOpen}
         onClose={() => {
