@@ -3,9 +3,12 @@ import { useAuthenticationStore } from '@/store/uistate/features/authentication'
 import { crudRequest } from '@/utils/crudRequest';
 import { message } from 'antd';
 import { fileUpload } from '@/utils/fileUpload';
+import { getCurrentToken } from '@/utils/getCurrentToken';
+import { handleSuccessMessage } from '@/utils/showSuccessMessage';
+import { CRM_URL } from '@/utils/constants';
 
 // --- Configuration ---
-const BASE_URL = 'http://172.20.30.226:3000/api/v1';
+// Remove hardcoded BASE_URL and use imported one
 
 // --- Interfaces ---
 export interface UploadLeadDocumentInput {
@@ -69,7 +72,7 @@ const createLeadDocument = async (
 ): Promise<LeadDocumentResponse> => {
   try {
     const response = await crudRequest({
-      url: `${BASE_URL}/lead-documents`,
+      url: `${CRM_URL}/lead-documents`,
       method: 'POST',
       data: payload,
     });

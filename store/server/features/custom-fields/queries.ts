@@ -1,5 +1,6 @@
 import { useQuery } from 'react-query';
 import { crudRequest } from '@/utils/crudRequest';
+import { CRM_URL } from '@/utils/constants';
 
 // --- Interfaces ---
 export interface CustomField {
@@ -26,8 +27,7 @@ export interface CustomFieldsResponse {
 const fetchCustomFields = async (): Promise<CustomField[]> => {
   try {
     // Use the same base URL as other lead APIs
-    const BASE_URL = 'http://172.20.30.226:3000/api/v1';
-    const fullUrl = `${BASE_URL}/custom-fields`;
+    const fullUrl = `${CRM_URL}/custom-fields`;
 
     const response = await crudRequest({
       url: fullUrl,

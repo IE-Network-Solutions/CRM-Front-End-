@@ -2,9 +2,10 @@ import { useQuery } from 'react-query';
 import { useAuthenticationStore } from '@/store/uistate/features/authentication';
 import { crudRequest } from '@/utils/crudRequest';
 import { getCurrentToken } from '@/utils/getCurrentToken';
+import { CRM_URL } from '@/utils/constants';
 
 // --- Configuration ---
-const BASE_URL = 'http://172.20.30.226:3000/api/v1';
+// Remove hardcoded BASE_URL and use imported one
 
 // --- Interfaces ---
 export interface Source {
@@ -41,7 +42,7 @@ const getSources = async (): Promise<Source[]> => {
     };
 
     const response = await crudRequest({
-      url: `${BASE_URL}/source`,
+      url: `${CRM_URL}/source`,
       method: 'GET',
       headers,
     });

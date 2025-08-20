@@ -3,9 +3,10 @@ import { useAuthenticationStore } from '@/store/uistate/features/authentication'
 import { crudRequest } from '@/utils/crudRequest';
 import { getCurrentToken } from '@/utils/getCurrentToken';
 import { handleSuccessMessage } from '@/utils/showSuccessMessage';
+import { CRM_URL } from '@/utils/constants';
 
 // --- Configuration ---
-const BASE_URL = 'http://172.20.30.226:3000/api/v1';
+// Remove hardcoded BASE_URL and use imported one
 
 // --- Interfaces ---
 export interface CreateCompanyInput {
@@ -57,7 +58,7 @@ const createCompany = async (
     };
 
     const response = await crudRequest({
-      url: `${BASE_URL}/companies`,
+      url: `${CRM_URL}/companies`,
       method: 'POST',
       data: payloadWithTenant,
       headers,

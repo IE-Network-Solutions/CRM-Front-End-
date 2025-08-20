@@ -1,6 +1,7 @@
 import { useMutation, useQueryClient } from 'react-query';
 import { crudRequest } from '@/utils/crudRequest';
 import { message } from 'antd';
+import { CRM_URL } from '@/utils/constants';
 
 // --- Interfaces ---
 export interface LeadCustomField {
@@ -26,8 +27,7 @@ const createLeadCustomField = async (
 ): Promise<LeadCustomField> => {
   try {
     // Use the same base URL as other lead APIs
-    const BASE_URL = 'http://172.20.30.226:3000/api/v1';
-    const fullUrl = `${BASE_URL}/lead-custom-fields`;
+    const fullUrl = `${CRM_URL}/lead-custom-fields`;
 
     // Ensure tenantId is included in the request
     const requestData = {

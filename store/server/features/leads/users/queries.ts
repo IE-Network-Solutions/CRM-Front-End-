@@ -2,9 +2,10 @@ import { useQuery } from 'react-query';
 import { useAuthenticationStore } from '@/store/uistate/features/authentication';
 import { crudRequest } from '@/utils/crudRequest';
 import { getCurrentToken } from '@/utils/getCurrentToken';
+import { ORG_AND_EMP_URL } from '@/utils/constants';
 
 // --- Configuration ---
-const BASE_URL = 'https://test-org-emp.ienetworks.co/api/v1';
+// Remove hardcoded BASE_URL and use imported one
 
 // --- Interfaces ---
 export interface User {
@@ -43,7 +44,7 @@ const getUsers = async (): Promise<User[]> => {
     };
 
     const response = await crudRequest({
-      url: `${BASE_URL}/users`,
+      url: `${ORG_AND_EMP_URL}/users`,
       method: 'GET',
       headers,
     });
