@@ -13,6 +13,7 @@ const nextConfig = {
     TENANT_BASE_URL: process.env.TENANT_BASE_URL,
     NOTIFICATION_URL: process.env.NOTIFICATION_URL,
     PUBLIC_DOMAIN: process.env.PUBLIC_DOMAIN,
+    CRM_URL: process.env.CRM_URL,
 
     APPROVER_URL: process.env.NEXT_PUBLIC_APPROVERS_URL,
     EMAIL_URL: process.env.EMAIL_URL,

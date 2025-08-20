@@ -57,13 +57,18 @@ export const useHandleSignIn = () => {
       }
 
       // Check if user belongs to the current tenant (if it's not a PWA)
-      if (tenant?.isPWA === false && tenant?.id !== user?.tenantId) {
+      if (
+        process.env.NODE_ENV !== 'development' &&
+        tenant?.isPWA === false &&
+        tenant?.id !== fetchedData?.data?.tenantId
+      ) {
         message.error(
           'This user does not belong to this tenant. Please contact your administrator.',
         );
         setToken('');
         return;
       }
+
 
       // Set essential user-related states
       setTenantId(fetchedData?.data.tenantId);
