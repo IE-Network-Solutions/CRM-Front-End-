@@ -1,6 +1,6 @@
 import { create } from 'zustand';
 import { Dayjs } from 'dayjs';
-import { EmployeeOffBoardingTasks } from '@/store/server/features/employees/offboarding/interface';
+// import { EmployeeOffBoardingTasks } from '@/store/server/features/employees/offboarding/interface';
 
 export interface Task {
   approverId: string;
@@ -63,14 +63,12 @@ interface OffboardingState {
   isTaskTemplateVisible: boolean;
   isDeleteModalVisible: boolean;
   isEmploymentFormVisible: boolean;
-  selectedTemplateTasks: EmployeeOffBoardingTasks[] | [];
+  selectedTemplateTasks: any[] | [];
   completedTask: boolean;
   taskToDelete: Task;
   setTaskToDelete: (task: Task) => void;
   setCompletedTask: (visible: boolean) => void;
-  setselectedTemplateTasks: (
-    templateTasks: EmployeeOffBoardingTasks[] | [],
-  ) => void;
+  setselectedTemplateTasks: (templateTasks: any[] | []) => void;
   setIsEmploymentFormVisible: (visible: boolean) => void;
   setIsDeleteModalVisible: (visible: boolean) => void;
   setIsTaskTemplateVisible: (visible: boolean) => void;

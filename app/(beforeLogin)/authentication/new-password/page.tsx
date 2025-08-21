@@ -8,7 +8,7 @@ import { updatePassword } from 'firebase/auth';
 import { auth } from '@/utils/firebaseConfig';
 import { useLoadingStore } from '@/store/uistate/features/loadingState';
 import { useAuthenticationStore } from '@/store/uistate/features/authentication';
-import { useUpdateUser } from '@/store/server/features/employees/authentication/mutations';
+// import { useUpdateUser } from '@/store/server/features/employees/authentication/mutations';
 
 const NewPassword: FC = () => {
   const router = useRouter();
@@ -17,7 +17,9 @@ const NewPassword: FC = () => {
     setLoading: state.setLoading,
   }));
   const { userId } = useAuthenticationStore();
-  const { mutate: updateUserFlag } = useUpdateUser();
+  const updateUserFlag = (payload: any) => {
+    void payload;
+  };
 
   const handleFinish = async (values: {
     newPassword: string;

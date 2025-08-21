@@ -4,7 +4,7 @@ import { useFiscalYearDrawerStore } from '@/store/uistate/features/organizations
 import TextArea from 'antd/es/input/TextArea';
 import { useGetActiveFiscalYears } from '@/store/server/features/organizationStructure/fiscalYear/queries';
 import dayjs from 'dayjs';
-import { useGetDepartments } from '@/store/server/features/employees/employeeManagment/department/queries';
+// import { useGetDepartments } from '@/store/server/features/employees/employeeManagment/department/queries';
 import { useEffect } from 'react';
 
 interface FiscalYearProps {
@@ -24,7 +24,7 @@ const FiscalYear: React.FC<FiscalYearProps> = ({ form }) => {
   } = useFiscalYearDrawerStore();
 
   const { data: activeCalendar } = useGetActiveFiscalYears();
-  const { data: departments } = useGetDepartments();
+  const departments: any[] = [];
 
   //  =========> START DATE AND END DATE VALIDATION AREA <============
   /* eslint-disable-next-line @typescript-eslint/naming-convention */

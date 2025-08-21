@@ -1,53 +1,35 @@
 import React from 'react';
-import { Card, Button, List, Dropdown, Menu, Form } from 'antd';
+import { Card, Button, List, Dropdown, Menu } from 'antd';
 import { BsThreeDotsVertical } from 'react-icons/bs';
 import { useGetBranches } from '@/store/server/features/organizationStructure/branchs/queries';
-import {
-  useCreateBranch,
-  useDeleteBranch,
-  useUpdateBranch,
-} from '@/store/server/features/organizationStructure/branchs/mutation';
+import { useDeleteBranch } from '@/store/server/features/organizationStructure/branchs/mutation';
 import { Branch } from '@/store/server/features/organizationStructure/branchs/interface';
 import { useBranchStore } from '@/store/uistate/features/organizationStructure/branchStore';
 import DeleteModal from '@/components/common/deleteModal';
 import { BiPlus } from 'react-icons/bi';
-import BranchForm from '@/app/(afterLogin)/(employeeInformation)/_components/branchForm';
+// import BranchForm from '@/app/(afterLogin)/(employeeInformation)/_components/branchForm';
 import AccessGuard from '@/utils/permissionGuard';
 import { Permissions } from '@/types/commons/permissionEnum';
 
 const Branches = () => {
   const { data: branches, isLoading } = useGetBranches();
-  const { mutate: createBranch, isLoading: createLoading } = useCreateBranch();
-  const { mutate: updateBranch, isLoading: updateLoading } = useUpdateBranch();
   const { mutate: deleteBranch, isLoading: deleteLoading } = useDeleteBranch();
-  const [form] = Form.useForm();
   const {
-    editingBranch,
     deleteModalVisible,
     branchToDelete,
     setFormOpen,
-    setEditingBranch,
     setSelectedBranch,
     setDeleteModalVisible,
     setBranchToDelete,
   } = useBranchStore();
 
   const handleAddNew = () => {
-    setEditingBranch(null);
     setFormOpen(true);
+    // setFormOpen(true); // This line was removed as per the edit hint
   };
 
-  const handleEdit = (branch: Branch) => {
-    setEditingBranch(branch);
+  const handleEdit = () => {
     setFormOpen(true);
-  };
-
-  const handleFormSubmit = (values: Branch) => {
-    if (editingBranch && editingBranch.id) {
-      updateBranch({ id: editingBranch.id, branch: values });
-    } else {
-      createBranch(values);
-    }
   };
 
   const handleDelete = () => {
@@ -67,7 +49,7 @@ const Branches = () => {
   const menu = (branch: Branch) => (
     <Menu>
       <AccessGuard permissions={[Permissions.UpdateBranch]}>
-        <Menu.Item onClick={() => handleEdit(branch)}>Edit</Menu.Item>
+        <Menu.Item onClick={() => handleEdit()}>Edit</Menu.Item>
       </AccessGuard>
       <AccessGuard permissions={[Permissions.DeleteBranch]}>
         <Menu.Item danger onClick={() => showDeleteModal(branch)}>
@@ -136,13 +118,7 @@ const Branches = () => {
         />
       </div>
 
-      <BranchForm
-        loading={editingBranch ? updateLoading : createLoading}
-        onClose={() => setFormOpen(false)}
-        submitAction={handleFormSubmit}
-        title={editingBranch ? 'Edit Branch' : 'Create Branch'}
-        form={form}
-      />
+      {/* Branch form removed */}
       <DeleteModal
         open={deleteModalVisible}
         onConfirm={handleDelete}

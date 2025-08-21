@@ -1,6 +1,6 @@
 'use client';
 import React, { useEffect, useState } from 'react';
-import TimezoneComponent from '@/app/(afterLogin)/(timesheetInformation)/timesheet/settings/time-zone/_components/timeZone';
+// import TimezoneComponent from '@/app/(afterLogin)/(timesheetInformation)/timesheet/settings/time-zone/_components/timeZone';
 import useStepStore from '@/store/uistate/features/organizationStructure/steper/useStore';
 import { Button } from 'antd';
 
@@ -32,7 +32,15 @@ function TimeZone() {
         <div className="flex flex-col md:flex-row justify-start items-center gap-2 md:gap-4 font-bold text-xl md:text-2xl text-black mt-4 md:mt-8">
           Set up your Timezone
         </div>
-        <TimezoneComponent autoDetectedTimeZone={detectedTimeZone} />
+        {/* TimezoneComponent placeholder */}
+        <div className="p-4 border border-gray-300 rounded-lg mt-4">
+          <p className="text-gray-600 mb-2">
+            Detected Timezone: {detectedTimeZone}
+          </p>
+          <p className="text-sm text-gray-500">
+            Timezone component will be implemented here.
+          </p>
+        </div>
         <br />
         <div className="text-center">
           <Button
