@@ -1,19 +1,24 @@
 # CI/CD Setup Guide
 
 ## Overview
+
 This guide explains how to set up the CI/CD pipeline to resolve Firebase authentication errors during builds.
 
 ## Solutions Implemented
 
 ### 1. Dynamic Page Generation
+
 Added `export const dynamic = 'force-dynamic'` to all pages that use Firebase authentication to prevent static generation issues.
 
 ### 2. Next.js Configuration
+
 Updated `next.config.mjs` with:
+
 - `output: 'standalone'` - Prevents static generation issues
 - `experimental: { esmExternals: false }` - Resolves module resolution issues
 
 ### 3. GitHub Actions Environment Variables
+
 The CI workflow now includes all necessary Firebase environment variables.
 
 ## Required GitHub Secrets
@@ -21,6 +26,7 @@ The CI workflow now includes all necessary Firebase environment variables.
 Add these secrets to your GitHub repository (Settings > Secrets and variables > Actions):
 
 ### Firebase Configuration
+
 ```
 NEXT_PUBLIC_API_KEY=your_firebase_api_key
 NEXT_PUBLIC_AUTH_DOMAIN=your_project.firebaseapp.com
@@ -31,6 +37,7 @@ NEXT_PUBLIC_APP_ID=your_app_id
 ```
 
 ### Server-side Firebase Variables
+
 ```
 FIREBASE_API_KEY=your_firebase_api_key
 FIREBASE_AUTH_DOMAIN=your_project.firebaseapp.com
@@ -41,6 +48,7 @@ FIREBASE_APP_ID=your_app_id
 ```
 
 ### App Environment Variables
+
 ```
 ORG_AND_EMP_URL=your_org_emp_url
 TENANT_MGMT_URL=your_tenant_mgmt_url
@@ -69,11 +77,13 @@ EMAIL_URL=your_email_url
 ## Troubleshooting
 
 ### Still Getting Firebase Errors?
+
 - Ensure all secrets are added to GitHub
 - Check that secret names match exactly (case-sensitive)
 - Verify Firebase project configuration
 
 ### Build Still Failing?
+
 - Check the CI logs for specific error messages
 - Ensure all environment variables are properly set
 - Verify Next.js configuration is correct

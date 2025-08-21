@@ -8,7 +8,7 @@ export const API_ENDPOINTS = CRM_ENDPOINTS;
 
 export const api = axios.create({
   baseURL: API_BASE_URL,
-  timeout: 30000, 
+  timeout: 30000,
   headers: {
     'Content-Type': 'application/json',
   },

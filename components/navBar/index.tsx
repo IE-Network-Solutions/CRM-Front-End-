@@ -125,7 +125,7 @@ const Nav: React.FC<MyComponentProps> = ({ children }) => {
       permissions: [], // No permissions required
     },
     {
-      key: '/leads',
+      key: '/leads/[id]',
       permissions: [], // No permissions required for now
     },
   ];
@@ -238,6 +238,7 @@ const Nav: React.FC<MyComponentProps> = ({ children }) => {
       className: 'font-bold',
       permissions: ['view_leads'],
       disabled: hasEndedFiscalYear,
+      children: [],
     },
   ];
 

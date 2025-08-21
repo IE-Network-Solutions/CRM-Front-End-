@@ -119,7 +119,6 @@
   border-bottom: none !important;
 }
 
-
 .custom-table .ant-table-thead > tr > th {
   background-color: #f8fafc !important;
   border-bottom: none !important; /* Removed border to eliminate visual separation */
@@ -166,7 +165,12 @@
   left: 0;
   right: 0;
   height: 1px; /* Reduced height for better blur effect */
-  background: linear-gradient(90deg, transparent, rgba(0, 0, 0, 0.08), transparent); /* Adjusted opacity */
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(0, 0, 0, 0.08),
+    transparent
+  ); /* Adjusted opacity */
   filter: blur(0.3px); /* Reduced blur for cleaner effect */
   pointer-events: none; /* Ensure it doesn't interfere with interactions */
 }
