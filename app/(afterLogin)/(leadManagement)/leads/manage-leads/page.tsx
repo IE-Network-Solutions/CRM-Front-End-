@@ -4,8 +4,8 @@ import { Button } from 'antd';
 import { PlusOutlined } from '@ant-design/icons';
 // import { useCreateLeadDrawerStore } from '@/stores/useCreateLeadDrawerStore';
 import { useCreateLeadDrawerStore } from '@/store/uistate/features/leads/useCreateLeadDrawerStore';
-// ✅ Fixed import path - using relative path to _components folder
-import { CreateLeadDrawer } from '../_components/create-lead-drawer';
+// ✅ Fixed import path - using correct relative path from manage-leads location
+import { CreateLeadDrawer } from '../../_components/create-lead-drawer';
 // ... import your LeadsTable component here
 
 export default function LeadsPage() {
