@@ -17,7 +17,9 @@ const NewPassword: FC = () => {
     setLoading: state.setLoading,
   }));
   const { userId } = useAuthenticationStore();
-  const updateUserFlag = (payload: any) => {};
+  const updateUserFlag = (payload: any) => {
+    void payload;
+  };
 
   const handleFinish = async (values: {
     newPassword: string;

@@ -2,13 +2,11 @@
 import { FC } from 'react';
 import { Card, Select } from 'antd';
 import ApprovalRequestCard from './approval-status-card';
-import { useAuthenticationStore } from '@/store/uistate/features/authentication';
 // import { useGetApprovalLeaveRequest } from '@/store/server/features/timesheet/leaveRequest/queries';
 import { useDashboardApprovalStore } from '@/store/uistate/features/dashboard/approval';
 // import { useGetBranchTransferApproveById } from '@/store/server/features/employees/approval/queries';
 
 const ApprovalStatus: FC = () => {
-  const { userId } = useAuthenticationStore();
   // Fallback for missing timesheet module
   const LeaveTransferData = { items: [], meta: { totalItems: 0 } };
   const isLoadingLeaveTransfer = false;
@@ -75,7 +73,6 @@ const ApprovalStatus: FC = () => {
                   key={index}
                   id={request.id}
                   name={request.name}
-                  approveRequesterId={request.userId}
                   startAt={request?.currentBranch?.name}
                   endAt={request?.requestBranch?.name}
                   leaveType={'Branch Transfer Request'}
@@ -103,7 +100,6 @@ const ApprovalStatus: FC = () => {
                   id={request.id}
                   name={request.name}
                   days={request.days}
-                  approveRequesterId={request.userId}
                   startAt={request.startAt}
                   endAt={request.endAt}
                   isHalfDay={request.isHalfDay}

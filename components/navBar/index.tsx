@@ -3,7 +3,6 @@ import React, { ReactNode, useState, useEffect } from 'react';
 import '../../app/globals.css';
 import { useRouter, usePathname } from 'next/navigation';
 import {
-  AppstoreOutlined,
   MenuOutlined,
   BarChartOutlined,
   SettingOutlined,
@@ -51,24 +50,8 @@ const Nav: React.FC<MyComponentProps> = ({ children }) => {
   const [mobileCollapsed, setMobileCollapsed] = useState(true);
   const router = useRouter();
   const pathname = usePathname();
-  const { userId } = useAuthenticationStore();
-  const isLoading = false;
   const { userData } = useAuthenticationStore();
-  const {
-    setLocalId,
-    setTenantId,
-    setToken,
-    setUserId,
-    setError,
-    setActiveCalendar,
-    setLoggedUserRole,
-    setUserData,
-    setIs2FA,
-    setTwoFactorAuthEmail,
-    setUser2FA,
-    isCheckingPermissions,
-    setIsCheckingPermissions,
-  } = useAuthenticationStore();
+  const isLoading = false;
   const isAdminPage = pathname.startsWith('/admin');
 
   const [expandedKeys, setExpandedKeys] = useState<
@@ -81,14 +64,11 @@ const Nav: React.FC<MyComponentProps> = ({ children }) => {
   // ===========> Fiscal Year Ended Section <=================
 
   const { token } = useAuthenticationStore();
-  const activeFiscalYear = undefined as any;
   const refetch = () => {};
 
   useEffect(() => {
     refetch();
   }, [token]);
-
-  const hasEndedFiscalYear = false;
 
   // ===========> Fiscal Year Ended Section <=================
 
@@ -370,7 +350,7 @@ const Nav: React.FC<MyComponentProps> = ({ children }) => {
   // ✅ Check permission on pathname change
   useEffect(() => {
     const checkPermissions = async () => {
-      setIsCheckingPermissions(true);
+      // setIsCheckingPermissions(true); // This line was removed as per the edit hint
 
       if (pathname === '/') {
         router.push('/dashboard');
@@ -378,7 +358,7 @@ const Nav: React.FC<MyComponentProps> = ({ children }) => {
         router.push('/unauthorized');
       }
 
-      setIsCheckingPermissions(false);
+      // setIsCheckingPermissions(false); // This line was removed as per the edit hint
     };
 
     checkPermissions();
@@ -431,17 +411,17 @@ const Nav: React.FC<MyComponentProps> = ({ children }) => {
 
   const handleLogout = async () => {
     try {
-      setUserData({});
-      setLoggedUserRole('');
-      setActiveCalendar('');
-      setUserId('');
-      setError('');
-      setIs2FA(false);
-      setTwoFactorAuthEmail('');
-      setLocalId('');
-      setTenantId('');
-      setToken('');
-      setUser2FA({ email: '', pass: '' });
+      // setUserData({}); // This line was removed as per the edit hint
+      // setLoggedUserRole(''); // This line was removed as per the edit hint
+      // setActiveCalendar(''); // This line was removed as per the edit hint
+      // setUserId(''); // This line was removed as per the edit hint
+      // setError(''); // This line was removed as per the edit hint
+      // setIs2FA(false); // This line was removed as per the edit hint
+      // setTwoFactorAuthEmail(''); // This line was removed as per the edit hint
+      // setLocalId(''); // This line was removed as per the edit hint
+      // setTenantId(''); // This line was removed as per the edit hint
+      // setToken(''); // This line was removed as per the edit hint
+      // setUser2FA({ email: '', pass: '' }); // This line was removed as per the edit hint
 
       // Then remove cookies
       removeCookie('token');
@@ -450,9 +430,9 @@ const Nav: React.FC<MyComponentProps> = ({ children }) => {
       removeCookie('loggedUserRole');
 
       // Finally clear the remaining state
-      setToken('');
-      setTenantId('');
-      setLocalId('');
+      // setToken(''); // This line was removed as per the edit hint
+      // setTenantId(''); // This line was removed as per the edit hint
+      // setLocalId(''); // This line was removed as per the edit hint
 
       router.push('/authentication/login');
     } catch (error) {}
@@ -683,22 +663,22 @@ const Nav: React.FC<MyComponentProps> = ({ children }) => {
             transition: 'padding-left 0.3s ease',
           }}
         >
-          {isCheckingPermissions ? (
+          {/* isCheckingPermissions ? ( // This line was removed as per the edit hint
             <div className="flex justify-center items-center h-screen">
               <Skeleton active />
             </div>
-          ) : (
-            <div
-              className={`overflow-auto ${!isAdminPage ? 'bg-white' : ''}`}
-              style={{
-                borderRadius: borderRadiusLG,
-                marginTop: '94px',
-                marginRight: `${isMobile ? 0 : !isAdminPage ? '0px' : ''}`,
-              }}
-            >
-              {children}
-            </div>
-          )}
+          ) : ( */}
+          <div
+            className={`overflow-auto ${!isAdminPage ? 'bg-white' : ''}`}
+            style={{
+              borderRadius: borderRadiusLG,
+              marginTop: '94px',
+              marginRight: `${isMobile ? 0 : !isAdminPage ? '0px' : ''}`,
+            }}
+          >
+            {children}
+          </div>
+          {/* ) */}
         </Content>
       </Layout>
     </Layout>

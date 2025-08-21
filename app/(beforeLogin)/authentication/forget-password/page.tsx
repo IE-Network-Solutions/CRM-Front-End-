@@ -7,7 +7,9 @@ import { useTenantChecker } from '../login/_components/tenantChecker';
 
 const RequestVerification: FC = () => {
   const { tenant } = useTenantChecker();
-  const resetPassword = (payload: any) => {};
+  const resetPassword = (payload: any) => {
+    void payload;
+  };
   const isLoading = false;
 
   const handleFinish = async (values: { email: string }) => {

@@ -27,7 +27,6 @@ interface ApprovalRequestCardProps {
   approvalWorkflowId: string;
   nextApprover: string;
   id: string;
-  approveRequesterId: string;
   requestType: string;
   fileAttachment?: string;
 }
@@ -39,7 +38,6 @@ const ApprovalRequestCard: FC<ApprovalRequestCardProps> = ({
   leaveType,
   approvalWorkflowId,
   nextApprover,
-  approveRequesterId,
   id,
   requestType,
   fileAttachment,

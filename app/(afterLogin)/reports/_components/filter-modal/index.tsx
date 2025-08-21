@@ -15,7 +15,7 @@ interface FilterModalProps {
 const FilterModal: React.FC<FilterModalProps> = ({
   isOpen,
   onClose,
-  onFilter
+  onFilter,
 }) => {
   const [dateRange, setDateRange] = React.useState<any>(null);
 
@@ -41,7 +41,7 @@ const FilterModal: React.FC<FilterModalProps> = ({
         <div>
           <p className="text-gray-600 mb-2">Filter your activities by</p>
         </div>
-        
+
         <div>
           <label className="block text-sm font-medium text-gray-700 mb-2">
             Date

@@ -2,10 +2,10 @@
 
 import React from 'react';
 import { Row, Col } from 'antd';
-import { 
-  DollarOutlined, 
-  MessageOutlined, 
-  TagOutlined
+import {
+  DollarOutlined,
+  MessageOutlined,
+  TagOutlined,
 } from '@ant-design/icons';
 import Header from './_components/header';
 import MetricCard from './_components/metricCard';
@@ -17,9 +17,21 @@ const ReportsPage: React.FC = () => {
     { key: '1', source: 'Website', leads: 35, conversions: 12, rate: '12%' },
     { key: '2', source: 'Trade Show', leads: 45, conversions: 11, rate: '11%' },
     { key: '3', source: 'Referral', leads: 32, conversions: 26, rate: '26%' },
-    { key: '4', source: 'Partner Introduction', leads: 60, conversions: 43, rate: '43%' },
+    {
+      key: '4',
+      source: 'Partner Introduction',
+      leads: 60,
+      conversions: 43,
+      rate: '43%',
+    },
     { key: '5', source: 'Cold Call', leads: 22, conversions: 5, rate: '5%' },
-    { key: '6', source: 'Email Campaign', leads: 50, conversions: 12, rate: '12%' },
+    {
+      key: '6',
+      source: 'Email Campaign',
+      leads: 50,
+      conversions: 12,
+      rate: '12%',
+    },
   ];
 
   const leadSourceColumns = [
@@ -46,45 +58,45 @@ const ReportsPage: React.FC = () => {
 
   // Sector Performance data
   const sectorData = [
-    { 
-      key: '1', 
-      sector: 'Technology', 
-      deals: 35, 
-      actual: 'ETB 1,200,000', 
-      target: 'ETB 100,000', 
-      achievements: '120%' 
+    {
+      key: '1',
+      sector: 'Technology',
+      deals: 35,
+      actual: 'ETB 1,200,000',
+      target: 'ETB 100,000',
+      achievements: '120%',
     },
-    { 
-      key: '2', 
-      sector: 'Healthcare', 
-      deals: 45, 
-      actual: 'ETB 200,000', 
-      target: 'ETB 100,000,000', 
-      achievements: '120%' 
+    {
+      key: '2',
+      sector: 'Healthcare',
+      deals: 45,
+      actual: 'ETB 200,000',
+      target: 'ETB 100,000,000',
+      achievements: '120%',
     },
-    { 
-      key: '3', 
-      sector: 'Finance', 
-      deals: 32, 
-      actual: 'ETB 1,200,000,000', 
-      target: 'ETB 100,000,000', 
-      achievements: '100%' 
+    {
+      key: '3',
+      sector: 'Finance',
+      deals: 32,
+      actual: 'ETB 1,200,000,000',
+      target: 'ETB 100,000,000',
+      achievements: '100%',
     },
-    { 
-      key: '4', 
-      sector: 'Manufacturing', 
-      deals: 60, 
-      actual: 'ETB 800,000', 
-      target: 'ETB 500,000', 
-      achievements: '160%' 
+    {
+      key: '4',
+      sector: 'Manufacturing',
+      deals: 60,
+      actual: 'ETB 800,000',
+      target: 'ETB 500,000',
+      achievements: '160%',
     },
-    { 
-      key: '5', 
-      sector: 'Education', 
-      deals: 22, 
-      actual: 'ETB 300,000', 
-      target: 'ETB 400,000', 
-      achievements: '75%' 
+    {
+      key: '5',
+      sector: 'Education',
+      deals: 22,
+      actual: 'ETB 300,000',
+      target: 'ETB 400,000',
+      achievements: '75%',
     },
   ];
 
@@ -98,53 +110,53 @@ const ReportsPage: React.FC = () => {
 
   // Deals Requiring Attention data
   const dealsAttentionData = [
-    { 
-      key: '1', 
-      company: 'XYZ Tech', 
-      stage: 'Follow-up', 
-      days: 12, 
-      value: 'ETB 450,000', 
-      owner: 'Nahom Esrael' 
+    {
+      key: '1',
+      company: 'XYZ Tech',
+      stage: 'Follow-up',
+      days: 12,
+      value: 'ETB 450,000',
+      owner: 'Nahom Esrael',
     },
-    { 
-      key: '2', 
-      company: 'XYZ Tech', 
-      stage: 'Follow-up', 
-      days: 11, 
-      value: 'ETB 50,000', 
-      owner: 'Nahom Esrael' 
+    {
+      key: '2',
+      company: 'XYZ Tech',
+      stage: 'Follow-up',
+      days: 11,
+      value: 'ETB 50,000',
+      owner: 'Nahom Esrael',
     },
-    { 
-      key: '3', 
-      company: 'XYZ Tech', 
-      stage: 'Follow-up', 
-      days: 26, 
-      value: 'ETB 980,000', 
-      owner: 'Nahom Esrael' 
+    {
+      key: '3',
+      company: 'XYZ Tech',
+      stage: 'Follow-up',
+      days: 26,
+      value: 'ETB 980,000',
+      owner: 'Nahom Esrael',
     },
-    { 
-      key: '4', 
-      company: 'XYZ Tech', 
-      stage: 'Follow-up', 
-      days: 43, 
-      value: 'ETB 450,000,000', 
-      owner: 'Nahom Esrael' 
+    {
+      key: '4',
+      company: 'XYZ Tech',
+      stage: 'Follow-up',
+      days: 43,
+      value: 'ETB 450,000,000',
+      owner: 'Nahom Esrael',
     },
-    { 
-      key: '5', 
-      company: 'XYZ Tech', 
-      stage: 'Follow-up', 
-      days: 5, 
-      value: 'ETB 200,000', 
-      owner: 'Nahom Esrael' 
+    {
+      key: '5',
+      company: 'XYZ Tech',
+      stage: 'Follow-up',
+      days: 5,
+      value: 'ETB 200,000',
+      owner: 'Nahom Esrael',
     },
-    { 
-      key: '6', 
-      company: 'XYZ Tech', 
-      stage: 'Follow-up', 
-      days: 12, 
-      value: 'ETB 150,000', 
-      owner: 'Nahom Esrael' 
+    {
+      key: '6',
+      company: 'XYZ Tech',
+      stage: 'Follow-up',
+      days: 12,
+      value: 'ETB 150,000',
+      owner: 'Nahom Esrael',
     },
   ];
 
@@ -153,9 +165,9 @@ const ReportsPage: React.FC = () => {
     { title: 'Stage', dataIndex: 'stage', key: 'stage' },
     { title: 'Days', dataIndex: 'days', key: 'days' },
     { title: 'Value', dataIndex: 'value', key: 'value' },
-    { 
-      title: 'Owner', 
-      dataIndex: 'owner', 
+    {
+      title: 'Owner',
+      dataIndex: 'owner',
       key: 'owner',
       render: (owner: string) => (
         <div className="flex items-center gap-2">
@@ -164,7 +176,7 @@ const ReportsPage: React.FC = () => {
           </div>
           <span>{owner}</span>
         </div>
-      )
+      ),
     },
   ];
 

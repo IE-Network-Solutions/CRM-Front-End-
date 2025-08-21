@@ -54,7 +54,10 @@ import { showValidationErrors } from '@/utils/showValidationErrors';
 import { useRouter } from 'next/navigation';
 import { useGetBranches } from '@/store/server/features/organizationStructure/branchs/queries';
 // import CustomModal from '@/app/(afterLogin)/(employeeInformation)/_components/sucessModal/successModal';
-const CustomModal = ({ visible, onClose, text, route }: any) => null;
+const CustomModal = (props: any) => {
+  void props;
+  return null;
+};
 
 /**
  * Onboarding multi‑step wizard component

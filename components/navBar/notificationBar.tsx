@@ -6,18 +6,14 @@ import { useUpdateNotificationStatus } from '@/store/server/features/notificatio
 import { IoIosNotificationsOutline } from 'react-icons/io';
 import { AiFillNotification } from 'react-icons/ai';
 import { CgCloseO } from 'react-icons/cg';
-import Link from 'next/link';
 import { useAuthenticationStore } from '@/store/uistate/features/authentication';
 // Employees notification detail removed
 
 function NotificationBar() {
   const userId = useAuthenticationStore.getState().userId;
 
-  const {
-    setIsNotificationDetailVisible,
-    selectedNotificationId,
-    setSelectedNotificationId,
-  } = useNotificationDetailStore();
+  const { setIsNotificationDetailVisible, setSelectedNotificationId } =
+    useNotificationDetailStore();
 
   const { mutate: updateNotificationStatus } = useUpdateNotificationStatus();
   const { data, isLoading } = useGetNotifications(userId);

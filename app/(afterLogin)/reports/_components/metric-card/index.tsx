@@ -19,10 +19,10 @@ const MetricCard: React.FC<MetricCardProps> = ({
   value,
   change,
   changeType,
-  icon
+  icon,
 }) => {
   return (
-    <Card 
+    <Card
       className="text-center shadow-md hover:shadow-lg transition-shadow duration-300"
       bodyStyle={{ padding: '14px' }}
     >
@@ -30,9 +30,11 @@ const MetricCard: React.FC<MetricCardProps> = ({
         <div className="flex flex-col justify-between items-start gap-1">
           <Text className="text-gray-600 text-sm font-bold">{title}</Text>
           <div className="text-2xl font-bold">{value}</div>
-          <div className={`flex items-center text-sm ${
-            changeType === 'positive' ? 'text-green-600' : 'text-red-600'
-          }`}>
+          <div
+            className={`flex items-center text-sm ${
+              changeType === 'positive' ? 'text-green-600' : 'text-red-600'
+            }`}
+          >
             {changeType === 'positive' ? (
               <ArrowUpOutlined className="mr-1" />
             ) : (

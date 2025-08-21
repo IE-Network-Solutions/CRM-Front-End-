@@ -13,7 +13,7 @@ interface ActionModalProps {
 const ActionModal: React.FC<ActionModalProps> = ({
   isOpen,
   onClose,
-  onExport
+  onExport,
 }) => {
   const handleExport = () => {
     onExport();

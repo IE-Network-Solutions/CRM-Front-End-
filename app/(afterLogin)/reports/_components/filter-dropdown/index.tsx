@@ -27,7 +27,7 @@ const FilterDropdown: React.FC<FilterDropdownProps> = ({ onFilter }) => {
         <div>
           <p className="text-gray-600 mb-2">Filter your activities by</p>
         </div>
-        
+
         <div>
           <label className="block text-sm font-medium text-gray-700 mb-2">
             Date

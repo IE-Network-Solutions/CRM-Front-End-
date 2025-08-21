@@ -20,7 +20,9 @@ const Header: React.FC = () => {
   return (
     <div className="flex justify-between items-start mb-6">
       <div>
-        <Title level={3} className="mb-1">Report</Title>
+        <Title level={3} className="mb-1">
+          Report
+        </Title>
         <Text className="text-gray-600">View All Reports</Text>
       </div>
       <div className="flex gap-3">
@@ -29,21 +31,21 @@ const Header: React.FC = () => {
           trigger={['click']}
           placement="bottomRight"
         >
-          <Button 
-            icon={<FilterOutlined />} 
+          <Button
+            icon={<FilterOutlined />}
             className="flex items-center text-blue-600 border-blue-600 hover:text-blue-700 hover:border-blue-700 hover:bg-blue-50"
           >
             Filter
           </Button>
         </Dropdown>
-        
+
         <Dropdown
           overlay={<ActionDropdown onExport={handleExport} />}
           trigger={['click']}
           placement="bottomRight"
         >
-          <Button 
-            icon={<ExportOutlined />} 
+          <Button
+            icon={<ExportOutlined />}
             className="flex items-center text-blue-600 border-blue-600 hover:text-blue-700 hover:border-blue-700 hover:bg-blue-50"
           >
             Action

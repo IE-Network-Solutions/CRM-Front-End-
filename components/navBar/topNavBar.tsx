@@ -2,7 +2,6 @@
 import React from 'react';
 import { Avatar, Menu, Dropdown, Layout } from 'antd';
 import { useRouter } from 'next/navigation';
-import { useAuthenticationStore } from '@/store/uistate/features/authentication';
 import NotificationBar from './notificationBar';
 
 const { Header } = Layout;
@@ -14,8 +13,6 @@ interface NavBarProps {
 
 const NavBar = ({ page, handleLogout }: NavBarProps) => {
   const router = useRouter();
-
-  const { userId } = useAuthenticationStore();
 
   const handleProfileRoute = () => {
     router.push('/settings');

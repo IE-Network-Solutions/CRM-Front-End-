@@ -12,13 +12,13 @@ interface PerformanceTableProps {
 const PerformanceTable: React.FC<PerformanceTableProps> = ({
   title,
   dataSource,
-  columns
+  columns,
 }) => {
   return (
     <Card title={title}>
-      <Table 
-        dataSource={dataSource} 
-        columns={columns} 
+      <Table
+        dataSource={dataSource}
+        columns={columns}
         pagination={false}
         size="small"
       />

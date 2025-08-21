@@ -10,7 +10,11 @@ const ReportsLoading: React.FC = () => {
       <div className="flex justify-between items-start mb-6">
         <div>
           <Skeleton.Input active size="large" style={{ width: 200 }} />
-          <Skeleton.Input active size="small" style={{ width: 150, marginTop: 8 }} />
+          <Skeleton.Input
+            active
+            size="small"
+            style={{ width: 150, marginTop: 8 }}
+          />
         </div>
         <div className="flex gap-3">
           <Skeleton.Button active size="large" style={{ width: 80 }} />
@@ -25,8 +29,16 @@ const ReportsLoading: React.FC = () => {
             <Card className="shadow-sm">
               <div className="flex justify-between items-start">
                 <div className="flex-1">
-                  <Skeleton.Input active size="small" style={{ width: 120, marginBottom: 8 }} />
-                  <Skeleton.Input active size="large" style={{ width: 80, marginBottom: 8 }} />
+                  <Skeleton.Input
+                    active
+                    size="small"
+                    style={{ width: 120, marginBottom: 8 }}
+                  />
+                  <Skeleton.Input
+                    active
+                    size="large"
+                    style={{ width: 80, marginBottom: 8 }}
+                  />
                   <Skeleton.Input active size="small" style={{ width: 100 }} />
                 </div>
                 <Skeleton.Avatar active size={40} shape="circle" />
@@ -39,12 +51,22 @@ const ReportsLoading: React.FC = () => {
       {/* Performance Tables Section Skeleton */}
       <Row gutter={[16, 16]} className="mb-6">
         <Col xs={24} lg={12}>
-          <Card title={<Skeleton.Input active size="small" style={{ width: 150 }} />} className="shadow-sm">
+          <Card
+            title={
+              <Skeleton.Input active size="small" style={{ width: 150 }} />
+            }
+            className="shadow-sm"
+          >
             <Skeleton active paragraph={{ rows: 6 }} />
           </Card>
         </Col>
         <Col xs={24} lg={12}>
-          <Card title={<Skeleton.Input active size="small" style={{ width: 150 }} />} className="shadow-sm">
+          <Card
+            title={
+              <Skeleton.Input active size="small" style={{ width: 150 }} />
+            }
+            className="shadow-sm"
+          >
             <Skeleton active paragraph={{ rows: 6 }} />
           </Card>
         </Col>
@@ -53,7 +75,12 @@ const ReportsLoading: React.FC = () => {
       {/* Sector Performance Table Skeleton */}
       <Row gutter={[16, 16]}>
         <Col xs={24}>
-          <Card title={<Skeleton.Input active size="small" style={{ width: 200 }} />} className="shadow-sm">
+          <Card
+            title={
+              <Skeleton.Input active size="small" style={{ width: 200 }} />
+            }
+            className="shadow-sm"
+          >
             <Skeleton active paragraph={{ rows: 4 }} />
           </Card>
         </Col>
