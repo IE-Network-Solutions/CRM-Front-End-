@@ -9,8 +9,6 @@ export const ownerOptions = [
   { value: '16c44cfd-c440-4550-9b8c-fed38e8c03ad', label: 'Jane Doe' },
 ];
 
-
-
 // Example validation object for frontend
 export const leadValidation = {
   required: [

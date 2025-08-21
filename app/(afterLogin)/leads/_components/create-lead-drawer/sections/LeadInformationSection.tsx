@@ -32,7 +32,8 @@ export const LeadInformationSection: React.FC<LeadInformationSectionProps> = ({
     useGetLeadTypes();
   const { data: sectors = [], isLoading: sectorsLoading } = useGetSectors();
   const { data: users = [], isLoading: usersLoading } = useGetUsers();
-  const { data: currencies = [], isLoading: currenciesLoading } = useGetCurrencies();
+  const { data: currencies = [], isLoading: currenciesLoading } =
+    useGetCurrencies();
 
   // Set initial form values when component mounts
   useEffect(() => {
@@ -130,21 +131,24 @@ export const LeadInformationSection: React.FC<LeadInformationSectionProps> = ({
     safeCurrencies = currencies;
   } else if (currencies && typeof currencies === 'object') {
     const currenciesObj = currencies as any;
-    if (Array.isArray(currenciesObj.items)) safeCurrencies = currenciesObj.items;
-    else if (Array.isArray(currenciesObj.data)) safeCurrencies = currenciesObj.data;
+    if (Array.isArray(currenciesObj.items))
+      safeCurrencies = currenciesObj.items;
+    else if (Array.isArray(currenciesObj.data))
+      safeCurrencies = currenciesObj.data;
   }
-  
+
   // Fallback to default options if no currencies are loaded yet
-  const currencyOptions = safeCurrencies.length > 0 
-    ? safeCurrencies.map((currency: any) => ({
-        value: currency.name, // Use 'name' as value (e.g., "USD")
-        label: `${currency.name} - ${currency.description}`, // Use 'name' and 'description'
-      }))
-    : [
-        { value: 'USD', label: 'USD - US Dollar' },
-        { value: 'EUR', label: 'EUR - Euro' },
-        { value: 'GBP', label: 'GBP - British Pound' },
-      ];
+  const currencyOptions =
+    safeCurrencies.length > 0
+      ? safeCurrencies.map((currency: any) => ({
+          value: currency.name, // Use 'name' as value (e.g., "USD")
+          label: `${currency.name} - ${currency.description}`, // Use 'name' and 'description'
+        }))
+      : [
+          { value: 'USD', label: 'USD - US Dollar' },
+          { value: 'EUR', label: 'EUR - Euro' },
+          { value: 'GBP', label: 'GBP - British Pound' },
+        ];
 
   // Add new budget field
   const addBudgetField = () => {
@@ -161,7 +165,8 @@ export const LeadInformationSection: React.FC<LeadInformationSectionProps> = ({
       const newBudgets = [...currentBudgets];
 
       // Set default values for new field
-      const defaultCurrency = currencies.length > 0 ? currencies[0]?.name : 'USD';
+      const defaultCurrency =
+        currencies.length > 0 ? currencies[0]?.name : 'USD';
       newCurrencies[newIndex] = defaultCurrency;
       newBudgets[newIndex] = '';
 

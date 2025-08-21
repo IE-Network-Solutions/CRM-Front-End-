@@ -69,7 +69,6 @@ export const useHandleSignIn = () => {
         return;
       }
 
-
       // Set essential user-related states
       setTenantId(fetchedData?.data.tenantId);
       setUserId(fetchedData?.data.id);

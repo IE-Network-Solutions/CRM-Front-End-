@@ -12,7 +12,7 @@ import { Layout, Button, theme, Tree, Skeleton, Dropdown } from 'antd';
 
 const { Header, Content, Sider } = Layout;
 import NavBar from './topNavBar';
-import { CiCircleMore, CiSettings } from 'react-icons/ci';
+import { CiSettings } from 'react-icons/ci';
 import { LuUsers } from 'react-icons/lu';
 import { removeCookie } from '@/helpers/storageHelper';
 import { useAuthenticationStore } from '@/store/uistate/features/authentication';
@@ -119,7 +119,6 @@ const Nav: React.FC<MyComponentProps> = ({ children }) => {
     menuItems: CustomMenuItem[],
   ): { route: string; permissions: string[] }[] => {
     const routes: { route: string; permissions: string[] }[] = [];
-
 
     const traverse = (items: CustomMenuItem[]) => {
       items.forEach((item) => {
@@ -247,9 +246,7 @@ const Nav: React.FC<MyComponentProps> = ({ children }) => {
         },
       ],
     },
-    
   ];
-
 
   // Helper function to match dynamic routes like [id] to UUIDs or any non-slash segment
   const isRouteMatch = (routePattern: string, pathname: string) => {
@@ -353,7 +350,6 @@ const Nav: React.FC<MyComponentProps> = ({ children }) => {
     useEmployeeManagementStore();
   useEffect(() => {
     if (!departments || !employeeData) return;
-
 
     if (departments.length === 0) {
       router.push('/onboarding');
@@ -508,7 +504,6 @@ const Nav: React.FC<MyComponentProps> = ({ children }) => {
         );
       };
 
-
       const renderTitle = () => {
         if (React.isValidElement(item.title)) {
           const icon = (item.title.props as { children?: React.ReactNode[] })
@@ -615,8 +610,7 @@ const Nav: React.FC<MyComponentProps> = ({ children }) => {
           </Button>
         )}
 
-
-<div className="relative">
+        <div className="relative">
           <div className="absolute left-4 top-0 w-[10px] h-full bg-white z-10"></div>
           {isLoading ? (
             <div className="px-5 w-full h-full flex justify-center items-center my-5">
