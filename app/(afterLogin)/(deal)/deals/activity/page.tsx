@@ -1,409 +1,320 @@
 'use client';
+
 import React, { useState } from 'react';
-import { Button, Input, Tag, Modal, Select, DatePicker } from 'antd';
+import {
+  Button,
+  Tag,
+  Timeline,
+  Input,
+  Tooltip,
+  Space,
+  ConfigProvider,
+} from 'antd';
 import {
   ArrowLeftOutlined,
-  FilterOutlined,
   PlusOutlined,
+  ClockCircleOutlined,
   MailOutlined,
   PhoneOutlined,
-  FileTextOutlined,
-  PaperClipOutlined,
-  CloseOutlined,
   CheckOutlined,
+  CloseOutlined,
+  PaperClipOutlined,
 } from '@ant-design/icons';
-import FilterModal from '../manage-deals/_components/filter';
+import { LuSettings2 } from 'react-icons/lu';
+import { RiExchange2Line } from 'react-icons/ri';
 
-const { TextArea } = Input;
-const { Option } = Select;
+const DatePill: React.FC<React.PropsWithChildren> = ({ children }) => (
+  <div className="inline-flex rounded-full bg-white shadow-md border border-slate-200 text-slate-500 text-xs px-3 py-1">
+    {children}
+  </div>
+);
 
-const DealActivity = () => {
-  const [isFilterOpen, setIsFilterOpen] = useState(false);
-  const [selectedActivity, setSelectedActivity] = useState<number | null>(1);
-  const [isCreateModalOpen, setIsCreateModalOpen] = useState(false);
-  const [hoveredActivity, setHoveredActivity] = useState<number | null>(1);
-  const [notes, setNotes] = useState<{ [key: number]: string }>({
-    1: '',
-    2: '',
-    3: '',
-    4: '',
-  });
+const PriorityTag: React.FC<{ level: 'Low' | 'High' }> = ({ level }) => (
+  <Tag color={level === 'High' ? 'red' : 'green'} className="rounded-full px-2">
+    {level}
+  </Tag>
+);
 
-  const activities = [
-    {
-      id: 1,
-      time: '12:00AM',
-      date: '24 May 2025',
-      type: 'email',
-      icon: <MailOutlined className="text-blue-600" />,
-      priority: 'Low',
-      priorityColor: '#22C55E',
-      title: 'Send Emails to clients',
-      person: 'Robel Kebede',
-      dealTitle: 'Deal title',
-      highlighted: false,
-      notes: '',
-      files: [],
-      backgroundColor: 'bg-gray-50',
-    },
-    {
-      id: 2,
-      time: '12:00AM',
-      date: '24 May 2025',
-      type: 'call',
-      icon: <PhoneOutlined className="text-green-600" />,
-      priority: 'Low',
-      priorityColor: '#22C55E',
-      title: 'Send Emails to clients',
-      person: 'Robel Kebede',
-      dealTitle: 'Lead title',
-      highlighted: false,
-      notes: '',
-      files: [],
-      backgroundColor: 'bg-gray-50',
-    },
-    {
-      id: 3,
-      time: '12:00AM',
-      date: '24 May 2025',
-      type: 'document',
-      icon: <FileTextOutlined className="text-purple-600" />,
-      priority: 'Low',
-      priorityColor: '#22C55E',
-      title: 'Share Document with Client',
-      person: 'Robel Kebede',
-      dealTitle: 'Deal title',
-      highlighted: true,
-      highlightColor: '#22C55E',
-      notes: '',
-      files: [
-        'File Name 1',
-        'File Name 2',
-        'File Name 3',
-        'File Name 4',
-        'File Name 5',
-      ],
-      backgroundColor: 'bg-green-50',
-    },
-    {
-      id: 4,
-      time: '12:00AM',
-      date: '24 May 2025',
-      type: 'call',
-      icon: <PhoneOutlined className="text-green-600" />,
-      priority: 'High',
-      priorityColor: '#EF4444',
-      title: 'Send Emails to clients',
-      person: 'Robel Kebede',
-      dealTitle: 'Deal title',
-      highlighted: true,
-      highlightColor: '#2563EB',
-      notes:
-        'Lorem ipsum dolor sit amet consectetur. Dolor tristique consectetur odio tempus. Erat magna pellentesque risus gravida venenatis id ultricies aliquam orci.',
-      files: [
-        'File Name 1',
-        'File Name 2',
-        'File Name 3',
-        'File Name 4',
-        'File Name 5',
-      ],
-      backgroundColor: 'bg-blue-50',
-    },
-  ];
+const PersonMeta: React.FC<{ name: string; deal: string }> = ({
+  name,
+  deal,
+}) => (
+  <div className="text-xs text-slate-500 leading-tight">
+    <div>{name}</div>
+    <div className="text-slate-400">{deal}</div>
+  </div>
+);
 
-  const handleBack = () => {
-    window.history.back();
-  };
+const Attachments: React.FC<{ items: string[] }> = ({ items }) => (
+  <div className="flex flex-wrap gap-2">
+    {items.map((t, i) => (
+      <Tag key={i} className="rounded-full px-3 bg-slate-50">
+        {t}
+      </Tag>
+    ))}
+  </div>
+);
 
-  const handleCreateActivity = () => {
-    setIsCreateModalOpen(true);
-  };
+const TimeStamp: React.FC<{ time: string }> = ({ time }) => (
+  <div className="w-24 text-right pr-4 text-slate-400 text-sm shrink-0">
+    {time}
+  </div>
+);
 
-  const handleActivitySelect = (activityId: number) => {
-    setSelectedActivity(activityId);
-    selectedActivity;
-  };
+type ActivityCardProps = {
+  icon?: 'mail' | 'phone' | 'clock';
+  title: string;
+  person?: string;
+  deal?: string;
+  priority?: 'Low' | 'High';
+  notes?: boolean;
+  attachments?: string[];
+  notePlaceholder?: string;
+};
 
-  // const handleRemoveFile = (activityId: number, fileName: string) => {
-  //   fileName;
-  //   activityId;
-  // };
-
-  const handleNotesChange = (activityId: number, value: string) => {
-    setNotes((prev) => ({
-      ...prev,
-      [activityId]: value,
-    }));
-  };
-
-  const handleCompleteActivity = (activityId: number) => {
-    // Handle complete activity logic
-    // console.log('Complete activity:', activityId);
-    activityId;
-  };
-
-  const handleDeleteActivity = (activityId: number) => {
-    // Handle delete activity logic
-    // console.log('Delete activity:', activityId);
-    activityId;
-  };
-
-  // const selectedActivityData = activities.find(
-  //   (activity) => activity.id === selectedActivity,
-  // );
+const ActivityCard: React.FC<ActivityCardProps> = ({
+  icon = 'mail',
+  title,
+  person = 'Robel Kebede',
+  deal = 'Deal title',
+  priority = 'Low',
+  notes = false,
+  attachments = [],
+  notePlaceholder = 'Notes',
+}) => {
+  const [text, setText] = useState('');
+  const Icon =
+    icon === 'mail'
+      ? MailOutlined
+      : icon === 'phone'
+        ? PhoneOutlined
+        : ClockCircleOutlined;
+  const leftStripe =
+    priority === 'High'
+      ? 'border-l-4 border-l-rose-400'
+      : 'border-l-4 border-l-emerald-400';
 
   return (
-    <div className="min-h-screen bg-white">
-      {/* Header */}
-      <div className="mb-6 px-6 py-4">
-        <div className="flex items-center justify-between">
-          <div className="flex items-center gap-4">
-            <Button
-              type="text"
-              icon={<ArrowLeftOutlined />}
-              onClick={handleBack}
-              className="text-[#4080f0] border-[#4080f0] h-10 w-10"
-            />
-            <div>
-              <h1 className="text-2xl font-bold text-gray-900">
-                Deal Title Activity
-              </h1>
-              <p className="text-gray-600">
-                View and manage your deal activity
-              </p>
+    <div
+      className={`group relative rounded-2xl bg-white border ${leftStripe} border-slate-200 shadow-md hover:shadow-lg hover:bg-slate-50/30 transition-all duration-300`}
+    >
+      <div className="p-4 sm:p-5">
+        <div>
+          <div className="flex justify-self-auto items-center gap-2">
+            <div className="flex items-center gap-2">
+            <TimeStamp time={"12:00AM"} />
+
+<div className="h-8 w-8 rounded-full bg-sky-50 flex items-center justify-center ring-1 ring-sky-200">
+    <Icon className="text-sky-500" />
+  </div>
             </div>
-          </div>
-          <Button
-            type="primary"
-            icon={<PlusOutlined />}
-            onClick={handleCreateActivity}
-            className="bg-[#4080f0] hover:bg-[#4080f0] text-white h-10"
-          >
-            Create Activity
-          </Button>
-        </div>
-        <div className="flex justify-end mt-5">
-          <div className="flex gap-2">
-            <Button
-              icon={<FilterOutlined />}
-              className="h-10 border-[#4080f0] text-[#4080f0]"
-              onClick={() => {
-                setIsFilterOpen(true);
-              }}
-            >
-              Filter
-            </Button>
-            <Button className="h-10 border-[#4080f0] text-[#4080f0]">
-              Action
-            </Button>
-          </div>
-        </div>
-      </div>
-
-      {/* Main Content */}
-      <div className="flex flex-col lg:flex-row">
-        {/* Timeline Column */}
-        <div className="flex-1 lg:border-r border-gray-200">
-          <div className="p-6">
-            <div className="relative">
-              {/* Timeline Line */}
-              <div className="absolute left-6 top-0 bottom-0 w-0.5 bg-gray-300 hidden lg:block"></div>
-
-              {/* Date Header */}
-              <div className="mb-6 relative">
-                <div className="inline-block border border-blue-300 text-blue-600 px-3 py-1 rounded-lg text-sm font-medium bg-white">
-                  24 May 2025
-                </div>
-                <div className="absolute left-1/2 transform -translate-x-1/2 w-px h-8 bg-gray-300 mt-1"></div>
-              </div>
-
-              {/* Activities */}
-              <div className="space-y-4">
-                {activities.map((activity) => (
-                  <div key={activity.id} className="relative">
-                    {/* Timeline Dot - Desktop Only */}
-                    <div className="absolute left-4 w-4 h-4 bg-white border-2 border-gray-300 rounded-full z-10 hidden lg:block"></div>
-
-                    {/* Activity Card */}
-                    <div
-                      // className={`relative bg-white rounded-lg shadow-sm transition-all duration-200 ${
-                      //   hoveredActivity === activity.id
-                      //     ? 'border-2 border-blue-300 shadow-md'
-                      //     : 'border border-gray-200'
-                      // }`}
-                      className="hover:border border-gray-200"
-                      onMouseEnter={() => setHoveredActivity(activity.id)}
-                      onMouseLeave={() => setHoveredActivity(null)}
-                      onClick={() => handleActivitySelect(activity.id)}
-                    >
-                      <div className="p-4">
-                        <div className="flex items-start gap-4">
-                          {/* Time and Icon */}
-                          <div className="flex flex-col items-center gap-2 min-w-[60px]">
-                            <div className="text-sm text-gray-500 font-medium">
-                              {activity.time}
+            <div className="mt-1">
+              <PriorityTag level={priority} />
+              <div className="font-semibold text-slate-800">{title}</div>
+              <PersonMeta name={person} deal={deal} />
+            </div>
+            <div className="flex justify-between items-center gap-2">
+              <div className="flex-1">
+                  <div className="mt-3">
+                    <div className="relative">
+                      <div className="border border-slate-200 hover:border-slate-300 rounded-xl transition-all min-h-[80px] p-3 bg-white">
+                        <div className="flex items-start gap-2 mb-2">
+                          <span className="text-slate-500 text-sm font-medium">Notes:</span>
+                          {attachments.length > 0 && (
+                            <div className="flex flex-wrap gap-1">
+                              {attachments.map((attachment, index) => (
+                                <div key={index} className="flex items-center gap-1 bg-slate-100 border border-slate-200 rounded-md px-2 py-1 text-xs">
+                                  <span className="text-slate-700">{attachment}</span>
+                                  <CloseOutlined className="text-slate-400 hover:text-slate-600 cursor-pointer" />
+                                </div>
+                              ))}
                             </div>
-                            <div className="w-8 h-8 rounded-full border-2 border-gray-300 flex items-center justify-center bg-white">
-                              {activity.icon}
-                            </div>
-                          </div>
-
-                          {/* Content */}
-                          <div className="flex w-full justify-between items-center gap-3">
-                            <div className="flex items-start justify-between mb-3 w-1/3">
-                              <div className="flex-1">
-                                <Tag
-                                  style={{
-                                    backgroundColor: activity.priorityColor,
-                                    color: 'white',
-                                    border: 'none',
-                                  }}
-                                  className="text-xs h-6 px-2 font-medium mb-2"
-                                >
-                                  {activity.priority}
-                                </Tag>
-                                <h3 className="font-semibold text-gray-900 text-base mb-1">
-                                  {activity.title}
-                                </h3>
-                                <p className="text-sm text-gray-600 mb-1">
-                                  {activity.person}
-                                </p>
-                                <p className="text-xs text-gray-500">
-                                  {activity.dealTitle}
-                                </p>
-                              </div>
-                            </div>
-
-                            {/* Notes and Actions */}
-                            <div className="flex items-start gap-3">
-                              <div className="flex-1">
-                                <Input
-                                  placeholder="Notes"
-                                  value={notes[activity.id] || ''}
-                                  onChange={(e) =>
-                                    handleNotesChange(
-                                      activity.id,
-                                      e.target.value,
-                                    )
-                                  }
-                                  className="rounded-lg w-[550px] h-10"
-                                />
-                              </div>
-                              <div className="flex gap-2">
-                                <Button
-                                  type="text"
-                                  icon={<PaperClipOutlined />}
-                                  className="text-gray-500 hover:text-gray-700"
-                                  size="small"
-                                />
-                                {hoveredActivity === activity.id && (
-                                  <>
-                                    <Button
-                                      type="primary"
-                                      icon={<CheckOutlined />}
-                                      className="bg-blue-600 hover:bg-blue-700 text-white"
-                                      size="small"
-                                      onClick={(e) => {
-                                        e.stopPropagation();
-                                        handleCompleteActivity(activity.id);
-                                      }}
-                                    />
-                                    <Button
-                                      type="primary"
-                                      icon={<CloseOutlined />}
-                                      className="bg-red-600 hover:bg-red-700 text-white"
-                                      size="small"
-                                      onClick={(e) => {
-                                        e.stopPropagation();
-                                        handleDeleteActivity(activity.id);
-                                      }}
-                                    />
-                                  </>
-                                )}
-                              </div>
-                            </div>
-                          </div>
+                          )}
+                        </div>
+                        <Input.TextArea
+                          value={text}
+                          onChange={(e) => setText(e.target.value)}
+                          placeholder={notePlaceholder}
+                          autoSize={{ minRows: 1, maxRows: 2 }}
+                          className="border-none shadow-none p-0 resize-none focus:shadow-none"
+                          style={{ background: 'transparent' }}
+                        />
+                        <div className="absolute top-2 right-2">
+                          <PaperClipOutlined className="text-slate-400 hover:text-slate-600 cursor-pointer" />
                         </div>
                       </div>
                     </div>
                   </div>
-                ))}
+              </div>
+              {/* Hover actions */}
+              <div className="opacity-0 -translate-y-1 group-hover:opacity-100 group-hover:translate-y-0 transition-all">
+                <Space>
+                  <Tooltip title="Save">
+                    <Button
+                      shape="circle"
+                      type="primary"
+                      icon={<CheckOutlined />}
+                    />
+                  </Tooltip>
+                  <Tooltip title="Delete">
+                    <Button shape="circle" danger icon={<CloseOutlined />} />
+                  </Tooltip>
+                </Space>
               </div>
             </div>
           </div>
         </div>
       </div>
-
-      {/* Create Activity Modal */}
-      <Modal
-        title="Create New Activity"
-        open={isCreateModalOpen}
-        onCancel={() => setIsCreateModalOpen(false)}
-        footer={[
-          <Button key="cancel" onClick={() => setIsCreateModalOpen(false)}>
-            Cancel
-          </Button>,
-          <Button
-            key="submit"
-            type="primary"
-            onClick={() => setIsCreateModalOpen(false)}
-          >
-            Create Activity
-          </Button>,
-        ]}
-        width={600}
-      >
-        <div className="space-y-4">
-          <div>
-            <label className="block text-sm font-medium text-gray-700 mb-2">
-              Activity Type
-            </label>
-            <Select placeholder="Select activity type" className="w-full">
-              <Option value="email">Email</Option>
-              <Option value="call">Call</Option>
-              <Option value="meeting">Meeting</Option>
-              <Option value="document">Document</Option>
-            </Select>
-          </div>
-          <div>
-            <label className="block text-sm font-medium text-gray-700 mb-2">
-              Title
-            </label>
-            <Input placeholder="Enter activity title" />
-          </div>
-          <div>
-            <label className="block text-sm font-medium text-gray-700 mb-2">
-              Priority
-            </label>
-            <Select placeholder="Select priority" className="w-full">
-              <Option value="low">Low</Option>
-              <Option value="medium">Medium</Option>
-              <Option value="high">High</Option>
-            </Select>
-          </div>
-          <div>
-            <label className="block text-sm font-medium text-gray-700 mb-2">
-              Date & Time
-            </label>
-            <DatePicker showTime className="w-full" />
-          </div>
-          <div>
-            <label className="block text-sm font-medium text-gray-700 mb-2">
-              Notes
-            </label>
-            <TextArea rows={3} placeholder="Add notes..." />
-          </div>
-        </div>
-      </Modal>
-
-      <FilterModal
-        open={isFilterOpen}
-        onClose={() => setIsFilterOpen(false)}
-        onFilter={() => {}}
-        onRemoveAll={() => {}}
-      />
     </div>
   );
 };
 
-export default DealActivity;
+
+
+const Row: React.FC<{ children: React.ReactNode }> = ({
+  children,
+}) => (
+  <div className="flex items-start gap-2 sm:gap-4">
+    <div className="flex-1">{children}</div>
+  </div>
+);
+
+export default function DealActivityPage() {
+  return (
+    <ConfigProvider
+      theme={{ token: { borderRadius: 12, colorPrimary: '#2563eb' } }}
+    >
+      <div>
+        {/* Header */}
+        <div className="mb-6 px-6 py-4">
+          <div className="flex items-center justify-between">
+            <div className="flex items-center gap-4">
+              <Button
+                type="text"
+                icon={<ArrowLeftOutlined />}
+                className="text-[#4080f0] border-[#4080f0] h-10 w-10"
+              />
+              <div>
+                <h1 className="text-2xl font-bold text-gray-900">
+                  Deal Activity
+                </h1>
+                <p className="text-gray-600">
+                  View and manage your deal activity
+                </p>
+              </div>
+            </div>
+            <Button
+              type="primary"
+              icon={<PlusOutlined />}
+              className="bg-[#4080f0] hover:bg-[#4080f0] text-white h-10"
+            >
+              Create Activity
+            </Button>
+          </div>
+          <div className="flex justify-end mt-5">
+            <div className="flex gap-2">
+              <Button
+                icon={<LuSettings2 className="text-[#4080f0]" size={20} />}
+                className="h-10 border-[#4080f0] text-[#4080f0]"
+              >
+                Filter
+              </Button>
+              <Button
+                icon={<RiExchange2Line className="text-[#4080f0]" size={20} />}
+                className="h-10 border-[#4080f0] text-[#4080f0]"
+              >
+                Action
+              </Button>
+            </div>
+          </div>
+        </div>
+
+        {/* Timeline */}
+        <div className="mt-8">
+          <div className="ml-28 sm:ml-32 mb-3">
+            <DatePill>24 May 2025</DatePill>
+
+          </div>
+          <Timeline
+            className="ml-28 sm:ml-32"
+            items={[
+              {
+                dot: <ClockCircleOutlined className="text-sky-500" />,
+                children: (
+                  <Row>
+                    <ActivityCard
+                      icon="mail"
+                      title="Send Emails to clients"
+                      priority="Low"
+                      notes
+                    />
+                  </Row>
+                ),
+              },
+              {
+                dot: <PhoneOutlined className="text-emerald-500" />,
+                children: (
+                  <Row>
+                    <ActivityCard
+                      icon="phone"
+                      title="Send Emails to clients"
+                      priority="Low"
+                      notes
+                    />
+                  </Row>
+                ),
+              },
+            ]}
+          />
+
+          <div className="ml-28 sm:ml-32 mt-2 mb-3">
+            <DatePill>24 May 2025</DatePill>
+          </div>
+          <Timeline
+            className="ml-28 sm:ml-32"
+            items={[
+              {
+                dot: <MailOutlined className="text-emerald-500" />,
+                children: (
+                  <Row>
+                    <ActivityCard
+                      icon="mail"
+                      title="Share Document with Client"
+                      priority="Low"
+                      attachments={[
+                        'File Name',
+                        'File Name',
+                        'File Name',
+                        'File Name',
+                      ]}
+                    />
+                  </Row>
+                ),
+              },
+              {
+                dot: <MailOutlined className="text-rose-500" />,
+                children: (
+                  <Row>
+                    <ActivityCard
+                      icon="mail"
+                      title="Send Emails to clients"
+                      priority="High"
+                      notes
+                      notePlaceholder="Lorem ipsum dolor sit amet consectetur. Dolor tristique consectetur odio tempus."
+                      attachments={[
+                        'File Name',
+                        'File Name',
+                        'File Name',
+                        'File Name',
+                      ]}
+                    />
+                  </Row>
+                ),
+              },
+            ]}
+          />
+        </div>
+      </div>
+    </ConfigProvider>
+  );
+}
