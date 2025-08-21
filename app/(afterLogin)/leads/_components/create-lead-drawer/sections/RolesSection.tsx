@@ -153,8 +153,14 @@ export const RolesSection: React.FC<RolesSectionProps> = ({
                 placeholder={usersLoading ? 'Loading users...' : 'Select Users'}
                 options={userOptions}
                 loading={usersLoading}
+                showSearch
                 tagRender={userTagRender}
                 data-cy={`users-select-${index}`}
+                filterOption={(input, option) =>
+                  (option?.label ?? '')
+                    .toLowerCase()
+                    .includes(input.toLowerCase())
+                }
                 optionRender={(option) => (
                   <Space>
                     <UserOutlined />

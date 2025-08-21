@@ -223,25 +223,25 @@ const Nav: React.FC<MyComponentProps> = ({ children }) => {
           <span>Leads</span>
         </span>
       ),
-      key: '/leads',
+      key: '/leads-menu',
       className: 'font-bold',
       permissions: [],
       children: [
         {
           title: <span>leads</span>,
-          key: '/leads/manage-leads',
+          key: '/leads',
           className: 'font-bold',
           permissions: [],
         },
         {
           title: <span>Activity</span>,
-          key: '/leads/activity',
+          key: '/activity',
           className: 'font-bold',
           permissions: [],
         },
         {
           title: <span>Settings</span>,
-          key: '/leads/settings',
+          key: '/settings',
           className: 'font-bold',
           permissions: [],
         },

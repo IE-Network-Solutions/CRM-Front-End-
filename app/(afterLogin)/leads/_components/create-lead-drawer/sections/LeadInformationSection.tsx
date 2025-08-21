@@ -8,12 +8,13 @@ import {
   PlusOutlined,
 } from '@ant-design/icons';
 import dayjs from 'dayjs';
-import { currencyOptions, leadValidation } from '../options';
+import { leadValidation } from '../options';
 import { useGetSources } from '@/store/server/features/leads/source/queries';
 import { useGetEngagementStages } from '@/store/server/features/leads/engagement-stage/queries';
 import { useGetLeadTypes } from '@/store/server/features/leads/lead-types/queries';
 import { useGetSectors } from '@/store/server/features/leads/sectors/queries';
 import { useGetUsers } from '@/store/server/features/leads/users/queries';
+import { useGetCurrencies } from '@/store/server/features/leads/currencies/queries';
 
 interface LeadInformationSectionProps {
   form?: any;
@@ -24,19 +25,6 @@ export const LeadInformationSection: React.FC<LeadInformationSectionProps> = ({
 }) => {
   const [budgetFields, setBudgetFields] = useState([0]); // Track budget field indices
 
-  // Set initial form values when component mounts
-  useEffect(() => {
-    if (form) {
-      // Set initial values for the first budget field and today's date
-      const today = dayjs(); // Use dayjs instead of native Date
-      form.setFieldsValue({
-        currencies: ['USD'],
-        estimatedBudgets: [''],
-        createdDate: today,
-      });
-    }
-  }, [form]);
-
   const { data: sources = [], isLoading: sourcesLoading } = useGetSources();
   const { data: engagementStages = [], isLoading: stagesLoading } =
     useGetEngagementStages();
@@ -44,6 +32,21 @@ export const LeadInformationSection: React.FC<LeadInformationSectionProps> = ({
     useGetLeadTypes();
   const { data: sectors = [], isLoading: sectorsLoading } = useGetSectors();
   const { data: users = [], isLoading: usersLoading } = useGetUsers();
+  const { data: currencies = [], isLoading: currenciesLoading } = useGetCurrencies();
+
+  // Set initial form values when component mounts
+  useEffect(() => {
+    if (form && currencies.length > 0) {
+      // Set initial values for the first budget field and today's date
+      const today = dayjs(); // Use dayjs instead of native Date
+      const defaultCurrency = currencies[0]?.name || 'USD';
+      form.setFieldsValue({
+        currencies: [defaultCurrency],
+        estimatedBudgets: [''],
+        createdDate: today,
+      });
+    }
+  }, [form, currencies]);
 
   // Transform users data to match Select component format for lead owners
   // Handle different possible data structures from API
@@ -121,6 +124,28 @@ export const LeadInformationSection: React.FC<LeadInformationSectionProps> = ({
     label: sector.name,
   }));
 
+  // Transform currencies data to match Select component format
+  let safeCurrencies: any[] = [];
+  if (Array.isArray(currencies)) {
+    safeCurrencies = currencies;
+  } else if (currencies && typeof currencies === 'object') {
+    const currenciesObj = currencies as any;
+    if (Array.isArray(currenciesObj.items)) safeCurrencies = currenciesObj.items;
+    else if (Array.isArray(currenciesObj.data)) safeCurrencies = currenciesObj.data;
+  }
+  
+  // Fallback to default options if no currencies are loaded yet
+  const currencyOptions = safeCurrencies.length > 0 
+    ? safeCurrencies.map((currency: any) => ({
+        value: currency.name, // Use 'name' as value (e.g., "USD")
+        label: `${currency.name} - ${currency.description}`, // Use 'name' and 'description'
+      }))
+    : [
+        { value: 'USD', label: 'USD - US Dollar' },
+        { value: 'EUR', label: 'EUR - Euro' },
+        { value: 'GBP', label: 'GBP - British Pound' },
+      ];
+
   // Add new budget field
   const addBudgetField = () => {
     const newIndex = budgetFields.length;
@@ -136,7 +161,8 @@ export const LeadInformationSection: React.FC<LeadInformationSectionProps> = ({
       const newBudgets = [...currentBudgets];
 
       // Set default values for new field
-      newCurrencies[newIndex] = 'USD';
+      const defaultCurrency = currencies.length > 0 ? currencies[0]?.name : 'USD';
+      newCurrencies[newIndex] = defaultCurrency;
       newBudgets[newIndex] = '';
 
       form.setFieldsValue({
@@ -362,6 +388,7 @@ export const LeadInformationSection: React.FC<LeadInformationSectionProps> = ({
               >
                 <Select
                   options={currencyOptions}
+                  loading={currenciesLoading}
                   className="w-28 h-9"
                   placeholder="Currency"
                   data-cy={`budget-currency-select-${index}`}

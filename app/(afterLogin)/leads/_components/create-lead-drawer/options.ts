@@ -9,12 +9,7 @@ export const ownerOptions = [
   { value: '16c44cfd-c440-4550-9b8c-fed38e8c03ad', label: 'Jane Doe' },
 ];
 
-export const currencyOptions = [
-  { value: 'USD', label: 'USD' },
-  { value: 'EUR', label: 'EUR' },
-  { value: 'GBP', label: 'GBP' },
-  { value: 'JPY', label: 'JPY' },
-];
+
 
 // Example validation object for frontend
 export const leadValidation = {
@@ -65,3 +60,4 @@ export const leadValidation = {
 // - leadParticipantOptions (from /lead-participants endpoint)
 // - sectorOptions (from /sectors endpoint)
 // - roleOptions (from /roles endpoint)
+// - currencyOptions (from /currencies endpoint)
