@@ -238,7 +238,6 @@ const Nav: React.FC<MyComponentProps> = ({ children }) => {
       className: 'font-bold',
       permissions: ['view_leads'],
       disabled: hasEndedFiscalYear,
-     
     },
   ];
 
@@ -386,7 +385,11 @@ const Nav: React.FC<MyComponentProps> = ({ children }) => {
     if (!selectedKey) return;
 
     // Only block routing if node has actual children (length > 0)
-    if (info.node.children && Array.isArray(info.node.children) && info.node.children.length > 0) {
+    if (
+      info.node.children &&
+      Array.isArray(info.node.children) &&
+      info.node.children.length > 0
+    ) {
       setExpandedKeys((prev) =>
         prev.includes(selectedKey)
           ? prev.filter((key) => key !== selectedKey)
