@@ -146,7 +146,7 @@ function DealSideBar({ open, onClose }: SideBarProps) {
         </div>
 
         {/* Roles */}
-          <div className="flex justify-between items-center ">
+        <div className="flex justify-between items-center ">
           <Text style={{ color: '#8c8c8c' }}>Roles</Text>
           <Button
             type="dashed"
@@ -156,42 +156,42 @@ function DealSideBar({ open, onClose }: SideBarProps) {
         </div>
 
         <Form.Item>
-        <div className="grid grid-cols-2 gap-4">
-
-          <Select placeholder="Deal Type" />
-          <Input className="border-[#e7e7e8]" placeholder="Role Name" />
+          <div className="grid grid-cols-2 gap-4">
+            <Select placeholder="Deal Type" />
+            <Input className="border-[#e7e7e8]" placeholder="Role Name" />
           </div>
         </Form.Item>
         <div className="space-y-6">
-      {/* Upload File */}
-      <Form.Item name="upload" valuePropName="fileList" className="mb-0">
-        <Dragger
-          multiple
-          showUploadList={false}
-          className="rounded-lg"
-          style={{ borderColor: "#4080f0" }}
-        >
-          <p className="text-[#4080f0] font-medium text-lg">Upload File</p>
-          <UploadOutlined className="text-[#4080f0] text-2xl my-2" />
-          <p className="text-[#4080f0]">Drag File or Upload from computer</p>
-        </Dragger>
-      </Form.Item>
+          {/* Upload File */}
+          <Form.Item name="upload" valuePropName="fileList" className="mb-0">
+            <Dragger
+              multiple
+              showUploadList={false}
+              className="rounded-lg"
+              style={{ borderColor: '#4080f0' }}
+            >
+              <p className="text-[#4080f0] font-medium text-lg">Upload File</p>
+              <UploadOutlined className="text-[#4080f0] text-2xl my-2" />
+              <p className="text-[#4080f0]">
+                Drag File or Upload from computer
+              </p>
+            </Dragger>
+          </Form.Item>
 
-      {/* Deal Additional Info */}
-      <div>
-        <label className="block text-gray-600 mb-2">
-          Deal Additional Information
-        </label>
-        <Form.Item name="description" className="mb-0">
-          <Input.TextArea
-            placeholder="Description"
-            rows={4}
-            className="rounded-lg"
-          />
-        </Form.Item>
-      </div>
-    </div>
-
+          {/* Deal Additional Info */}
+          <div>
+            <label className="block text-gray-600 mb-2">
+              Deal Additional Information
+            </label>
+            <Form.Item name="description" className="mb-0">
+              <Input.TextArea
+                placeholder="Description"
+                rows={4}
+                className="rounded-lg"
+              />
+            </Form.Item>
+          </div>
+        </div>
       </Form>
     </CustomDrawerLayout>
   );

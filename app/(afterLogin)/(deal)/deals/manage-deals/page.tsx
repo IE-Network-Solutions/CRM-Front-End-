@@ -8,7 +8,6 @@ import KanbanBoard from './_components/kanbanBoard';
 import DealSideBar from './_components/sideBar';
 import FilterModal from './_components/filter';
 import { LuSettings2 } from 'react-icons/lu';
-import FilterDropdown from '@/app/(afterLogin)/reports/_components/filterDropdown';
 
 const { Title, Text } = Typography;
 
@@ -65,34 +64,33 @@ const ManageDealsPage: React.FC = () => {
           >
             Filter
           </Button> */}
-           <Dropdown
-          overlay={
-          <FilterModal onFilter={handleFilter} />
-        }
-          trigger={['click']}
-          placement="bottomRight"
-        >
-          <Button
-            icon={<LuSettings2 />}
-            style={{
-              color: '#3b82f6',
-              borderColor: '#93c5fd',
-              borderWidth: '1px',
-              height: '50px',
-            }}
-            className="flex items-center hover:bg-blue-50 h-10"
-            onMouseEnter={(e) => {
-              e.currentTarget.style.color = '#1d4ed8';
-              e.currentTarget.style.borderColor = '#3b82f6';
-            }}
-            onMouseLeave={(e) => {
-              e.currentTarget.style.color = '#3b82f6';
-              e.currentTarget.style.borderColor = '#93c5fd';
-            }}
+          <Dropdown
+            overlay={<FilterModal onFilter={handleFilter} />}
+            trigger={['click']}
+            placement="bottomRight"
           >
-            Filter
-          </Button>
-        </Dropdown>
+            <Button
+              icon={<LuSettings2 />}
+              onClick={() => setIsFilterOpen(!isFilterOpen)}
+              style={{
+                color: '#3b82f6',
+                borderColor: '#93c5fd',
+                borderWidth: '1px',
+                height: '50px',
+              }}
+              className="flex items-center hover:bg-blue-50 h-10"
+              onMouseEnter={(e) => {
+                e.currentTarget.style.color = '#1d4ed8';
+                e.currentTarget.style.borderColor = '#3b82f6';
+              }}
+              onMouseLeave={(e) => {
+                e.currentTarget.style.color = '#3b82f6';
+                e.currentTarget.style.borderColor = '#93c5fd';
+              }}
+            >
+              Filter
+            </Button>
+          </Dropdown>
           <Button
             icon={<RiExchange2Line className="text-[#4080f0]" />}
             className="h-10 text-[#4080f0] border border-[#4080f0]"
@@ -114,7 +112,6 @@ const ManageDealsPage: React.FC = () => {
           setIsSideBarOpen(false);
         }}
       />
-      
     </div>
   );
 };

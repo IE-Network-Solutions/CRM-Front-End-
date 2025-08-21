@@ -232,11 +232,8 @@ const KanbanBoard: React.FC<KanbanBoardProps> = ({ onClick }) => {
     },
   ]);
 
-  const mainAmount = "$400,000";
-  const conversions = [
-    "ETB210,000",
-    "€220,000 EUR",
-  ];
+  const mainAmount = '$400,000';
+  const conversions = ['ETB210,000', '€220,000 EUR'];
 
   // Sortable Deal Card Component
   const SortableDealCard: React.FC<{
@@ -480,22 +477,22 @@ const KanbanBoard: React.FC<KanbanBoardProps> = ({ onClick }) => {
             {stage.total}
           </Text>
         </div> */}
-         <div className="p-3 text-center space-y-3">
-      {/* Main Amount */}
-      <Text className="text-3xl font-bold">{mainAmount}</Text>
+        <div className="p-3 text-center space-y-3">
+          {/* Main Amount */}
+          <Text className="text-3xl font-bold">{mainAmount}</Text>
 
-      {/* Conversion Tags */}
-      <div className="flex justify-center gap-2">
-        {conversions.map((value, index) => (
-          <Tag
-            key={index}
-            className="px-3 py-1 rounded-full border border-gray-300 text-gray-700 text-xs"
-          >
-            {value}
-          </Tag>
-        ))}
-      </div>
-    </div>
+          {/* Conversion Tags */}
+          <div className="flex justify-center gap-2">
+            {conversions.map((value, index) => (
+              <Tag
+                key={index}
+                className="px-3 py-1 rounded-full border border-gray-300 text-gray-700 text-xs"
+              >
+                {value}
+              </Tag>
+            ))}
+          </div>
+        </div>
 
         <div
           style={{

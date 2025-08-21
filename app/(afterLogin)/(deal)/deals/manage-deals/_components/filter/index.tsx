@@ -1,4 +1,4 @@
-import { Button, Form, Input, Modal, Select } from 'antd';
+import { Button, Form, Input, Select } from 'antd';
 import { DollarOutlined } from '@ant-design/icons';
 import React from 'react';
 
@@ -31,7 +31,7 @@ const FilterModal: React.FC<FilterDropdownProps> = ({ onFilter }) => {
       </div>
 
       <Form layout="vertical" form={form} className="w-full">
-        <h3 className="text-gray-500 text-sm mb-2">
+        <h3 className="text-gray-500 text-sm mb-2 mt-3">
           Filter by general information
         </h3>
 
@@ -80,14 +80,7 @@ const FilterModal: React.FC<FilterDropdownProps> = ({ onFilter }) => {
     </div>
   );
 
-
-
-
   return dropdownContent;
-
-  
-    
-  
 };
 
 export default FilterModal;

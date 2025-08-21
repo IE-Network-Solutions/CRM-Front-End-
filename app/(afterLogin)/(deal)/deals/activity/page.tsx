@@ -45,15 +45,15 @@ const PersonMeta: React.FC<{ name: string; deal: string }> = ({
   </div>
 );
 
-const Attachments: React.FC<{ items: string[] }> = ({ items }) => (
-  <div className="flex flex-wrap gap-2">
-    {items.map((t, i) => (
-      <Tag key={i} className="rounded-full px-3 bg-slate-50">
-        {t}
-      </Tag>
-    ))}
-  </div>
-);
+// const Attachments: React.FC<{ items: string[] }> = ({ items }) => (
+//   <div className="flex flex-wrap gap-2">
+//     {items.map((t, i) => (
+//       <Tag key={i} className="rounded-full px-3 bg-slate-50">
+//         {t}
+//       </Tag>
+//     ))}
+//   </div>
+// );
 
 const TimeStamp: React.FC<{ time: string }> = ({ time }) => (
   <div className="w-24 text-right pr-4 text-slate-400 text-sm shrink-0">
@@ -78,7 +78,6 @@ const ActivityCard: React.FC<ActivityCardProps> = ({
   person = 'Robel Kebede',
   deal = 'Deal title',
   priority = 'Low',
-  notes = false,
   attachments = [],
   notePlaceholder = 'Notes',
 }) => {
@@ -102,11 +101,11 @@ const ActivityCard: React.FC<ActivityCardProps> = ({
         <div>
           <div className="flex justify-self-auto items-center gap-2">
             <div className="flex items-center gap-2">
-            <TimeStamp time={"12:00AM"} />
+              <TimeStamp time={'12:00AM'} />
 
-<div className="h-8 w-8 rounded-full bg-sky-50 flex items-center justify-center ring-1 ring-sky-200">
-    <Icon className="text-sky-500" />
-  </div>
+              <div className="h-8 w-8 rounded-full bg-sky-50 flex items-center justify-center ring-1 ring-sky-200">
+                <Icon className="text-sky-500" />
+              </div>
             </div>
             <div className="mt-1">
               <PriorityTag level={priority} />
@@ -115,36 +114,43 @@ const ActivityCard: React.FC<ActivityCardProps> = ({
             </div>
             <div className="flex justify-between items-center gap-2">
               <div className="flex-1">
-                  <div className="mt-3">
-                    <div className="relative">
-                      <div className="border border-slate-200 hover:border-slate-300 rounded-xl transition-all min-h-[80px] p-3 bg-white">
-                        <div className="flex items-start gap-2 mb-2">
-                          <span className="text-slate-500 text-sm font-medium">Notes:</span>
-                          {attachments.length > 0 && (
-                            <div className="flex flex-wrap gap-1">
-                              {attachments.map((attachment, index) => (
-                                <div key={index} className="flex items-center gap-1 bg-slate-100 border border-slate-200 rounded-md px-2 py-1 text-xs">
-                                  <span className="text-slate-700">{attachment}</span>
-                                  <CloseOutlined className="text-slate-400 hover:text-slate-600 cursor-pointer" />
-                                </div>
-                              ))}
-                            </div>
-                          )}
-                        </div>
-                        <Input.TextArea
-                          value={text}
-                          onChange={(e) => setText(e.target.value)}
-                          placeholder={notePlaceholder}
-                          autoSize={{ minRows: 1, maxRows: 2 }}
-                          className="border-none shadow-none p-0 resize-none focus:shadow-none"
-                          style={{ background: 'transparent' }}
-                        />
-                        <div className="absolute top-2 right-2">
-                          <PaperClipOutlined className="text-slate-400 hover:text-slate-600 cursor-pointer" />
-                        </div>
+                <div className="mt-3">
+                  <div className="relative">
+                    <div className="border border-slate-200 hover:border-slate-300 rounded-xl transition-all min-h-[80px] p-3 bg-white">
+                      <div className="flex items-start gap-2 mb-2">
+                        <span className="text-slate-500 text-sm font-medium">
+                          Notes:
+                        </span>
+                        {attachments.length > 0 && (
+                          <div className="flex flex-wrap gap-1">
+                            {attachments.map((attachment, index) => (
+                              <div
+                                key={index}
+                                className="flex items-center gap-1 bg-slate-100 border border-slate-200 rounded-md px-2 py-1 text-xs"
+                              >
+                                <span className="text-slate-700">
+                                  {attachment}
+                                </span>
+                                <CloseOutlined className="text-slate-400 hover:text-slate-600 cursor-pointer" />
+                              </div>
+                            ))}
+                          </div>
+                        )}
+                      </div>
+                      <Input.TextArea
+                        value={text}
+                        onChange={(e) => setText(e.target.value)}
+                        placeholder={notePlaceholder}
+                        autoSize={{ minRows: 1, maxRows: 2 }}
+                        className="border-none shadow-none p-0 resize-none focus:shadow-none"
+                        style={{ background: 'transparent' }}
+                      />
+                      <div className="absolute top-2 right-2">
+                        <PaperClipOutlined className="text-slate-400 hover:text-slate-600 cursor-pointer" />
                       </div>
                     </div>
                   </div>
+                </div>
               </div>
               {/* Hover actions */}
               <div className="opacity-0 -translate-y-1 group-hover:opacity-100 group-hover:translate-y-0 transition-all">
@@ -169,11 +175,7 @@ const ActivityCard: React.FC<ActivityCardProps> = ({
   );
 };
 
-
-
-const Row: React.FC<{ children: React.ReactNode }> = ({
-  children,
-}) => (
+const Row: React.FC<{ children: React.ReactNode }> = ({ children }) => (
   <div className="flex items-start gap-2 sm:gap-4">
     <div className="flex-1">{children}</div>
   </div>
@@ -233,7 +235,6 @@ export default function DealActivityPage() {
         <div className="mt-8">
           <div className="ml-28 sm:ml-32 mb-3">
             <DatePill>24 May 2025</DatePill>
-
           </div>
           <Timeline
             className="ml-28 sm:ml-32"
