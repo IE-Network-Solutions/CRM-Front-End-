@@ -440,3 +440,22 @@ h6 {
 .desktop-switcher .ant-tree-switcher {
   width: 24px !important;
 }
+
+/* Custom horizontal scrollbar for Kanban board */
+.kanban-horizontal-scroll::-webkit-scrollbar {
+  height: 8px;
+}
+
+.kanban-horizontal-scroll::-webkit-scrollbar-track {
+  background: #f0f0f0;
+  border-radius: 4px;
+}
+
+.kanban-horizontal-scroll::-webkit-scrollbar-thumb {
+  background: #d9d9d9;
+  border-radius: 4px;
+}
+
+.kanban-horizontal-scroll::-webkit-scrollbar-thumb:hover {
+  background: #bfbfbf;
+}

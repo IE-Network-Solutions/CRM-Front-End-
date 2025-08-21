@@ -248,6 +248,40 @@ const Nav: React.FC<MyComponentProps> = ({ children }) => {
       className: 'font-bold',
       permissions: [],
     },
+    {
+      title: (
+        <span className="flex items-center gap-2 h-12">
+          <LuUsers
+            size={18}
+            className={expandedKeys.includes('/deals') ? 'text-blue' : ''}
+          />
+          <span>Deals</span>
+        </span>
+      ),
+      key: '/deals',
+      className: 'font-bold',
+      permissions: [],
+      children: [
+        {
+          title: <span>Deals</span>,
+          key: '/deals/manage-deals',
+          className: 'font-bold',
+          permissions: [],
+        },
+        {
+          title: <span>Activity</span>,
+          key: '/deals/activity',
+          className: 'font-bold',
+          permissions: [],
+        },
+        {
+          title: <span>Settings</span>,
+          key: '/deals/settings',
+          className: 'font-bold',
+          permissions: [],
+        },
+      ],
+    },
   ];
 
   // Helper function to match dynamic routes like [id] to UUIDs or any non-slash segment

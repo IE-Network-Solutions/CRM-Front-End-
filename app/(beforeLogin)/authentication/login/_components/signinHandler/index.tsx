@@ -67,12 +67,15 @@ export const useHandleSignIn = () => {
         setToken('');
         // setLocalId('');
       } else {
-        if (tenant?.id !== fetchedData?.data?.tenantId) {
+        if (
+          process.env.NODE_ENV !== 'development' &&
+          tenant?.isPWA === false &&
+          tenant?.id !== fetchedData?.data?.tenantId
+        ) {
           message.error(
             'This user does not belong to this tenant. Please contact your administrator.',
           );
           setToken('');
-          // setLocalId('');
           return;
         }
         setTenantId(fetchedData?.data?.tenantId);
