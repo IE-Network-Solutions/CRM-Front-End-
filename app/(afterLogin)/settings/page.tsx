@@ -701,7 +701,7 @@ const SettingsPage: React.FC = () => {
   };
 
   return (
-    <div className="p-6 bg-gray-50 min-h-screen">
+    <div className="p-6 bg-white min-h-screen">
       {/* Header */}
       <div className="mb-6">
         <Title level={3} className="mb-1">
@@ -727,7 +727,7 @@ const SettingsPage: React.FC = () => {
       <div className="flex gap-6">
         {/* Left Sidebar */}
         <div className="w-80">
-          <Card>
+          <Card className="shadow-md">
             <Title level={5} className="mb-4 font-bold">
               Global Settings
             </Title>
@@ -738,7 +738,7 @@ const SettingsPage: React.FC = () => {
                 <Button
                   key={index}
                   onClick={() => setSelectedCategory(category)}
-                  className={`w-full text-left rounded-md py-4 ${
+                  className={`w-full text-left rounded-md py-5 ${
                     selectedCategory === category
                       ? 'bg-[#2563eb] text-white border-[#2563eb] hover:bg-[#1d4ed8] hover:border-[#1d4ed8]'
                       : 'text-[#2563eb] border-[#2563eb] hover:border-[#1d4ed8] hover:text-[#1d4ed8] hover:bg-[#eff6ff]'

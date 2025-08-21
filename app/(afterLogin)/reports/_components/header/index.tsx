@@ -2,7 +2,8 @@
 
 import React from 'react';
 import { Typography, Button, Dropdown } from 'antd';
-import { FilterOutlined, ExportOutlined } from '@ant-design/icons';
+import { ExportOutlined } from '@ant-design/icons';
+import { LuSettings2 } from 'react-icons/lu';
 import FilterDropdown from '../filterDropdown';
 import ActionDropdown from '../actionDropdown';
 
@@ -32,7 +33,7 @@ const Header: React.FC = () => {
           placement="bottomRight"
         >
           <Button
-            icon={<FilterOutlined />}
+            icon={<LuSettings2 />}
             style={{
               color: '#3b82f6',
               borderColor: '#93c5fd',

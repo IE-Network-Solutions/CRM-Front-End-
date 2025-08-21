@@ -21,6 +21,9 @@ const PerformanceTable: React.FC<PerformanceTableProps> = ({
         columns={columns}
         pagination={false}
         size="small"
+        rowClassName={(record, index) =>
+          index !== undefined && index % 2 === 0 ? 'bg-white' : 'bg-gray-50'
+        }
       />
     </Card>
   );
