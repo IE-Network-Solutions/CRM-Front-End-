@@ -1,5 +1,7 @@
 import CustomDrawerLayout from '@/components/common/customDrawer';
+import { PlusOutlined, UploadOutlined } from '@ant-design/icons';
 import { Button, DatePicker, Form, Input, Select, Typography } from 'antd';
+import Dragger from 'antd/es/upload/Dragger';
 import React from 'react';
 const { Title, Text } = Typography;
 
@@ -44,7 +46,7 @@ function DealSideBar({ open, onClose }: SideBarProps) {
       <Form layout="vertical" onValuesChange={() => {}} className="w-full">
         {/* General Information */}
         <Text style={{ color: '#8c8c8c' }}>General Information</Text>
-        <div className="grid grid-cols-2 gap-4">
+        <div className="grid grid-cols-2 gap-4 mt-3">
           <Form.Item name="name" label="Name" rules={[{ required: true }]}>
             <Input placeholder="Deal Name" />
           </Form.Item>
@@ -69,26 +71,26 @@ function DealSideBar({ open, onClose }: SideBarProps) {
 
         {/* Contact Information */}
         <Text style={{ color: '#8c8c8c' }}>Contact Information</Text>
-        <div className="grid grid-cols-2 gap-4">
+        <div className="grid grid-cols-2 gap-4 mt-3 mb-3">
           <Form.Item
             name="contactName"
             label="Contact Name"
             rules={[{ required: true }]}
           >
-            <Input placeholder="Contact Name" />
+            <Input className="border-[#e7e7e8] " placeholder="Contact Name" />
           </Form.Item>
           <Form.Item name="contactPhone" label="Contact Phone">
-            <Input placeholder="Phone" />
+            <Input className="border-[#e7e7e8]" placeholder="Phone" />
           </Form.Item>
           <Form.Item name="email" label="Email">
-            <Input placeholder="Email" />
+            <Input className="border-[#e7e7e8]" placeholder="Email" />
           </Form.Item>
           <Form.Item
             name="company"
             label="Company"
             rules={[{ required: true }]}
           >
-            <Input placeholder="Company" />
+            <Input className="border-[#e7e7e8]" placeholder="Company" />
           </Form.Item>
         </div>
 
@@ -98,6 +100,7 @@ function DealSideBar({ open, onClose }: SideBarProps) {
           name="createdBy"
           label="Created by"
           rules={[{ required: true }]}
+          className="mt-3"
         >
           <Input placeholder="Deal Created by" />
         </Form.Item>
@@ -114,17 +117,22 @@ function DealSideBar({ open, onClose }: SideBarProps) {
         </Form.Item>
 
         {/* Total Amount */}
-        <div className="grid grid-cols-2 gap-4">
+        <div className="flex justify-between gap-4 items-center">
           <Form.Item
             name="totalAmount"
             label="Total Amount"
             rules={[{ required: true }]}
           >
-            <Input placeholder="Total Amount" />
+            <Input placeholder="Total Amount" className="h-10" />
           </Form.Item>
           <Form.Item name="currency" label=" " rules={[{ required: true }]}>
-            <Select placeholder="Currency" />
+            <Select placeholder="Currency" className="h-10 min-w-[170px]" />
           </Form.Item>
+          <Button
+            type="dashed"
+            icon={<PlusOutlined className="text-[#4080f0]" size={20} />}
+            className="border-[#e3e4e7] h-10 border-none"
+          ></Button>
         </div>
 
         {/* Solution & Supplier */}
@@ -138,10 +146,52 @@ function DealSideBar({ open, onClose }: SideBarProps) {
         </div>
 
         {/* Roles */}
-        <div className="flex justify-between ">
-          <Form.Item label="Roles"></Form.Item>
-          <Button type="dashed" icon="+" />
+          <div className="flex justify-between items-center ">
+          <Text style={{ color: '#8c8c8c' }}>Roles</Text>
+          <Button
+            type="dashed"
+            icon={<PlusOutlined className="text-[#4080f0]" size={20} />}
+            className="border-[#e3e4e7] h-10 border-none"
+          ></Button>
         </div>
+
+        <Form.Item>
+        <div className="grid grid-cols-2 gap-4">
+
+          <Select placeholder="Deal Type" />
+          <Input className="border-[#e7e7e8]" placeholder="Role Name" />
+          </div>
+        </Form.Item>
+        <div className="space-y-6">
+      {/* Upload File */}
+      <Form.Item name="upload" valuePropName="fileList" className="mb-0">
+        <Dragger
+          multiple
+          showUploadList={false}
+          className="rounded-lg"
+          style={{ borderColor: "#4080f0" }}
+        >
+          <p className="text-[#4080f0] font-medium text-lg">Upload File</p>
+          <UploadOutlined className="text-[#4080f0] text-2xl my-2" />
+          <p className="text-[#4080f0]">Drag File or Upload from computer</p>
+        </Dragger>
+      </Form.Item>
+
+      {/* Deal Additional Info */}
+      <div>
+        <label className="block text-gray-600 mb-2">
+          Deal Additional Information
+        </label>
+        <Form.Item name="description" className="mb-0">
+          <Input.TextArea
+            placeholder="Description"
+            rows={4}
+            className="rounded-lg"
+          />
+        </Form.Item>
+      </div>
+    </div>
+
       </Form>
     </CustomDrawerLayout>
   );

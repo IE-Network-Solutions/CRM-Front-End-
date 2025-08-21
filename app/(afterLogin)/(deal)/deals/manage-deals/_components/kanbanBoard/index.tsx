@@ -20,7 +20,7 @@ import {
 } from '@dnd-kit/sortable';
 import { useSortable } from '@dnd-kit/sortable';
 import { CSS } from '@dnd-kit/utilities';
-import { Avatar, Button, Card, Space, Typography } from 'antd';
+import { Avatar, Button, Card, Space, Tag, Typography } from 'antd';
 const { Text } = Typography;
 import { useRouter } from 'next/navigation';
 import { IoCallOutline, IoMailOutline } from 'react-icons/io5';
@@ -232,6 +232,12 @@ const KanbanBoard: React.FC<KanbanBoardProps> = ({ onClick }) => {
     },
   ]);
 
+  const mainAmount = "$400,000";
+  const conversions = [
+    "ETB210,000",
+    "€220,000 EUR",
+  ];
+
   // Sortable Deal Card Component
   const SortableDealCard: React.FC<{
     deal: Deal;
@@ -269,7 +275,7 @@ const KanbanBoard: React.FC<KanbanBoardProps> = ({ onClick }) => {
           className={`mb-3`}
           style={{
             borderRadius: '10px',
-            height: '114px',
+            height: '130px',
             marginBottom: '12px',
             border: `2px solid ${stageColor || '#d9d9d9'}`,
 
@@ -278,9 +284,7 @@ const KanbanBoard: React.FC<KanbanBoardProps> = ({ onClick }) => {
               : '0 1px 3px rgba(0,0,0,0.08)',
           }}
           bodyStyle={{
-            padding: '4px',
-            paddingRight: '6px',
-            paddingLeft: '6px',
+            padding: '12px',
           }}
         >
           <div className="mb-3">
@@ -470,12 +474,28 @@ const KanbanBoard: React.FC<KanbanBoardProps> = ({ onClick }) => {
             />
           </Space>
         </div>
-        <div className="p-3">
+        {/* <div className="p-3">
           <Text className="flex text-[20px] font-bold items-center justify-center">
             {stage.currency}
             {stage.total}
           </Text>
-        </div>
+        </div> */}
+         <div className="p-3 text-center space-y-3">
+      {/* Main Amount */}
+      <Text className="text-3xl font-bold">{mainAmount}</Text>
+
+      {/* Conversion Tags */}
+      <div className="flex justify-center gap-2">
+        {conversions.map((value, index) => (
+          <Tag
+            key={index}
+            className="px-3 py-1 rounded-full border border-gray-300 text-gray-700 text-xs"
+          >
+            {value}
+          </Tag>
+        ))}
+      </div>
+    </div>
 
         <div
           style={{
