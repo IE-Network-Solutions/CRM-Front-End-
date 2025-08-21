@@ -5,7 +5,10 @@ interface AllRecognitionProps {
   all?: boolean;
 }
 
-const AllRecognition: React.FC<AllRecognitionProps> = ({ data, all = false }) => {
+const AllRecognition: React.FC<AllRecognitionProps> = ({
+  data,
+  all = false,
+}) => {
   return (
     <div className="bg-white p-4 rounded-lg border border-gray-200">
       <div className="text-sm font-medium text-gray-600">

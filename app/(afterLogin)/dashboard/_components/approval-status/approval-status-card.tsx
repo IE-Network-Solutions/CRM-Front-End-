@@ -15,22 +15,6 @@ import dayjs from 'dayjs';
 import { useIsMobile } from '@/hooks/useIsMobile';
 import { LuFileDown } from 'react-icons/lu';
 
-// Placeholder functions since the real mutations are missing
-const useSetApproveLeaveRequest = () => ({
-  mutate: () => {},
-  isLoading: false
-});
-
-const useSetFinalApproveLeaveRequest = () => ({
-  mutate: () => {},
-  isLoading: false
-});
-
-const useSetFinalApproveBranchRequest = () => ({
-  mutate: () => {},
-  isLoading: false
-});
-
 interface ApprovalRequestCardProps {
   name: string;
   days?: number;

@@ -1,18 +1,18 @@
 'use client';
 
 import React, { useState, useEffect } from 'react';
-import { 
-  Button, 
-  Input, 
-  Select, 
-  Drawer, 
-  Space, 
+import {
+  Button,
+  Input,
+  Select,
+  Drawer,
+  Space,
   Form,
   Rate,
   Spin,
   Alert,
 } from 'antd';
-import { 
+import {
   DollarOutlined,
   PhoneOutlined,
   MailOutlined,
@@ -22,7 +22,6 @@ import {
   useEngagementStagesQuery,
   useCompaniesQuery,
   useSourcesQuery,
-  useJobsQuery,
   useSectorsQuery,
   useCurrenciesQuery,
 } from '@/store/server/features/leads/queries';
@@ -42,7 +41,6 @@ interface FilterState {
   sectorId?: string;
   sourceId?: string;
   stageId?: string;
-  jobId?: string;
   revenue?: string;
   currency?: string;
   leadRate?: number;
@@ -52,10 +50,10 @@ interface FilterState {
 
 const RATING_TOOLTIPS = ['Poor', 'Fair', 'Good', 'Very Good', 'Excellent'];
 
-export function FilterModal({ 
-  isOpen, 
-  onClose, 
-  onApplyFilters, 
+export function FilterModal({
+  isOpen,
+  onClose,
+  onApplyFilters,
   onClearFilters,
   currentFilters,
 }: FilterModalProps) {
@@ -80,11 +78,6 @@ export function FilterModal({
   } = useSourcesQuery();
 
   const {
-    data: jobs = [],
-    isLoading: jobsLoading,
-    error: jobsError,
-  } = useJobsQuery();
-  const {
     data: sectors = [],
     isLoading: sectorsLoading,
     error: sectorsError,
@@ -98,7 +91,6 @@ export function FilterModal({
   const safeStages = Array.isArray(stages) ? stages : [];
   const safeCompanies = Array.isArray(companies) ? companies : [];
   const safeSources = Array.isArray(sources) ? sources : [];
-  const safeJobs = Array.isArray(jobs) ? jobs : [];
   const safeSectors = Array.isArray(sectors) ? sectors : [];
   const safeCurrencies = Array.isArray(currencies) ? currencies : [];
 
@@ -106,7 +98,6 @@ export function FilterModal({
     stagesLoading ||
     companiesLoading ||
     sourcesLoading ||
-    jobsLoading ||
     sectorsLoading ||
     currenciesLoading;
 
@@ -114,7 +105,6 @@ export function FilterModal({
     stagesError ||
     companiesError ||
     sourcesError ||
-    jobsError ||
     sectorsError ||
     currenciesError;
 
@@ -244,11 +234,11 @@ export function FilterModal({
       }}
       footer={
         <div className="flex items-center justify-between gap-3">
-            <Button 
-              type="primary" 
-              onClick={handleApply}
-              loading={isLoading}
-              className="flex-1"
+          <Button
+            type="primary"
+            onClick={handleApply}
+            loading={isLoading}
+            className="flex-1"
             style={{ minWidth: 0 }}
             data-cy="filter-apply-button"
           >
@@ -266,7 +256,7 @@ export function FilterModal({
             data-cy="filter-cancel-button"
           >
             Cancel
-            </Button>
+          </Button>
         </div>
       }
     >
@@ -275,10 +265,10 @@ export function FilterModal({
       {isAnyLoading ? (
         renderLoadingState()
       ) : (
-      <Form
-        form={form}
-        layout="vertical"
-        initialValues={filters}
+        <Form
+          form={form}
+          layout="vertical"
+          initialValues={filters}
           onValuesChange={(changedValues, allValues) => setFilters(allValues)}
         >
           {/* Filter by general information */}
@@ -292,23 +282,23 @@ export function FilterModal({
                 <label className="block text-md font-medium text-gray-700 mb-1">
                   Company
                 </label>
-              <Form.Item name="companyId" className="mb-0">
-                <Select
+                <Form.Item name="companyId" className="mb-0">
+                  <Select
                     placeholder="Lead Company"
-                  allowClear
-                  showSearch
-                  optionFilterProp="children"
-                  notFoundContent="No companies found"
-                  className="rounded-md"
+                    allowClear
+                    showSearch
+                    optionFilterProp="children"
+                    notFoundContent="No companies found"
+                    className="rounded-md"
                     loading={companiesLoading}
-                >
+                  >
                     {safeCompanies.map((company) => (
-                    <Option key={company.id} value={company.id}>
-                      {company.name}
-                    </Option>
-                  ))}
-                </Select>
-              </Form.Item>
+                      <Option key={company.id} value={company.id}>
+                        {company.name}
+                      </Option>
+                    ))}
+                  </Select>
+                </Form.Item>
               </div>
 
               <div>
@@ -338,27 +328,25 @@ export function FilterModal({
                 <label className="block text-md font-medium text-gray-700 mb-1">
                   Source
                 </label>
-              <Form.Item name="sourceId" className="mb-0">
-                <Select
+                <Form.Item name="sourceId" className="mb-0">
+                  <Select
                     placeholder="Lead Source"
-                  allowClear
-                  showSearch
-                  optionFilterProp="children"
-                  notFoundContent="No sources found"
-                  className="rounded-md"
+                    allowClear
+                    showSearch
+                    optionFilterProp="children"
+                    notFoundContent="No sources found"
+                    className="rounded-md"
                     loading={sourcesLoading}
                     data-cy="filter-source-select"
-                >
+                  >
                     {safeSources.map((source) => (
-                    <Option key={source.id} value={source.id}>
-                      {source.name}
-                    </Option>
-                  ))}
-                </Select>
-              </Form.Item>
-        </div>
-
-              
+                      <Option key={source.id} value={source.id}>
+                        {source.name}
+                      </Option>
+                    ))}
+                  </Select>
+                </Form.Item>
+              </div>
             </div>
 
             <div className="grid grid-cols-3 gap-3">
@@ -373,9 +361,9 @@ export function FilterModal({
                     allowClear
                     className="rounded-md"
                     data-cy="filter-revenue-input"
-            />
-          </Form.Item>
-        </div>
+                  />
+                </Form.Item>
+              </div>
 
               <div>
                 <label className="block text-md font-medium text-gray-700 mb-1">
@@ -414,14 +402,14 @@ export function FilterModal({
                   Phone
                 </label>
                 <Form.Item name="contactPersonPhoneNumber" className="mb-0">
-                <Input 
+                  <Input
                     placeholder="Phone"
-                  prefix={<PhoneOutlined className="text-gray-400" />}
-                  allowClear
-                  className="rounded-md"
+                    prefix={<PhoneOutlined className="text-gray-400" />}
+                    allowClear
+                    className="rounded-md"
                     data-cy="filter-phone-input"
-                />
-              </Form.Item>
+                  />
+                </Form.Item>
               </div>
 
               <div>
@@ -429,17 +417,17 @@ export function FilterModal({
                   Email
                 </label>
                 <Form.Item name="contactPersonEmail" className="mb-0">
-                <Input 
+                  <Input
                     placeholder="Email"
-                  prefix={<MailOutlined className="text-gray-400" />}
-                  allowClear
-                  className="rounded-md"
+                    prefix={<MailOutlined className="text-gray-400" />}
+                    allowClear
+                    className="rounded-md"
                     data-cy="filter-email-input"
-                />
-              </Form.Item>
+                  />
+                </Form.Item>
               </div>
             </div>
-        </div>
+          </div>
 
           {/* Filter by Status Information */}
           <div className="mb-6">
@@ -447,18 +435,18 @@ export function FilterModal({
               Filter by Status Information
             </h3>
 
-        <div>
+            <div>
               <label className="block text-md font-medium text-gray-700 mb-1">
                 Label
               </label>
               <Form.Item name="stageId" className="mb-0">
-            <Select
+                <Select
                   placeholder="Lead Status"
-              allowClear
-              showSearch
-              optionFilterProp="children"
+                  allowClear
+                  showSearch
+                  optionFilterProp="children"
                   notFoundContent="No stages found"
-              className="rounded-md"
+                  className="rounded-md"
                   loading={stagesLoading}
                   data-cy="filter-stage-select"
                 >
@@ -475,8 +463,8 @@ export function FilterModal({
                       </Space>
                     </Option>
                   ))}
-            </Select>
-          </Form.Item>
+                </Select>
+              </Form.Item>
             </div>
           </div>
 
@@ -499,8 +487,8 @@ export function FilterModal({
             <div className="mt-2 text-xs text-gray-500">
               Shows leads with the selected rating and above
             </div>
-        </div>
-      </Form>
+          </div>
+        </Form>
       )}
     </Drawer>
   );
