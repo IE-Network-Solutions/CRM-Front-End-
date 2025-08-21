@@ -1,6 +1,6 @@
 'use client';
 
-import { useGetTenantByDomain } from '@/store/server/features/employees/authentication/queries';
+// import { useGetTenantByDomain } from '@/store/server/features/employees/authentication/queries';
 import { useAuthenticationStore } from '@/store/uistate/features/authentication';
 import { useEffect } from 'react';
 
@@ -10,7 +10,8 @@ export const useTenantChecker = () => {
     setHostName(window.location.hostname);
   }, []);
   const domainName = hostname?.split('.')[0] || hostname;
-  const { data: tenantInfo, refetch } = useGetTenantByDomain(domainName || '');
+  const tenantInfo = null as any;
+  const refetch = async () => {};
   useEffect(() => {
     if (domainName) refetch();
   }, [domainName]);

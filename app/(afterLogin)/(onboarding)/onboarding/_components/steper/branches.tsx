@@ -11,7 +11,7 @@ import { Branch } from '@/store/server/features/organizationStructure/branchs/in
 import { useBranchStore } from '@/store/uistate/features/organizationStructure/branchStore';
 import DeleteModal from '@/components/common/deleteModal';
 import { BiPlus } from 'react-icons/bi';
-import BranchForm from '@/app/(afterLogin)/(employeeInformation)/_components/branchForm';
+// import BranchForm from '@/app/(afterLogin)/(employeeInformation)/_components/branchForm';
 import AccessGuard from '@/utils/permissionGuard';
 import { Permissions } from '@/types/commons/permissionEnum';
 
@@ -136,13 +136,7 @@ const Branches = () => {
         />
       </div>
 
-      <BranchForm
-        loading={editingBranch ? updateLoading : createLoading}
-        onClose={() => setFormOpen(false)}
-        submitAction={handleFormSubmit}
-        title={editingBranch ? 'Edit Branch' : 'Create Branch'}
-        form={form}
-      />
+      {/* Branch form removed */}
       <DeleteModal
         open={deleteModalVisible}
         onConfirm={handleDelete}

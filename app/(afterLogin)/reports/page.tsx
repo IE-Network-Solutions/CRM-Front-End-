@@ -8,8 +8,8 @@ import {
   TagOutlined
 } from '@ant-design/icons';
 import Header from './_components/header';
-import MetricCard from './_components/metric-card';
-import PerformanceTable from './_components/performance-table';
+import MetricCard from './_components/metricCard';
+import PerformanceTable from './_components/performanceTable';
 
 const ReportsPage: React.FC = () => {
   // Lead Source Performance data

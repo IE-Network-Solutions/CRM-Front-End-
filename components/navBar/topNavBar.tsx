@@ -4,7 +4,6 @@ import { Avatar, Menu, Dropdown, Layout } from 'antd';
 import { useRouter } from 'next/navigation';
 import { useAuthenticationStore } from '@/store/uistate/features/authentication';
 import NotificationBar from './notificationBar';
-import { useGetEmployee } from '@/store/server/features/employees/employeeDetail/queries';
 
 const { Header } = Layout;
 
@@ -17,10 +16,9 @@ const NavBar = ({ page, handleLogout }: NavBarProps) => {
   const router = useRouter();
 
   const { userId } = useAuthenticationStore();
-  const { data: employeeData } = useGetEmployee(userId);
 
   const handleProfileRoute = () => {
-    router.push(`/employees/manage-employees/${userId}`);
+    router.push('/settings');
   };
 
   const menu = (
@@ -43,10 +41,7 @@ const NavBar = ({ page, handleLogout }: NavBarProps) => {
       <div className="flex items-center gap-5">
         <NotificationBar />
         <Dropdown overlay={menu} placement="bottomRight">
-          <Avatar
-            src={employeeData?.profileImage}
-            className="cursor-pointer border-gray-300 rounded-full"
-          />
+          <Avatar className="cursor-pointer border-gray-300 rounded-full" />
         </Dropdown>
       </div>
     </Header>

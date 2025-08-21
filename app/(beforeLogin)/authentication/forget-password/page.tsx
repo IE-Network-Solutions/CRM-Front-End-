@@ -2,12 +2,13 @@
 import { FC } from 'react';
 import Logo from '@/components/common/logo/index';
 import { Button, Form, Input } from 'antd';
-import { usePasswordReset } from '@/store/server/features/employees/authentication/queries';
+// import { usePasswordReset } from '@/store/server/features/employees/authentication/queries';
 import { useTenantChecker } from '../login/_components/tenantChecker';
 
 const RequestVerification: FC = () => {
   const { tenant } = useTenantChecker();
-  const { mutate: resetPassword, isLoading } = usePasswordReset();
+  const resetPassword = (payload: any) => {};
+  const isLoading = false;
 
   const handleFinish = async (values: { email: string }) => {
     resetPassword({ email: values.email, loginTenantId: tenant?.id });

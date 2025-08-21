@@ -5,15 +5,15 @@ import ApprovalRequestCard from './approval-status-card';
 import { useAuthenticationStore } from '@/store/uistate/features/authentication';
 // import { useGetApprovalLeaveRequest } from '@/store/server/features/timesheet/leaveRequest/queries';
 import { useDashboardApprovalStore } from '@/store/uistate/features/dashboard/approval';
-import { useGetBranchTransferApproveById } from '@/store/server/features/employees/approval/queries';
+// import { useGetBranchTransferApproveById } from '@/store/server/features/employees/approval/queries';
 
 const ApprovalStatus: FC = () => {
   const { userId } = useAuthenticationStore();
   // Fallback for missing timesheet module
   const LeaveTransferData = { items: [], meta: { totalItems: 0 } };
   const isLoadingLeaveTransfer = false;
-  const { data: BranchTransferData, isLoading: isLoadingBranchTransfer } =
-    useGetBranchTransferApproveById(userId, 4, 1);
+  const BranchTransferData: any = { items: [], meta: { totalItems: 0 } };
+  const isLoadingBranchTransfer = false;
   const { approverType, setApproverType } = useDashboardApprovalStore();
   const requests = [
     {

@@ -6,6 +6,11 @@ import {
   AppstoreOutlined,
   MenuOutlined,
   BarChartOutlined,
+  SettingOutlined,
+  DashboardOutlined,
+  AimOutlined,
+  SwapOutlined,
+  ProfileOutlined,
 } from '@ant-design/icons';
 import {
   MdOutlineKeyboardDoubleArrowLeft,
@@ -16,18 +21,12 @@ import { Layout, Button, theme, Tree, Skeleton, Dropdown } from 'antd';
 
 const { Header, Content, Sider } = Layout;
 import NavBar from './topNavBar';
-import { CiSettings } from 'react-icons/ci';
-import { LuUsers } from 'react-icons/lu';
+
 import { removeCookie } from '@/helpers/storageHelper';
 import { useAuthenticationStore } from '@/store/uistate/features/authentication';
 import Logo from '../common/logo';
 import SimpleLogo from '../common/logo/simpleLogo';
 import AccessGuard from '@/utils/permissionGuard';
-import { useGetEmployee } from '@/store/server/features/employees/employeeManagment/queries';
-import { useGetActiveFiscalYearsData } from '@/store/server/features/organizationStructure/fiscalYear/queries';
-import { useGetDepartments } from '@/store/server/features/employees/employeeManagment/department/queries';
-
-import { useEmployeeManagementStore } from '@/store/uistate/features/employees/employeeManagment';
 
 interface CustomMenuItem {
   key: string;
@@ -53,7 +52,7 @@ const Nav: React.FC<MyComponentProps> = ({ children }) => {
   const router = useRouter();
   const pathname = usePathname();
   const { userId } = useAuthenticationStore();
-  const { isLoading } = useGetEmployee(userId);
+  const isLoading = false;
   const { userData } = useAuthenticationStore();
   const {
     setLocalId,
@@ -82,16 +81,14 @@ const Nav: React.FC<MyComponentProps> = ({ children }) => {
   // ===========> Fiscal Year Ended Section <=================
 
   const { token } = useAuthenticationStore();
-  const { data: activeFiscalYear, refetch } = useGetActiveFiscalYearsData();
+  const activeFiscalYear = undefined as any;
+  const refetch = () => {};
 
   useEffect(() => {
     refetch();
   }, [token]);
 
-  const hasEndedFiscalYear =
-    !!activeFiscalYear?.isActive &&
-    !!activeFiscalYear?.endDate &&
-    new Date(activeFiscalYear?.endDate) <= new Date();
+  const hasEndedFiscalYear = false;
 
   // ===========> Fiscal Year Ended Section <=================
 
@@ -106,15 +103,24 @@ const Nav: React.FC<MyComponentProps> = ({ children }) => {
       permissions: [], // No permissions required
     },
     {
-      key: '/employees/manage-employees/[id]',
-      permissions: [], // No permissions required
+      key: '/leads',
+      permissions: [],
     },
     {
-      key: '/employee-information/[id]',
-      permissions: [], // No permissions required
+      key: '/deals',
+      permissions: [],
     },
+    {
+      key: '/activity',
+      permissions: [],
+    },
+
     {
       key: '/settings',
+      permissions: [], // No permissions required
+    },
+    {
+      key: '/reports',
       permissions: [], // No permissions required
     },
   ];
@@ -154,67 +160,96 @@ const Nav: React.FC<MyComponentProps> = ({ children }) => {
     return routes;
   };
 
+  const textClass = (route: string) =>
+    pathname.startsWith(route) ? 'text-[#2563eb] font-semibold' : '';
+
   const treeData: CustomMenuItem[] = [
     {
       title: (
-        <span className="flex items-center gap-2 h-12">
-          <CiSettings
+        <div
+          className="flex items-center gap-2 h-12 cursor-pointer"
+          onClick={() => router.push('/dashboard')}
+        >
+          <DashboardOutlined
             size={18}
             className={
-              expandedKeys.includes('/organization') ? 'text-blue' : ''
+              pathname.startsWith('/dashboard') ? 'text-[#2563eb]' : ''
             }
           />
-          <span>Organization</span>
-        </span>
+          <span className={textClass('/dashboard')}>Dashboard</span>
+        </div>
       ),
-      key: '/organization',
+      key: '/dashboard',
       className: 'font-bold',
-      permissions: ['view_organization'],
-      disabled: hasEndedFiscalYear,
-      children: [
-        {
-          title: <span>Org Structure</span>,
-          key: '/organization/chart',
-          className: 'font-bold',
-          permissions: ['view_organization_chart'],
-          disabled: hasEndedFiscalYear,
-        },
-        {
-          title: <span>Settings</span>,
-          key: '/organization/settings',
-          className: 'font-bold',
-          permissions: ['view_organization_settings'],
-        },
-      ],
+      permissions: [],
     },
     {
       title: (
-        <span className="flex items-center gap-2 h-12">
-          <LuUsers
+        <div
+          className="flex items-center gap-2 h-12 cursor-pointer"
+          onClick={() => router.push('/leads')}
+        >
+          <AimOutlined
             size={18}
-            className={expandedKeys.includes('/employees') ? 'text-blue' : ''}
+            className={pathname.startsWith('/leads') ? 'text-[#2563eb]' : ''}
           />
-          <span>Employees</span>
-        </span>
+          <span className={textClass('/leads')}>Leads</span>
+        </div>
       ),
-      key: '/employees',
+      key: '/leads',
       className: 'font-bold',
-      permissions: ['view_employees'],
-      disabled: hasEndedFiscalYear,
-      children: [
-        {
-          title: <span>Manage Employees</span>,
-          key: '/employees/manage-employees',
-          className: 'font-bold',
-          permissions: ['manage_employees'],
-        },
-        {
-          title: <span>Settings</span>,
-          key: '/employees/settings',
-          className: 'font-bold',
-          permissions: ['manage_employee_settings'],
-        },
-      ],
+      permissions: [],
+    },
+    {
+      title: (
+        <div
+          className="flex items-center gap-2 h-12 cursor-pointer"
+          onClick={() => router.push('/deals')}
+        >
+          <SwapOutlined
+            size={18}
+            className={pathname.startsWith('/deals') ? 'text-[#2563eb]' : ''}
+          />
+          <span className={textClass('/deals')}>Deals</span>
+        </div>
+      ),
+      key: '/deals',
+      className: 'font-bold',
+      permissions: [],
+    },
+    {
+      title: (
+        <div
+          className="flex items-center gap-2 h-12 cursor-pointer"
+          onClick={() => router.push('/activity')}
+        >
+          <ProfileOutlined
+            size={18}
+            className={pathname.startsWith('/activity') ? 'text-[#2563eb]' : ''}
+          />
+          <span className={textClass('/activity')}>Activity</span>
+        </div>
+      ),
+      key: '/activity',
+      className: 'font-bold',
+      permissions: [],
+    },
+    {
+      title: (
+        <div
+          className="flex items-center gap-2 h-12 cursor-pointer"
+          onClick={() => router.push('/reports')}
+        >
+          <BarChartOutlined
+            size={18}
+            className={pathname.startsWith('/reports') ? 'text-[#2563eb]' : ''}
+          />
+          <span className={textClass('/reports')}>Report</span>
+        </div>
+      ),
+      key: '/reports',
+      className: 'font-bold',
+      permissions: [],
     },
     {
       title: (
@@ -222,11 +257,11 @@ const Nav: React.FC<MyComponentProps> = ({ children }) => {
           className="flex items-center gap-2 h-12 cursor-pointer"
           onClick={() => router.push('/settings')}
         >
-          <BarChartOutlined
+          <SettingOutlined
             size={18}
-            className={expandedKeys.includes('/settings') ? 'text-blue' : ''}
+            className={pathname.startsWith('/settings') ? 'text-[#2563eb]' : ''}
           />
-          <span>Settings</span>
+          <span className={textClass('/settings')}>Settings</span>
         </div>
       ),
       key: '/settings',
@@ -331,23 +366,6 @@ const Nav: React.FC<MyComponentProps> = ({ children }) => {
     );
     return hasAllPermissions;
   };
-  const { data: departments } = useGetDepartments();
-  const { data: employeeData } = useGetEmployee(userId);
-  const { setIsNavBarJobInfoModalVisible, setNavBarJobInfoModalWidth } =
-    useEmployeeManagementStore();
-  useEffect(() => {
-    if (!departments || !employeeData) return;
-
-    if (departments.length === 0) {
-      router.push('/onboarding');
-    } else if (
-      !employeeData.employeeJobInformation ||
-      employeeData.employeeJobInformation.length === 0
-    ) {
-      setIsNavBarJobInfoModalVisible(true);
-      setNavBarJobInfoModalWidth('100%');
-    }
-  }, [departments, employeeData, router]);
 
   // ✅ Check permission on pathname change
   useEffect(() => {
@@ -585,17 +603,7 @@ const Nav: React.FC<MyComponentProps> = ({ children }) => {
             )}
           </div>
         </div>
-        {!collapsed && (
-          <Button
-            href="/dashboard"
-            className="mt-12 flex justify-between items-center border-2 border-[#3636F0] px-4 py-5 mx-4 rounded-lg "
-          >
-            <div className="text-black font-bold font-['Manrope'] leading-normal">
-              Dashboard
-            </div>
-            <AppstoreOutlined size={24} className="text-black" />
-          </Button>
-        )}
+        {/* Dashboard quick button removed to match simplified sidebar */}
 
         <div className="relative">
           <div className="absolute left-4 top-0 w-[10px] h-full bg-white z-10"></div>

@@ -32,7 +32,7 @@ import {
   useUpdateCompanyProfileWithStamp,
   useGetCompanyProfileByTenantId,
 } from '@/store/server/features/organizationStructure/companyProfile/mutation';
-import { useGetDepartments } from '@/store/server/features/employees/employeeManagment/department/queries';
+// import { useGetDepartments } from '@/store/server/features/employees/employeeManagment/department/queries';
 import {
   useCreateBranch,
   useDeleteBranch,
@@ -53,7 +53,8 @@ import NotificationMessage from '@/components/common/notification/notificationMe
 import { showValidationErrors } from '@/utils/showValidationErrors';
 import { useRouter } from 'next/navigation';
 import { useGetBranches } from '@/store/server/features/organizationStructure/branchs/queries';
-import CustomModal from '@/app/(afterLogin)/(employeeInformation)/_components/sucessModal/successModal';
+// import CustomModal from '@/app/(afterLogin)/(employeeInformation)/_components/sucessModal/successModal';
+const CustomModal = ({ visible, onClose, text, route }: any) => null;
 
 /**
  * Onboarding multi‑step wizard component
@@ -71,7 +72,7 @@ const OnboardingSteper: React.FC = () => {
   /*                               external data                                */
   /* -------------------------------------------------------------------------- */
 
-  const { data: departments } = useGetDepartments();
+  const departments: any[] = [];
   const router = useRouter();
   useEffect(() => {
     if (departments?.length) {

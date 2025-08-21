@@ -10,14 +10,14 @@ import {
   UpOutlined,
   SearchOutlined,
 } from '@ant-design/icons';
-import SetDefaultModal from './_components/set-default-modal';
-import RemoveModal from './_components/remove-modal';
-import EditDrawer from './_components/edit-drawer';
-import CompanySupplierDrawer from './_components/company-supplier-drawer';
-import CustomFieldDrawer from './_components/custom-field-drawer';
-import CreateDrawer from './_components/create-drawer';
-import CreateCompanySupplierDrawer from './_components/create-company-supplier-drawer';
-import CreateCustomFieldDrawer from './_components/create-custom-field-drawer';
+import SetDefaultModal from './_components/setDefaultModal';
+import RemoveModal from './_components/removeModal';
+import EditDrawer from './_components/editDrawer';
+import CompanySupplierDrawer from './_components/companySupplierDrawer';
+import CustomFieldDrawer from './_components/customFieldDrawer';
+import CreateDrawer from './_components/createDrawer';
+import CreateCompanySupplierDrawer from './_components/createCompanySupplierDrawer';
+import CreateCustomFieldDrawer from './_components/createCustomFieldDrawer';
 
 const { Title, Text } = Typography;
 

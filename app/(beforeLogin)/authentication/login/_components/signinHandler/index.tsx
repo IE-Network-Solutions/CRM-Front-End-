@@ -1,7 +1,7 @@
 'use client';
 import { message } from 'antd';
 import { useRouter } from 'next/navigation';
-import { useGetTenantId } from '@/store/server/features/employees/authentication/queries';
+// import { useGetTenantId } from '@/store/server/features/employees/authentication/queries';
 import { useAuthenticationStore } from '@/store/uistate/features/authentication';
 import { handleFirebaseSignInError } from '@/utils/showErrorResponse';
 import { useTenantChecker } from '../tenantChecker';
@@ -24,7 +24,7 @@ export const useHandleSignIn = () => {
     setLoggedUserRole,
   } = useAuthenticationStore();
 
-  const { refetch: fetchTenantId } = useGetTenantId();
+  const fetchTenantId = async () => {};
   const { refetch: refetchFiscalYear } = useGetActiveFiscalYearsData();
 
   const router = useRouter();
@@ -49,7 +49,7 @@ export const useHandleSignIn = () => {
       setToken(token);
       setLocalId(uid);
 
-      const fetchedData = await fetchTenantId(token);
+      const fetchedData: any = await fetchTenantId();
 
       if (fetchedData.isError) {
         message.error('Failed to fetch user data. Please try again.');

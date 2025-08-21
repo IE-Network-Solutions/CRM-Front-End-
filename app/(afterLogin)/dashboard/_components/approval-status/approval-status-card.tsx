@@ -10,7 +10,7 @@ import { useApprovalStore } from '@/store/uistate/features/approval';
 //   useSetFinalApproveLeaveRequest,
 // } from '@/store/server/features/timesheet/leaveRequest/mutation';
 import { useAuthenticationStore } from '@/store/uistate/features/authentication';
-import { useGetEmployee } from '@/store/server/features/employees/employeeDetail/queries';
+// import { useGetEmployee } from '@/store/server/features/employees/employeeDetail/queries';
 import Image from 'next/image';
 import Avatar from '@/public/gender_neutral_avatar.jpg';
 import dayjs from 'dayjs';
@@ -64,7 +64,7 @@ const ApprovalRequestCard: FC<ApprovalRequestCardProps> = ({
   const tenantId = useAuthenticationStore.getState().tenantId;
   const { userId } = useAuthenticationStore();
   const userRollId = useAuthenticationStore.getState().userData.roleId;
-  const { data: employeeData } = useGetEmployee(approveRequesterId);
+  const employeeData: any = {};
   const finalLeaveApproval: any = (
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     leaveRequest: {

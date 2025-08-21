@@ -8,7 +8,7 @@ import { AiFillNotification } from 'react-icons/ai';
 import { CgCloseO } from 'react-icons/cg';
 import Link from 'next/link';
 import { useAuthenticationStore } from '@/store/uistate/features/authentication';
-import { NotificationDetailVisible } from '@/app/(afterLogin)/(employeeInformation)/employees/notification/_component/notificationDetail';
+// Employees notification detail removed
 
 function NotificationBar() {
   const userId = useAuthenticationStore.getState().userId;
@@ -101,11 +101,7 @@ function NotificationBar() {
               </div>
             ))}
 
-          <Menu.Item key="view-more" className="text-center">
-            <Link href="/employees/notification">
-              <div className="text-blue-500">View More</div>
-            </Link>
-          </Menu.Item>
+          {/* View more disabled - employees module removed */}
         </>
       ) : (
         <div className="mx-10 my-5 text-center text-gray-500">
@@ -130,9 +126,7 @@ function NotificationBar() {
           <IoIosNotificationsOutline size={20} />
         </Badge>
       </Dropdown>
-      {selectedNotificationId && (
-        <NotificationDetailVisible id={selectedNotificationId} />
-      )}
+      {/* Notification detail disabled */}
     </>
   );
 }

@@ -40,15 +40,7 @@ export function middleware(req: NextRequest) {
       return NextResponse.redirect(new URL('/authentication/login', req.url));
     }
 
-    if (
-      token &&
-      hasEndedFiscalYear &&
-      !pathname.startsWith('/organization/settings/fiscalYear/fiscalYearCard')
-    ) {
-      return NextResponse.redirect(
-        new URL('/organization/settings/fiscalYear/fiscalYearCard', req.url),
-      );
-    }
+    // Disabled organization fiscal year redirect
     if (pathname === '/onboarding') return NextResponse.next();
 
     // TODO: Uncomment and restore the redirect for the root path
@@ -61,16 +53,9 @@ export function middleware(req: NextRequest) {
       }
     }
 
-    // Protect fiscal year settings routes
-    if (
-      pathname.startsWith('/organization/settings/fiscalYear/fiscalYearCard')
-    ) {
-      if (
-        !loggedUserRole ||
-        (loggedUserRole !== 'owner' && loggedUserRole !== 'admin')
-      ) {
-        return NextResponse.redirect(new URL('/dashboard', req.url));
-      }
+    // Redirect any employees paths to dashboard (employees feature removed)
+    if (pathname.startsWith('/employees')) {
+      return NextResponse.redirect(new URL('/dashboard', req.url));
     }
 
     return NextResponse.next();
