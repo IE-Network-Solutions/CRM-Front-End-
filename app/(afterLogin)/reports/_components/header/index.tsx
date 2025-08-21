@@ -3,8 +3,8 @@
 import React from 'react';
 import { Typography, Button, Dropdown } from 'antd';
 import { FilterOutlined, ExportOutlined } from '@ant-design/icons';
-import FilterDropdown from '../filter-dropdown';
-import ActionDropdown from '../action-dropdown';
+import FilterDropdown from '../filterDropdown';
+import ActionDropdown from '../actionDropdown';
 
 const { Title, Text } = Typography;
 
@@ -33,7 +33,20 @@ const Header: React.FC = () => {
         >
           <Button
             icon={<FilterOutlined />}
-            className="flex items-center text-blue-600 border-blue-600 hover:text-blue-700 hover:border-blue-700 hover:bg-blue-50"
+            style={{
+              color: '#3b82f6',
+              borderColor: '#93c5fd',
+              borderWidth: '1px',
+            }}
+            className="flex items-center hover:bg-blue-50"
+            onMouseEnter={(e) => {
+              e.currentTarget.style.color = '#1d4ed8';
+              e.currentTarget.style.borderColor = '#3b82f6';
+            }}
+            onMouseLeave={(e) => {
+              e.currentTarget.style.color = '#3b82f6';
+              e.currentTarget.style.borderColor = '#93c5fd';
+            }}
           >
             Filter
           </Button>
@@ -46,7 +59,20 @@ const Header: React.FC = () => {
         >
           <Button
             icon={<ExportOutlined />}
-            className="flex items-center text-blue-600 border-blue-600 hover:text-blue-700 hover:border-blue-700 hover:bg-blue-50"
+            style={{
+              color: '#3b82f6',
+              borderColor: '#93c5fd',
+              borderWidth: '1px',
+            }}
+            className="flex items-center hover:bg-blue-50"
+            onMouseEnter={(e) => {
+              e.currentTarget.style.color = '#1d4ed8';
+              e.currentTarget.style.borderColor = '#3b82f6';
+            }}
+            onMouseLeave={(e) => {
+              e.currentTarget.style.color = '#3b82f6';
+              e.currentTarget.style.borderColor = '#93c5fd';
+            }}
           >
             Action
           </Button>

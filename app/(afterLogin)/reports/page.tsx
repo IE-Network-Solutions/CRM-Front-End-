@@ -2,11 +2,6 @@
 
 import React from 'react';
 import { Row, Col } from 'antd';
-import {
-  DollarOutlined,
-  MessageOutlined,
-  TagOutlined,
-} from '@ant-design/icons';
 import Header from './_components/header';
 import MetricCard from './_components/metricCard';
 import PerformanceTable from './_components/performanceTable';
@@ -193,7 +188,7 @@ const ReportsPage: React.FC = () => {
             value="$2.5 M"
             change="18% from last month"
             changeType="positive"
-            icon={<DollarOutlined className="text-blue-600 text-lg" />}
+            iconType="dollar"
           />
         </Col>
         <Col xs={24} sm={12} lg={6}>
@@ -202,7 +197,7 @@ const ReportsPage: React.FC = () => {
             value="48"
             change="+6 from last month"
             changeType="positive"
-            icon={<MessageOutlined className="text-blue-600 text-lg" />}
+            iconType="document"
           />
         </Col>
         <Col xs={24} sm={12} lg={6}>
@@ -211,7 +206,7 @@ const ReportsPage: React.FC = () => {
             value="24.5%"
             change="30.5% from last month"
             changeType="positive"
-            icon={<TagOutlined className="text-blue-600 text-lg" />}
+            iconType="chart"
           />
         </Col>
         <Col xs={24} sm={12} lg={6}>
@@ -220,7 +215,7 @@ const ReportsPage: React.FC = () => {
             value="31 Days"
             change="-12.5% from last month"
             changeType="negative"
-            icon={<TagOutlined className="text-blue-600 text-lg" />}
+            iconType="target"
           />
         </Col>
       </Row>

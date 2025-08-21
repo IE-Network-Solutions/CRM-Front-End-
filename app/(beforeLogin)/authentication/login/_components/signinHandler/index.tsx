@@ -50,6 +50,17 @@ export const useHandleSignIn = () => {
       setLocalId(uid);
 
       const fetchedData: any = await fetchTenantId();
+      if (
+        process.env.NODE_ENV !== 'development' &&
+        tenant?.isPWA === false &&
+        tenant?.id !== fetchedData?.data?.tenantId
+      ) {
+        message.error(
+          'This user does not belong to this tenant. Please contact your administrator.',
+        );
+        setToken('');
+        return;
+      }
 
       if (fetchedData.isError) {
         message.error('Failed to fetch user data. Please try again.');
