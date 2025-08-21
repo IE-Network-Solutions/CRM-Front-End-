@@ -19,19 +19,20 @@ const SetDefaultModal: React.FC<SetDefaultModalProps> = ({
       open={isOpen}
       onCancel={onClose}
       centered
+      closable={false}
       footer={
         <div className="flex justify-center gap-3">
           <Button
-            onClick={onClose}
-            className="text-[#2563eb] border-[#2563eb] hover:bg-[#eff6ff]"
-          >
-            Cancel
-          </Button>
-          <Button
             onClick={onConfirm}
-            className="bg-[#2563eb] hover:bg-[#1d4ed8] border-[#2563eb] hover:border-[#1d4ed8] text-white"
+            className="bg-[#2563eb] hover:bg-[#1d4ed8] border-[#2563eb] hover:border-[#1d4ed8] text-white py-5"
           >
             Set Default
+          </Button>
+          <Button
+            onClick={onClose}
+            className="text-[#2563eb] border-[#2563eb] hover:bg-[#eff6ff] py-5"
+          >
+            Cancel
           </Button>
         </div>
       }

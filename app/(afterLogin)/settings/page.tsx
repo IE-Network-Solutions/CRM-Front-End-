@@ -4,12 +4,12 @@ import React, { useState } from 'react';
 import { Card, Button, Typography } from 'antd';
 import {
   PlusOutlined,
-  EditOutlined,
-  DeleteOutlined,
   DownOutlined,
   UpOutlined,
   SearchOutlined,
 } from '@ant-design/icons';
+import { RiDeleteBinLine } from 'react-icons/ri';
+import { GrFormEdit } from 'react-icons/gr';
 import SetDefaultModal from './_components/setDefaultModal';
 import RemoveModal from './_components/removeModal';
 import EditDrawer from './_components/editDrawer';
@@ -108,7 +108,7 @@ const SettingsPage: React.FC = () => {
                     <div className="flex gap-2">
                       <Button
                         type="text"
-                        icon={<EditOutlined />}
+                        icon={<GrFormEdit size={20} />}
                         className="text-gray-600 hover:text-blue-600"
                         onClick={() => {
                           setSelectedItemToEdit(role.name);
@@ -118,7 +118,7 @@ const SettingsPage: React.FC = () => {
                       />
                       <Button
                         type="text"
-                        icon={<DeleteOutlined />}
+                        icon={<RiDeleteBinLine size={20} />}
                         className="text-gray-600 hover:text-red-600"
                         onClick={(e) => {
                           const rect = e.currentTarget.getBoundingClientRect();
@@ -155,7 +155,7 @@ const SettingsPage: React.FC = () => {
                     <div className="flex gap-2">
                       <Button
                         type="text"
-                        icon={<EditOutlined />}
+                        icon={<GrFormEdit size={20} />}
                         className="text-gray-600 hover:text-blue-600"
                         onClick={() => {
                           setSelectedItemToEdit(solution.name);
@@ -165,7 +165,7 @@ const SettingsPage: React.FC = () => {
                       />
                       <Button
                         type="text"
-                        icon={<DeleteOutlined />}
+                        icon={<RiDeleteBinLine />}
                         className="text-gray-600 hover:text-red-600"
                         onClick={(e) => {
                           const rect = e.currentTarget.getBoundingClientRect();
@@ -203,7 +203,7 @@ const SettingsPage: React.FC = () => {
                     <div className="flex gap-2">
                       <Button
                         type="text"
-                        icon={<EditOutlined />}
+                        icon={<GrFormEdit size={20} />}
                         className="text-gray-600 hover:text-blue-600"
                         onClick={() => {
                           setSelectedItemToEdit(company.name);
@@ -213,7 +213,7 @@ const SettingsPage: React.FC = () => {
                       />
                       <Button
                         type="text"
-                        icon={<DeleteOutlined />}
+                        icon={<RiDeleteBinLine />}
                         className="text-gray-600 hover:text-red-600"
                         onClick={(e) => {
                           const rect = e.currentTarget.getBoundingClientRect();
@@ -251,7 +251,7 @@ const SettingsPage: React.FC = () => {
                     <div className="flex gap-2">
                       <Button
                         type="text"
-                        icon={<EditOutlined />}
+                        icon={<GrFormEdit size={20} />}
                         className="text-gray-600 hover:text-blue-600"
                         onClick={() => {
                           setSelectedItemToEdit(supplier.name);
@@ -261,7 +261,7 @@ const SettingsPage: React.FC = () => {
                       />
                       <Button
                         type="text"
-                        icon={<DeleteOutlined />}
+                        icon={<RiDeleteBinLine />}
                         className="text-gray-600 hover:text-red-600"
                         onClick={(e) => {
                           const rect = e.currentTarget.getBoundingClientRect();
@@ -323,20 +323,107 @@ const SettingsPage: React.FC = () => {
 
                     {/* Currency List */}
                     <div className="space-y-2">
-                      <div className="p-3 bg-white border border-gray-200 rounded-lg">
-                        <Text className="text-gray-900 font-semibold text-center">
-                          USD
-                        </Text>
+                      {/* USD */}
+                      <div
+                        className={`p-3 bg-white border rounded-lg cursor-pointer ${
+                          selectedCurrency === 'USD'
+                            ? 'border-[#2563eb]'
+                            : 'border-gray-200'
+                        }`}
+                        onClick={() => setSelectedCurrency('USD')}
+                      >
+                        <div className="flex items-center justify-between">
+                          <Text
+                            className={`font-semibold ${
+                              selectedCurrency === 'USD'
+                                ? 'text-[#2563eb]'
+                                : 'text-gray-900'
+                            }`}
+                          >
+                            USD
+                          </Text>
+                          {selectedCurrency === 'USD' && (
+                            <Button
+                              size="small"
+                              className="text-[#2563eb] border-[#2563eb] hover:bg-[#eff6ff]"
+                              onClick={(e) => {
+                                e.stopPropagation();
+                                setSelectedCurrency('USD');
+                                setIsSetDefaultModalOpen(true);
+                              }}
+                            >
+                              Set As Default
+                            </Button>
+                          )}
+                        </div>
                       </div>
-                      <div className="p-3 bg-white border border-gray-200 rounded-lg">
-                        <Text className="text-gray-900 font-semibold text-center">
-                          ETB
-                        </Text>
+                      {/* ETB */}
+                      <div
+                        className={`p-3 bg-white border rounded-lg cursor-pointer ${
+                          selectedCurrency === 'ETB'
+                            ? 'border-[#2563eb]'
+                            : 'border-gray-200'
+                        }`}
+                        onClick={() => setSelectedCurrency('ETB')}
+                      >
+                        <div className="flex items-center justify-between">
+                          <Text
+                            className={`font-semibold ${
+                              selectedCurrency === 'ETB'
+                                ? 'text-[#2563eb]'
+                                : 'text-gray-900'
+                            }`}
+                          >
+                            ETB
+                          </Text>
+                          {selectedCurrency === 'ETB' && (
+                            <Button
+                              size="small"
+                              className="text-[#2563eb] border-[#2563eb] hover:bg-[#eff6ff]"
+                              onClick={(e) => {
+                                e.stopPropagation();
+                                setSelectedCurrency('ETB');
+                                setIsSetDefaultModalOpen(true);
+                              }}
+                            >
+                              Set As Default
+                            </Button>
+                          )}
+                        </div>
                       </div>
-                      <div className="p-3 bg-white border border-gray-200 rounded-lg">
-                        <Text className="text-gray-900 font-semibold text-center">
-                          AED
-                        </Text>
+                      {/* AED */}
+                      <div
+                        className={`p-3 bg-white border rounded-lg cursor-pointer ${
+                          selectedCurrency === 'AED'
+                            ? 'border-[#2563eb]'
+                            : 'border-gray-200'
+                        }`}
+                        onClick={() => setSelectedCurrency('AED')}
+                      >
+                        <div className="flex items-center justify-between">
+                          <Text
+                            className={`font-semibold ${
+                              selectedCurrency === 'AED'
+                                ? 'text-[#2563eb]'
+                                : 'text-gray-900'
+                            }`}
+                          >
+                            AED
+                          </Text>
+                          {selectedCurrency === 'AED' && (
+                            <Button
+                              size="small"
+                              className="text-[#2563eb] border-[#2563eb] hover:bg-[#eff6ff]"
+                              onClick={(e) => {
+                                e.stopPropagation();
+                                setSelectedCurrency('AED');
+                                setIsSetDefaultModalOpen(true);
+                              }}
+                            >
+                              Set As Default
+                            </Button>
+                          )}
+                        </div>
                       </div>
                     </div>
                   </>
@@ -450,7 +537,7 @@ const SettingsPage: React.FC = () => {
                     <div className="flex gap-2">
                       <Button
                         type="text"
-                        icon={<EditOutlined />}
+                        icon={<GrFormEdit size={20} />}
                         className="text-gray-600 hover:text-blue-600"
                         onClick={() => {
                           setSelectedItemToEdit(vertical.name);
@@ -460,7 +547,7 @@ const SettingsPage: React.FC = () => {
                       />
                       <Button
                         type="text"
-                        icon={<DeleteOutlined />}
+                        icon={<RiDeleteBinLine />}
                         className="text-gray-600 hover:text-red-600"
                         onClick={(e) => {
                           const rect = e.currentTarget.getBoundingClientRect();
@@ -498,7 +585,7 @@ const SettingsPage: React.FC = () => {
                     <div className="flex gap-2">
                       <Button
                         type="text"
-                        icon={<EditOutlined />}
+                        icon={<GrFormEdit size={20} />}
                         className="text-gray-600 hover:text-blue-600"
                         onClick={() => {
                           setSelectedItemToEdit(field.name);
@@ -508,7 +595,7 @@ const SettingsPage: React.FC = () => {
                       />
                       <Button
                         type="text"
-                        icon={<DeleteOutlined />}
+                        icon={<RiDeleteBinLine />}
                         className="text-gray-600 hover:text-red-600"
                         onClick={(e) => {
                           const rect = e.currentTarget.getBoundingClientRect();
@@ -546,12 +633,12 @@ const SettingsPage: React.FC = () => {
                     <div className="flex gap-2">
                       <Button
                         type="text"
-                        icon={<EditOutlined />}
+                        icon={<GrFormEdit size={20} />}
                         className="text-gray-600 hover:text-blue-600"
                       />
                       <Button
                         type="text"
-                        icon={<DeleteOutlined />}
+                        icon={<RiDeleteBinLine />}
                         className="text-gray-600 hover:text-red-600"
                       />
                     </div>
@@ -629,7 +716,7 @@ const SettingsPage: React.FC = () => {
           <Button
             type="primary"
             icon={<PlusOutlined />}
-            className="bg-blue-600 hover:bg-blue-700 border-blue-600 hover:border-blue-700"
+            className="bg-blue-600 hover:bg-blue-700 border-blue-600 hover:border-blue-700 py-5"
             onClick={handleCreateClick}
           >
             {getButtonText()}
@@ -646,12 +733,12 @@ const SettingsPage: React.FC = () => {
             </Title>
 
             {/* Settings Categories */}
-            <div className="space-y-2">
+            <div className="space-y-4">
               {settingsCategories.map((category, index) => (
                 <Button
                   key={index}
                   onClick={() => setSelectedCategory(category)}
-                  className={`w-full text-left rounded-md ${
+                  className={`w-full text-left rounded-md py-4 ${
                     selectedCategory === category
                       ? 'bg-[#2563eb] text-white border-[#2563eb] hover:bg-[#1d4ed8] hover:border-[#1d4ed8]'
                       : 'text-[#2563eb] border-[#2563eb] hover:border-[#1d4ed8] hover:text-[#1d4ed8] hover:bg-[#eff6ff]'

@@ -42,16 +42,16 @@ const RemoveModal: React.FC<RemoveModalProps> = ({
 
         <div className="flex justify-center gap-3">
           <Button
-            onClick={onClose}
-            className="text-[#2563eb] border-[#2563eb] hover:bg-[#eff6ff] text-sm px-4"
-          >
-            Cancel
-          </Button>
-          <Button
             onClick={onConfirm}
-            className="bg-[#2563eb] hover:bg-[#1d4ed8] border-[#2563eb] hover:border-[#1d4ed8] text-white text-sm px-4"
+            className="bg-[#2563eb] hover:bg-[#1d4ed8] border-[#2563eb] hover:border-[#1d4ed8] text-white text-sm px-4 py-5"
           >
             Remove {itemType}
+          </Button>
+          <Button
+            onClick={onClose}
+            className="text-[#2563eb] border-[#2563eb] hover:bg-[#eff6ff] text-sm px-4 py-5"
+          >
+            Cancel
           </Button>
         </div>
       </div>

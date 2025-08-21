@@ -182,20 +182,37 @@ const Nav: React.FC<MyComponentProps> = ({ children }) => {
     },
     {
       title: (
-        <div
-          className="flex items-center gap-2 h-12 cursor-pointer"
-          onClick={() => router.push('/deals')}
-        >
+        <span className="flex items-center gap-2 h-12">
           <SwapOutlined
             size={18}
-            className={pathname.startsWith('/deals') ? 'text-[#2563eb]' : ''}
+            className={expandedKeys.includes('/deals') ? 'text-blue' : ''}
           />
-          <span className={textClass('/deals')}>Deals</span>
-        </div>
+          <span>Deals</span>
+        </span>
       ),
       key: '/deals',
       className: 'font-bold',
       permissions: [],
+      children: [
+        {
+          title: <span>Deals</span>,
+          key: '/deals/manage-deals',
+          className: 'font-bold',
+          permissions: [],
+        },
+        {
+          title: <span>Activity</span>,
+          key: '/deals/activity',
+          className: 'font-bold',
+          permissions: [],
+        },
+        {
+          title: <span>Settings</span>,
+          key: '/deals/settings',
+          className: 'font-bold',
+          permissions: [],
+        },
+      ],
     },
     {
       title: (
@@ -247,40 +264,6 @@ const Nav: React.FC<MyComponentProps> = ({ children }) => {
       key: '/settings',
       className: 'font-bold',
       permissions: [],
-    },
-    {
-      title: (
-        <span className="flex items-center gap-2 h-12">
-          <LuUsers
-            size={18}
-            className={expandedKeys.includes('/deals') ? 'text-blue' : ''}
-          />
-          <span>Deals</span>
-        </span>
-      ),
-      key: '/deals',
-      className: 'font-bold',
-      permissions: [],
-      children: [
-        {
-          title: <span>Deals</span>,
-          key: '/deals/manage-deals',
-          className: 'font-bold',
-          permissions: [],
-        },
-        {
-          title: <span>Activity</span>,
-          key: '/deals/activity',
-          className: 'font-bold',
-          permissions: [],
-        },
-        {
-          title: <span>Settings</span>,
-          key: '/deals/settings',
-          className: 'font-bold',
-          permissions: [],
-        },
-      ],
     },
   ];
 

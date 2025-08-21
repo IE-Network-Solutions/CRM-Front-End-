@@ -37,6 +37,7 @@ const Header: React.FC = () => {
               color: '#3b82f6',
               borderColor: '#93c5fd',
               borderWidth: '1px',
+              height: '50px',
             }}
             className="flex items-center hover:bg-blue-50"
             onMouseEnter={(e) => {
@@ -63,6 +64,7 @@ const Header: React.FC = () => {
               color: '#3b82f6',
               borderColor: '#93c5fd',
               borderWidth: '1px',
+              height: '50px',
             }}
             className="flex items-center hover:bg-blue-50"
             onMouseEnter={(e) => {

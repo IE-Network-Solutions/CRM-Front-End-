@@ -7,7 +7,7 @@ import {
   HiMiniArrowTrendingUp,
   HiMiniArrowTrendingDown,
 } from 'react-icons/hi2';
-import { TiArrowRepeatOutline } from 'react-icons/ti';
+import { LiaHandsHelpingSolid } from 'react-icons/lia';
 import { PiMoneyWavy } from 'react-icons/pi';
 import { TbTargetArrow } from 'react-icons/tb';
 
@@ -32,15 +32,15 @@ const MetricCard: React.FC<MetricCardProps> = ({
   const getIcon = () => {
     switch (iconType) {
       case 'dollar':
-        return <DollarOutlined className="text-blue-600 text-lg" />;
+        return <DollarOutlined className="text-blue-600 text-2xl" />;
       case 'document':
-        return <TiArrowRepeatOutline className="text-blue-600 text-lg" />;
+        return <LiaHandsHelpingSolid className="text-blue-600 text-2xl" />;
       case 'chart':
-        return <PiMoneyWavy className="text-blue-600 text-lg" />;
+        return <PiMoneyWavy className="text-blue-600 text-2xl" />;
       case 'target':
-        return <TbTargetArrow className="text-blue-600 text-lg" />;
+        return <TbTargetArrow className="text-blue-600 text-2xl" />;
       default:
-        return <DollarOutlined className="text-blue-600 text-lg" />;
+        return <DollarOutlined className="text-blue-600 text-2xl" />;
     }
   };
 
@@ -75,10 +75,7 @@ const MetricCard: React.FC<MetricCardProps> = ({
             <span className="ml-1">from last month</span>
           </div>
         </div>
-        <div
-          className="w-10 h-10 text-blue rounded-full flex items-center justify-center"
-          style={{ padding: 0 }}
-        >
+        <div className="w-12 h-12 text-blue  flex items-start justify-end">
           {getIcon()}
         </div>
       </div>

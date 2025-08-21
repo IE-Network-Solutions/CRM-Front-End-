@@ -46,26 +46,27 @@ const CreateCustomFieldDrawer: React.FC<CreateCustomFieldDrawerProps> = ({
       closable={false}
       styles={{
         header: { borderBottom: 'none' },
+        body: { paddingTop: '16px' },
         footer: { borderTop: 'none' },
       }}
       footer={
         <div className="flex justify-center gap-3 border-t-0 p-4">
           <Button
-            onClick={handleClose}
-            className="text-[#2563eb] border-[#2563eb] hover:bg-[#eff6ff]"
-          >
-            Cancel
-          </Button>
-          <Button
             onClick={handleSave}
-            className="bg-[#2563eb] hover:bg-[#1d4ed8] border-[#2563eb] hover:border-[#1d4ed8] text-white"
+            className="bg-[#2563eb] hover:bg-[#1d4ed8] border-[#2563eb] hover:border-[#1d4ed8] text-white py-5"
           >
             Create Custom Field
+          </Button>
+          <Button
+            onClick={handleClose}
+            className="text-[#2563eb] border-[#2563eb] hover:bg-[#eff6ff] py-5"
+          >
+            Cancel
           </Button>
         </div>
       }
     >
-      <Form form={form} layout="vertical">
+      <Form form={form} layout="vertical" className="-mt-2">
         {/* Name */}
         <Form.Item
           label="Name"
@@ -121,7 +122,7 @@ const CreateCustomFieldDrawer: React.FC<CreateCustomFieldDrawerProps> = ({
             valuePropName="checked"
             className="mb-0"
           >
-            <Switch defaultChecked={true} className="bg-gray-300" />
+            <Switch />
           </Form.Item>
         </div>
 

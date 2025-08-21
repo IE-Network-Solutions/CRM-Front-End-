@@ -74,37 +74,43 @@ const CreateCompanySupplierDrawer: React.FC<
       closable={false}
       styles={{
         header: { borderBottom: 'none' },
+        body: { paddingTop: '16px' },
         footer: { borderTop: 'none' },
       }}
       footer={
         <div className="flex justify-center gap-3 border-t-0 p-4">
           <Button
-            onClick={handleClose}
-            className="text-[#2563eb] border-[#2563eb] hover:bg-[#eff6ff]"
-          >
-            Cancel
-          </Button>
-          <Button
             onClick={handleSave}
-            className="bg-[#2563eb] hover:bg-[#1d4ed8] border-[#2563eb] hover:border-[#1d4ed8] text-white"
+            className="bg-[#2563eb] hover:bg-[#1d4ed8] border-[#2563eb] hover:border-[#1d4ed8] text-white py-5"
           >
             {getButtonText()}
+          </Button>
+          <Button
+            onClick={handleClose}
+            className="text-[#2563eb] border-[#2563eb] hover:bg-[#eff6ff] py-5"
+          >
+            Cancel
           </Button>
         </div>
       }
     >
-      <Form form={form} layout="vertical">
+      <Form form={form} layout="vertical" className="-mt-2">
         {/* Logo Upload - Full Width */}
         <Form.Item label={`${getTitle()} Logo`} name="logo">
-          <Upload.Dragger {...uploadProps}>
-            <div className="p-8 text-center">
-              <UploadOutlined className="text-4xl text-gray-400 mb-4" />
-              <p className="text-gray-600">
-                Drag or drop file or select file from device
-              </p>
-            </div>
-          </Upload.Dragger>
+          <div className="mt-3">
+            <Upload.Dragger {...uploadProps}>
+              <div className="p-8 text-center">
+                <UploadOutlined className="text-4xl text-gray-400 mb-4" />
+                <p className="text-gray-600">
+                  Drag or drop file or select file from device
+                </p>
+              </div>
+            </Upload.Dragger>
+          </div>
         </Form.Item>
+
+        {/* Spacer */}
+        <div className="h-8"></div>
 
         {/* Two Column Layout for Form Fields */}
         <Row gutter={16}>
