@@ -200,12 +200,12 @@ const Nav: React.FC<MyComponentProps> = ({ children }) => {
           className: 'font-bold',
           permissions: [],
         },
-        {
-          title: <span>Activity</span>,
-          key: '/deals/activity',
-          className: 'font-bold',
-          permissions: [],
-        },
+        // {
+        //   title: <span>Activity</span>,
+        //   key: '/deals/activity',
+        //   className: 'font-bold',
+        //   permissions: [],
+        // },
         {
           title: <span>Settings</span>,
           key: '/deals/settings',
