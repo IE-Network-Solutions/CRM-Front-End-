@@ -4,7 +4,6 @@ import React, { useState } from 'react';
 import {
   Button,
   Tag,
-  Timeline,
   Input,
   Tooltip,
   Space,
@@ -22,6 +21,7 @@ import {
 } from '@ant-design/icons';
 import { LuSettings2 } from 'react-icons/lu';
 import { RiExchange2Line } from 'react-icons/ri';
+import { Timeline } from './_components/timeline';
 
 const DatePill: React.FC<React.PropsWithChildren> = ({ children }) => (
   <div className="inline-flex rounded-full bg-white shadow-md border border-slate-200 text-slate-500 text-xs px-3 py-1">
@@ -232,7 +232,7 @@ export default function DealActivityPage() {
         </div>
 
         {/* Timeline */}
-        <div className="mt-8">
+        {/* <div className="mt-8">
           <div className="ml-28 sm:ml-32 mb-3">
             <DatePill>24 May 2025</DatePill>
           </div>
@@ -314,8 +314,15 @@ export default function DealActivityPage() {
               },
             ]}
           />
-        </div>
+        </div> */}
+         <div className="min-h-screen bg-white">
+    <div className="max-w-4xl mx-auto">
+      <h1 className="text-2xl font-semibold mb-8">Task Timeline</h1>
+      <Timeline />
+    </div>
+  </div>
       </div>
     </ConfigProvider>
+   
   );
 }
