@@ -316,8 +316,7 @@ export default function DealActivityPage() {
           />
         </div> */}
          <div className="min-h-screen bg-white">
-    <div className="max-w-4xl mx-auto">
-      <h1 className="text-2xl font-semibold mb-8">Task Timeline</h1>
+    <div className="">
       <Timeline />
     </div>
   </div>

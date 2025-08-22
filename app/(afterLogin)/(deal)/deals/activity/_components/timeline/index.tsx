@@ -1,5 +1,7 @@
-import {Card, Badge, Button} from 'antd'
+import {Card, Badge, Button, Tooltip, Space, Tag, Input} from 'antd'
 import { Mail, Phone, Edit, Check, X } from "lucide-react"
+import { CheckOutlined, CloseOutlined, PaperClipOutlined } from '@ant-design/icons';
+import { useState } from 'react';
 
 interface TimelineItem {
   id: string
@@ -10,6 +12,7 @@ interface TimelineItem {
   category: string
   priority: "Low" | "Medium" | "High"
   type: "email" | "phone"
+  attachments: string[]
 }
 
 const timelineData: TimelineItem[] = [
@@ -22,6 +25,7 @@ const timelineData: TimelineItem[] = [
     priority: "Low",
     type: "email",
     date: "24 May 2025",
+    attachments: [],
   },
   {
     id: "2",
@@ -32,6 +36,7 @@ const timelineData: TimelineItem[] = [
     priority: "Low",
     type: "phone",
     date: "24 May 2025",
+    attachments: ["Attachment 1", "Attachment 2"],
   },
   {
     id: "3",
@@ -42,27 +47,41 @@ const timelineData: TimelineItem[] = [
     priority: "Low",
     type: "phone",
     date: "24 May 2025",
+    attachments: ["Attachment 1", "Attachment 2"],
   },
 ]
 const DatePill: React.FC<React.PropsWithChildren> = ({ children }) => (
-    <div className="inline-flex rounded-full bg-white shadow-md border border-slate-200 text-slate-500 text-xs px-3 py-1">
+    <div className="inline-flex rounded-md bg-white text-[#94dcf7] shadow-md border border-[#94dcf7] text-xs pl-2 pr-10 py-2">
       {children}
     </div>
   );
+  const Attachments: React.FC<{ items: string[] }> = ({ items }) => (
+    <div className="flex flex-wrap gap-2">
+      {items.map((t, i) => (
+        <Tag key={i} className="rounded-full px-3 bg-slate-50">
+          {t}
+        </Tag>
+      ))}
+    </div>
+  );  
 
 export function Timeline() {
+  const [text, setText] = useState('');
+  const notePlaceholder = 'Note';
+  
   return (
-    <div className="relative max-w-4xl mx-auto py-8">
+    <div className="relative mx-6">
       <div className="absolute left-28 top-0 bottom-0 w-0.5 bg-gray-300"></div>
 
       <div className="space-y-8">
         {timelineData.map((item, index) => (
           <div key={item.id} className="relative">
-            <div className="">
+            <div className="pl-10 mb-8">
             <DatePill>{item.date}</DatePill>
           </div>
+          {/* icon */}
             <div className="absolute left-28 top-4 transform -translate-x-1/2 z-20">
-              <div className="w-10 h-10 bg-white border-2 border-gray-300 rounded-full flex items-center justify-center shadow-sm">
+              <div className="w-10 h-10 bg-white border-2 border-gray-300 rounded-full flex items-center justify-center shadow-sm my-16">
                 {item.type === "email" ? (
                   <Mail className="w-4 h-4 text-blue-500" />
                 ) : (
@@ -71,37 +90,92 @@ export function Timeline() {
               </div>
             </div>
 
-            <Card className="relative bg-transparent backdrop-blur-none shadow-sm border border-gray-200/30">
-              <div className="flex items-start p-4">
-                <div className="w-20 flex-shrink-0">
+
+<div       
+className={`group relative rounded-2xl bg-transparent hover:border hover:border-slate-200 hover:shadow-lg hover:bg-slate-50/30 transition-all duration-300`}
+>
+            <Card
+            bordered={false}
+             className="relative bg-transparent backdrop-blur-none shadow-sm hover:border hover:border-gray-200">
+              <div className="flex ">
+                <div className="w-20 flex-shrink-0 pr-3">
                   <div className="text-sm font-medium text-gray-600">{item.time}</div>
                 </div>
 
-                <div className="flex-1 min-w-0 pl-8">
+                {/* priority, title, assignee, category */}
+                <div className="flex-1 min-w-0 pl-10">
                   <div className="flex items-center gap-2 mb-2">
                     <Badge
                     color="green"
-                      className="bg-green-100 text-green-700 hover:bg-green-100 text-xs px-2 py-1"
+                      className="bg-[#eaf7ed] text-green-700 hover:bg-green-100 text-xs font-semibold px-3 rounded-md border  border-[#358648]"
                     >
                       {item.priority}
                     </Badge>
                   </div>
 
-                  <h3 className="font-semibold text-gray-900 mb-1">{item.title}</h3>
+                  <p className="font-semibold text-gray-900 mb-1">{item.title}</p>
                   <p className="text-sm text-gray-600 mb-1">{item.assignee}</p>
                   <p className="text-sm text-gray-500">{item.category}</p>
                 </div>
 
-                <div className="ml-6 flex-shrink-0">
-                  <div className="bg-transparent backdrop-blur-none rounded-lg p-3 w-48">
-                    <div className="flex items-center justify-between mb-2">
-                      <span className="text-sm text-gray-500">Notes</span>
-                      <Button variant="text" size="small" className="h-6 w-6 p-0">
-                        <Edit className="w-3 h-3 text-gray-400" />
-                      </Button>
+                  <div className="bg-transparent backdrop-blur-none rounded-lg p-3 w-[750px]">
+                    
+                    <div className="flex justify-between items-center gap-2">
+              <div className="flex-1">
+                <div className="mt-3 ">
+                  <div className="relative">
+                    <div className="border border-slate-200 hover:border-slate-300 rounded-xl transition-all h-16 p-2">
+                      <div className="flex items-start gap-2 mb-2">
+                        
+                      {/* {item.attachments.length > 0 && (
+                          <div className="flex flex-wrap gap-1">
+                            {item.attachments.map((attachment, index) => (
+                              <div
+                                key={index}
+                                className="flex items-center gap-1 bg-slate-100 border border-slate-200 rounded-md px-2 py-1 text-xs"
+                              >
+                                <span className="text-slate-700">
+                                  {attachment}
+                                </span>
+                                <CloseOutlined className="text-slate-400 hover:text-slate-600 cursor-pointer" />
+                              </div>
+                            ))}
+                          </div>
+                        )} */}
+                      </div>
+                      <Input.TextArea
+                        value={text}
+                        onChange={(e: React.ChangeEvent<HTMLTextAreaElement>) => setText(e.target.value)}
+                        placeholder={notePlaceholder}
+                        autoSize={{ minRows: 1, maxRows: 2 }}
+                        className="border-none shadow-none p-0 resize-none focus:shadow-none"
+                        style={{ background: 'transparent'}}
+                      />
+                      <div className="absolute top-2 right-2">
+                        <PaperClipOutlined className="text-slate-400 hover:text-slate-600 cursor-pointer" />
+                      </div>
                     </div>
+                  </div>
+                </div>
+              </div>
+              {/* Hover actions */}
+              <div className="opacity-0 -translate-y-1 group-hover:opacity-100 group-hover:translate-y-0 transition-all">
+                <Space>
+                  <Tooltip title="Save">
+                    <Button
+                      shape="circle"
+                      type="primary"
+                      icon={<CheckOutlined />}
+                    />
+                  </Tooltip>
+                  <Tooltip title="Delete">
+                    <Button shape="circle" danger icon={<CloseOutlined />} />
+                  </Tooltip>
+                </Space>
+              </div>
+            </div>
 
-                    <div className="flex gap-1 justify-end">
+                    {/* <div className="flex gap-1 justify-end">
                       <Button
                         variant="text"
                         size="small"
@@ -112,11 +186,11 @@ export function Timeline() {
                       <Button variant="text" size="small" className="h-8 w-8 p-0 bg-red-500 hover:bg-red-600 text-white">
                         <X className="w-4 h-4" />
                       </Button>
-                    </div>
+                    </div> */}
                   </div>
-                </div>
               </div>
             </Card>
+            </div>
           </div>
         ))}
       </div>
