@@ -1,6 +1,6 @@
 'use client';
 import React, { useEffect, useState } from 'react';
-import TimezoneComponent from '@/app/(afterLogin)/(timesheetInformation)/timesheet/settings/time-zone/_components/timeZone';
+//import TimezoneComponent from '@/app/(afterLogin)/(timesheetInformation)/timesheet/settings/time-zone/_components/timeZone';
 import useStepStore from '@/store/uistate/features/organizationStructure/steper/useStore';
 import { Button } from 'antd';
 
@@ -20,6 +20,7 @@ function getBrowserGMTOffset(): string {
 
 function TimeZone() {
   const { nextStep } = useStepStore();
+  // eslint-disable-next-line
   const [detectedTimeZone, setDetectedTimeZone] = useState<string>('');
 
   useEffect(() => {
@@ -32,7 +33,7 @@ function TimeZone() {
         <div className="flex flex-col md:flex-row justify-start items-center gap-2 md:gap-4 font-bold text-xl md:text-2xl text-black mt-4 md:mt-8">
           Set up your Timezone
         </div>
-        <TimezoneComponent autoDetectedTimeZone={detectedTimeZone} />
+        {/* <TimezoneComponent autoDetectedTimeZone={detectedTimeZone} /> */}
         <br />
         <div className="text-center">
           <Button

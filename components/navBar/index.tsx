@@ -102,6 +102,10 @@ const Nav: React.FC<MyComponentProps> = ({ children }) => {
       permissions: [], // No permissions required
     },
     {
+      key: '/leads/manage-leads',
+      permissions: [], // No permissions required
+    },
+    {
       key: '/employees/manage-employees/[id]',
       permissions: [], // No permissions required
     },
@@ -205,6 +209,40 @@ const Nav: React.FC<MyComponentProps> = ({ children }) => {
           key: '/employees/settings',
           className: 'font-bold',
           permissions: ['manage_employee_settings'],
+        },
+      ],
+    },
+    {
+      title: (
+        <span className="flex items-center gap-2 h-12">
+          <LuUsers
+            size={18}
+            className={expandedKeys.includes('/leads') ? 'text-blue' : ''}
+          />
+          <span>Leads</span>
+        </span>
+      ),
+      key: '/leads-menu',
+      className: 'font-bold',
+      permissions: [],
+      children: [
+        {
+          title: <span>leads</span>,
+          key: '/leads/manage-leads',
+          className: 'font-bold',
+          permissions: [],
+        },
+        {
+          title: <span>Activity</span>,
+          key: '/leads/activity',
+          className: 'font-bold',
+          permissions: [],
+        },
+        {
+          title: <span>Settings</span>,
+          key: '/leads/settings',
+          className: 'font-bold',
+          permissions: [],
         },
       ],
     },

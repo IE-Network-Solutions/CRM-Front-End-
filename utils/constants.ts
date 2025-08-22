@@ -35,3 +35,5 @@ export const EMAIL_URL = process.env.EMAIL_URL;
 const tenantId = useAuthenticationStore.getState().tenantId;
 
 export const DEFAULT_TENANT_ID = tenantId;
+
+export const CRM_URL = process.env.CRM_URL;

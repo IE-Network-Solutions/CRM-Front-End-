@@ -17,6 +17,9 @@ import TwoFactorAuth from './_components/2fa';
 import SimpleLogo from '@/components/common/logo/simpleLogo';
 import { useGet2FACode } from '@/store/server/features/authentication/mutation';
 
+// 🚨 TEMPORARY: Disable 2FA for testing - Set to false to bypass 2FA
+const DISABLE_2FA = true;
+
 type FieldType = {
   email: string;
   password: string;
@@ -33,6 +36,13 @@ const Login: FC = () => {
   const handleEmailPasswordSignIn: FormProps<FieldType>['onFinish'] = async (
     values,
   ) => {
+    // 🚨 TEMPORARY: Skip 2FA check if disabled
+    if (DISABLE_2FA) {
+      return await handleSignIn(() =>
+        signInWithEmailAndPassword(auth, values.email, values.password),
+      );
+    }
+
     get2FACode(
       {
         values: {
