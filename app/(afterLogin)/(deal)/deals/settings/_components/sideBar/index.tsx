@@ -2,8 +2,7 @@ import CustomDrawerLayout from '@/components/common/customDrawer';
 import { Button, Form, Input, Typography } from 'antd';
 import React from 'react';
 const { Title, Text } = Typography;
-import { HiOutlinePaintBrush } from "react-icons/hi2";
-
+import { HiOutlinePaintBrush } from 'react-icons/hi2';
 
 interface SideBarProps {
   open: boolean;
@@ -46,31 +45,27 @@ function SettingsSideBar({ open, onClose }: SideBarProps) {
       <Form layout="vertical" onValuesChange={() => {}} className="w-full">
         {/* General Information */}
         <div className="grid grid-cols-1 gap-4">
-  {/* Stage with icon */}
-  <Form.Item
-    name="stage"
-    label="Stage"
-    rules={[{ required: true, message: "Stage is required" }]}
-  >
-    <div className="flex items-center gap-2">
-      <Input placeholder="Stage Name" className="h-10 mt-2" />
-      <Button
-      type="default"
-      icon={<HiOutlinePaintBrush size={20}/>
-      }
-        className=" p-2 flex items-center justify-center w-14 h-10"
-      >
-        
-      </Button>
-    </div>
-  </Form.Item>
+          {/* Stage with icon */}
+          <Form.Item
+            name="stage"
+            label="Stage"
+            rules={[{ required: true, message: 'Stage is required' }]}
+          >
+            <div className="flex items-center gap-2">
+              <Input placeholder="Stage Name" className="h-10 mt-2" />
+              <Button
+                type="default"
+                icon={<HiOutlinePaintBrush size={20} />}
+                className=" p-2 flex items-center justify-center w-14 h-10"
+              ></Button>
+            </div>
+          </Form.Item>
 
-  {/* Stage Description */}
-  <Form.Item name="description" label="Stage Description">
-    <Input.TextArea placeholder="Description" className="h-32 mt-2" />
-  </Form.Item>
-</div>
-
+          {/* Stage Description */}
+          <Form.Item name="description" label="Stage Description">
+            <Input.TextArea placeholder="Description" className="h-32 mt-2" />
+          </Form.Item>
+        </div>
       </Form>
     </CustomDrawerLayout>
   );
