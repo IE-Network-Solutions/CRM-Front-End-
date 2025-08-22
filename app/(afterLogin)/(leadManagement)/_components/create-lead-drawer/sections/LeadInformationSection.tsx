@@ -37,17 +37,14 @@ export const LeadInformationSection: React.FC<LeadInformationSectionProps> = ({
 
   // Set initial form values when component mounts
   useEffect(() => {
-    if (form && currencies.length > 0) {
+    if (form) {
       // Set initial values for the first budget field and today's date
       const today = dayjs(); // Use dayjs instead of native Date
-      const defaultCurrency = currencies[0]?.name || 'USD';
       form.setFieldsValue({
-        currencies: [defaultCurrency],
-        estimatedBudgets: [''],
         createdDate: today,
       });
     }
-  }, [form, currencies]);
+  }, [form]);
 
   // Transform users data to match Select component format for lead owners
   // Handle different possible data structures from API
@@ -141,14 +138,10 @@ export const LeadInformationSection: React.FC<LeadInformationSectionProps> = ({
   const currencyOptions =
     safeCurrencies.length > 0
       ? safeCurrencies.map((currency: any) => ({
-          value: currency.name, // Use 'name' as value (e.g., "USD")
+          value: currency.id, // Use 'name' as value (e.g., "USD")
           label: `${currency.name} - ${currency.description}`, // Use 'name' and 'description'
         }))
-      : [
-          { value: 'USD', label: 'USD - US Dollar' },
-          { value: 'EUR', label: 'EUR - Euro' },
-          { value: 'GBP', label: 'GBP - British Pound' },
-        ];
+      : [{ value: '', label: 'Select Currency' }];
 
   // Add new budget field
   const addBudgetField = () => {
@@ -165,9 +158,7 @@ export const LeadInformationSection: React.FC<LeadInformationSectionProps> = ({
       const newBudgets = [...currentBudgets];
 
       // Set default values for new field
-      const defaultCurrency =
-        currencies.length > 0 ? currencies[0]?.name : 'USD';
-      newCurrencies[newIndex] = defaultCurrency;
+      newCurrencies[newIndex] = '';
       newBudgets[newIndex] = '';
 
       form.setFieldsValue({

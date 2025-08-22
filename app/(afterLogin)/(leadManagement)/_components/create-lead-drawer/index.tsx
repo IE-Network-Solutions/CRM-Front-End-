@@ -62,8 +62,6 @@ export const CreateLeadDrawer: React.FC<CreateLeadDrawerProps> = ({
     if (form && isOpen) {
       const today = dayjs();
       form.setFieldsValue({
-        currencies: ['USD'],
-        estimatedBudgets: [''],
         createdDate: today,
       });
     }
@@ -206,7 +204,7 @@ export const CreateLeadDrawer: React.FC<CreateLeadDrawerProps> = ({
               .slice(0, leadValidation.limits.estimatedBudgets)
               .map((amount: any, index: number) => ({
                 amount: parseFloat(amount) || 0,
-                currency: currencies[index] || 'USD',
+                currencyId: currencies[index] || '',
                 tenantId: tenantId,
               }))
           : [],
@@ -442,7 +440,6 @@ export const CreateLeadDrawer: React.FC<CreateLeadDrawerProps> = ({
         onFinish={handleCreateLead}
         className="space-y-6"
         initialValues={{
-          currencies: ['USD'],
           estimatedBudgets: [''],
         }}
         data-cy="create-lead-form"
