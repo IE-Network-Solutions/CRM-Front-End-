@@ -264,6 +264,7 @@ export default function LeadsPage() {
                     </div>
                   )
                 }
+                data-cy="leads-search-input"
               />
             </div>
             <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-3 w-full sm:w-auto">
@@ -283,6 +284,7 @@ export default function LeadsPage() {
                       style={{ color: '#1890ff' }}
                     />
                   }
+                  data-cy="leads-filter-button"
                 >
                   Filter
                   {Object.keys(activeFilters).length > 0 && (
@@ -309,6 +311,7 @@ export default function LeadsPage() {
                   }}
                   onClick={handleClearFilters}
                   icon={<ClearOutlined />}
+                  data-cy="leads-clear-filters-button"
                 >
                   Clear Filters
                 </Button>
