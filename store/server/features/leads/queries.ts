@@ -2,6 +2,7 @@ import { useQuery } from 'react-query';
 import { api, API_ENDPOINTS } from '@/config/api';
 import { getCurrentToken } from '@/utils/getCurrentToken';
 import { useAuthenticationStore } from '@/store/uistate/features/authentication';
+import { TENANT_MGMT_URL } from '@/utils/constants';
 import {
   Lead,
   PaginatedResponse,
@@ -11,6 +12,7 @@ import {
   Source,
 } from './interface';
 import { useMemo } from 'react';
+import axios from 'axios';
 
 export function useLeadsQuery(filters: LeadFilters) {
   const { tenantId } = useAuthenticationStore();
@@ -30,9 +32,12 @@ export function useLeadsQuery(filters: LeadFilters) {
     return ['leads', sortedFilters, tenantId];
   }, [filters, tenantId]);
 
+  // Check if this is a search query
+  const isSearchQuery = !!filters.searchTerm;
+
   return useQuery({
     queryKey,
-    keepPreviousData: false,
+    keepPreviousData: !isSearchQuery, // Don't keep previous data for search queries
     queryFn: async (): Promise<PaginatedResponse<Lead> | Lead[]> => {
       try {
         const token = await getCurrentToken();
@@ -46,13 +51,42 @@ export function useLeadsQuery(filters: LeadFilters) {
         });
 
         return response.data;
-      } catch (error) {
-        throw error;
+      } catch (error: any) {
+        // Enhanced error handling
+        if (error.response?.status === 204) {
+          // 204 No Content means the request was successful but no data found
+
+          return {
+            data: [],
+            pagination: {
+              totalItems: 0,
+              currentPage: 1,
+              itemsPerPage: 10,
+              totalPages: 0,
+            },
+          };
+        } else if (error.response?.status === 404) {
+          throw new Error('No leads found matching your search criteria');
+        } else if (error.response?.status === 401) {
+          throw new Error('Authentication failed. Please login again.');
+        } else if (error.response?.status >= 500) {
+          throw new Error('Server error. Please try again later.');
+        } else {
+          throw new Error(
+            error.response?.data?.message || 'Failed to fetch leads',
+          );
+        }
       }
     },
-    staleTime: 0, // Always refetch when filters change
-    cacheTime: 5 * 60 * 1000, // 5 minutes - keep in cache for 5 minutes
-    retry: 3,
+    staleTime: isSearchQuery ? 0 : 5 * 60 * 1000, // No cache for search queries
+    cacheTime: isSearchQuery ? 2 * 60 * 1000 : 5 * 60 * 1000, // Shorter cache for search
+    retry: (failureCount, error: any) => {
+      // Don't retry on 4xx errors
+      if (error.response?.status >= 400 && error.response?.status < 500) {
+        return false;
+      }
+      return failureCount < 3;
+    },
     refetchOnWindowFocus: false,
     refetchOnMount: true,
     refetchOnReconnect: true,
@@ -293,30 +327,77 @@ export function useCurrenciesQuery() {
 
   return useQuery({
     queryKey: ['currencies', tenantId],
-    queryFn: async (): Promise<Array<{ id: string; name: string }>> => {
+    queryFn: async (): Promise<
+      Array<{
+        id: string;
+        name: string;
+        description: string;
+        createdAt: string;
+        updatedAt: string;
+      }>
+    > => {
       try {
         const token = await getCurrentToken();
-        const response = await api.get('/estimated-budgets/currency', {
-          headers: {
-            Authorization: `Bearer ${token}`,
-            tenantId: tenantId,
-          },
-        });
 
-        const data = response.data;
+        // Try to fetch from main CRM API first
+        try {
+          const response = await api.get(API_ENDPOINTS.currencies, {
+            headers: {
+              Authorization: `Bearer ${token}`,
+              tenantId: tenantId,
+            },
+          });
 
-        // Handle paginated response from backend
-        if (data && data.data && Array.isArray(data.data)) {
-          return data.data;
+          const data = response.data;
+
+          // Handle paginated response from backend
+          if (data && data.data && Array.isArray(data.data)) {
+            return data.data;
+          }
+
+          // Fallback for direct array response
+          if (Array.isArray(data)) {
+            return data;
+          }
+
+          // If no valid data structure found, return empty array
+          return [];
+        } catch (crmError: any) {
+          // If CRM API fails, try the tenant management service as fallback
+          if (TENANT_MGMT_URL) {
+            try {
+              const response = await axios.get(
+                `${TENANT_MGMT_URL}/subscription/rest/currencies/all`,
+                {
+                  headers: {
+                    Authorization: `Bearer ${token}`,
+                    tenantId: tenantId,
+                  },
+                },
+              );
+
+              const data = response.data;
+
+              // Handle paginated response from backend
+              if (data && data.data && Array.isArray(data.data)) {
+                return data.data;
+              }
+
+              // Fallback for direct array response
+              if (Array.isArray(data)) {
+                return data;
+              }
+
+              // If no valid data structure found
+              return [];
+            } catch (tenantError: any) {
+              // Both CRM API and tenant management service failed
+              return [];
+            }
+          }
+
+          return [];
         }
-
-        // Fallback for direct array response
-        if (Array.isArray(data)) {
-          return data;
-        }
-
-        // If no valid data structure found
-        return [];
       } catch (error) {
         return [];
       }

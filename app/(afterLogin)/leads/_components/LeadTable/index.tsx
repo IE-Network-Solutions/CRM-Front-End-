@@ -21,17 +21,13 @@ export default function LeadTable({
   onSelectionChange,
 }: LeadTableProps) {
   // Fetch sources to map sourceId to source name
-  const {
-    data: sources = [],
-    isLoading: sourcesLoading,
-    error: sourcesError,
-  } = useSourcesQuery();
+  const { data: sources = [] } = useSourcesQuery();
   // Fetch companies to map companyId to company name
   const { data: companies = [], isLoading: companiesLoading } =
     useCompaniesQuery();
 
   // Show warning if no sources are available
-  if (sources.length === 0 && !sourcesLoading && !sourcesError) {
+  if (sources.length === 0) {
     // No sources found in system. Lead sources will show as "No Source"
   }
 
@@ -142,62 +138,25 @@ export default function LeadTable({
     },
     {
       title: 'Lead Source',
-      dataIndex: 'sourceId',
+      dataIndex: 'source',
       key: 'source',
       width: 120,
-      render: (sourceId: string | null) => {
-        if (!sourceId)
-          return <span className="text-sm font-medium text-gray-700">-</span>;
-
-        if (sourcesLoading) {
-          return (
-            <span className="text-sm font-medium text-gray-500">
-              Loading sources...
-            </span>
-          );
-        }
-
-        const source = sources.find((s) => s.id === sourceId);
-
-        if (!source) {
-          if (sources.length === 0) {
-            return (
-              <span
-                className="text-sm font-medium text-gray-500"
-                title="No sources configured in system"
-              >
-                No Source
-              </span>
-            );
-          }
-
-          return (
-            <span
-              className="text-sm font-medium text-gray-700"
-              title={`Source ID: ${sourceId} (Sources loaded: ${sources.length})`}
-            >
-              {sourceId}
-            </span>
-          );
-        }
-
-        return (
-          <span className="text-sm font-medium text-gray-700">
-            {source.name}
-          </span>
-        );
+      render: (source: string | null) => {
+        if (!source) return '-';
+        const sourceData = sources.find((s) => s.id === source);
+        return sourceData?.name || source;
       },
     },
     {
       title: 'Lead Stage',
       dataIndex: 'engagementStageId',
-      key: 'stage',
+      key: 'engagementStageId',
       width: 150,
       render: (stageId: string | null, record: Lead) => (
         <LeadStates
           leadId={record.id}
           currentStage={stageId}
-          onStageChange={() => {}} // handleStageChange is removed
+          onStageChange={() => {}}
           data-cy={`lead-stage-dropdown-${record.id}`}
         />
       ),

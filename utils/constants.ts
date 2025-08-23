@@ -13,6 +13,7 @@ export const CRM_ENDPOINTS = {
   source: '/source',
   solution: '/solution',
   engagementStage: '/engagement-stage',
+  currencies: '/currencies',
 } as const;
 
 // Other API URLs (from environment variables)

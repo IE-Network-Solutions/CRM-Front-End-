@@ -8,10 +8,10 @@ export interface Lead {
   contactPersonPhoneNumber: string;
   companyId?: string | null;
   supplierId?: string | null;
-  sourceId?: string | null;
+  source?: string | null; // Changed from sourceId to match backend DTO
   sectorId?: string | null;
   leadTypeId?: string | null;
-  engagementStageId?: string | null;
+  engagementStageId?: string | null; // Changed back to engagementStageId to match backend
   leadOwner?: string | null;
   tenantId?: string | null;
   additionalInformation?: string;
@@ -33,15 +33,14 @@ export interface PaginatedResponse<T> {
 }
 
 export interface LeadFilters {
-  search?: string;
+  searchTerm?: string;
   page?: number;
-  limit?: number;
+  pageSize?: number;
   companyId?: string;
-  sourceId?: string;
-  stageId?: string;
   sectorId?: string;
-  jobId?: string;
-  revenue?: string;
+  source?: string; // Changed from sourceId to match backend DTO
+  engagementStageId?: string; // Changed back to engagementStageId to match backend
+  revenue?: number;
   currency?: string;
   leadRate?: number;
   contactPersonEmail?: string;
@@ -76,11 +75,11 @@ export interface CreateLeadRequest {
   email: string;
   phone?: string;
   companyId?: string;
-  sourceId?: string;
-  stageId?: string;
+  source?: string; // Changed from sourceId to match backend DTO
+  engagementStageId?: string; // Changed back to engagementStageId to match backend
 }
 
 export interface UpdateLeadStageRequest {
   leadId: string;
-  stageId: string;
+  stageId: string; // Changed back to stageId to match the mutation code
 }

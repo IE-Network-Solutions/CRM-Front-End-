@@ -71,8 +71,8 @@ export const useLeadSelectors = create<LeadSelectors>((set, get) => ({
     return leads.filter((lead) => lead.companyId === companyId);
   },
 
-  getLeadsBySource: (leads: Lead[], sourceId: string) => {
-    return leads.filter((lead) => lead.sourceId === sourceId);
+  getLeadsBySource: (leads: Lead[], source: string) => {
+    return leads.filter((lead) => lead.source === source);
   },
 
   getLeadsBySector: (leads: Lead[], sectorId: string) => {
@@ -129,7 +129,7 @@ export const useLeadSelectors = create<LeadSelectors>((set, get) => ({
         (lead.contactPersonPhoneNumber &&
           lead.contactPersonPhoneNumber.includes(term)) ||
         (lead.name && lead.name.toLowerCase().includes(term)) ||
-        (lead.sourceId && lead.sourceId.toLowerCase().includes(term)),
+        (lead.source && lead.source.toLowerCase().includes(term)),
     );
   },
 
@@ -159,7 +159,7 @@ export const useLeadSelectors = create<LeadSelectors>((set, get) => ({
   getLeadsBySourceCount: (leads: Lead[]) => {
     const counts: Record<string, number> = {};
     leads.forEach((lead) => {
-      const source = lead.sourceId || 'Unknown';
+      const source = lead.source || 'Unknown';
       counts[source] = (counts[source] || 0) + 1;
     });
     return counts;
@@ -283,7 +283,7 @@ export const useLeadSelectors = create<LeadSelectors>((set, get) => ({
       Email: lead.contactPersonEmail,
       Phone: lead.contactPersonPhoneNumber || 'N/A',
       Company: lead.companyId || 'N/A',
-      Source: lead.sourceId || 'N/A',
+      Source: lead.source || 'N/A',
       Sector: lead.sectorId || 'N/A',
       Stage: lead.engagementStageId || 'N/A',
       Rating: lead.leadRate || 'N/A',

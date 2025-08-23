@@ -66,7 +66,6 @@ export interface WorkScheduleData {
 interface SearchParams {
   employee_name: string;
   allOffices: string;
-  allJobs: string;
   allStatus: string | null;
   gender: string;
   joinedDate: string;
@@ -349,7 +348,6 @@ export const useEmployeeManagementStore = create<UserState>()(
     searchParams: {
       employee_name: '',
       allOffices: '',
-      allJobs: '',
       allStatus: '',
       gender: '',
       joinedDate: '',

@@ -1,6 +1,6 @@
 'use client';
 
-import { useMemo, useState } from 'react';
+import { useMemo, useState, useEffect } from 'react';
 import { Button, Input } from 'antd';
 import {
   Search,
@@ -20,6 +20,19 @@ import { FilterModal } from './_components/FilterModal';
 import { LeadFilters } from '@/store/server/features/leads/interface';
 
 export default function LeadsPage() {
+  // Define FilterState interface inside component scope
+  interface FilterState {
+    companyId?: string;
+    sectorId?: string;
+    source?: string;
+    engagementStageId?: string; // Changed back to engagementStageId to match backend
+    revenue?: number;
+    currency?: string;
+    leadRate?: number;
+    contactPersonEmail?: string;
+    contactPersonPhoneNumber?: string;
+  }
+
   const { selectedRows, setSelectedRows, currentPage, setCurrentPage } =
     useLeadStore();
   const queryClient = useQueryClient();
@@ -28,16 +41,33 @@ export default function LeadsPage() {
   const [isFilterModalOpen, setIsFilterModalOpen] = useState(false);
   const [activeFilters, setActiveFilters] = useState<LeadFilters>({});
   const [searchValue, setSearchValue] = useState('');
+  const [debouncedSearchValue, setDebouncedSearchValue] = useState('');
+  const [searchHistory, setSearchHistory] = useState<string[]>([]);
 
-  const filters = useMemo(
-    () => ({
+  // Debounce search value for API calls
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setDebouncedSearchValue(searchValue);
+
+      // Add to search history if it's a meaningful search
+      if (searchValue.trim() && !searchHistory.includes(searchValue.trim())) {
+        setSearchHistory((prev) => [searchValue.trim(), ...prev.slice(0, 4)]); // Keep last 5 searches
+      }
+    }, 500);
+
+    return () => clearTimeout(timer);
+  }, [searchValue, searchHistory]);
+
+  const filters = useMemo(() => {
+    const combinedFilters = {
       page: currentPage,
-      limit: 10,
+      pageSize: 10,
+      searchTerm: debouncedSearchValue,
       ...activeFilters,
-      ...(searchValue && { search: searchValue }),
-    }),
-    [currentPage, activeFilters, searchValue],
-  );
+    };
+
+    return combinedFilters;
+  }, [currentPage, debouncedSearchValue, activeFilters]);
 
   const leadsQueryResult = useLeadsWithNamesQuery(filters);
 
@@ -80,70 +110,53 @@ export default function LeadsPage() {
     // Bulk action functionality
   };
 
-  const handleFilterClick = () => {
-    setIsFilterModalOpen(true);
-  };
+  const handleApplyFilters = (filters: FilterState) => {
+    const cleanedFilters = Object.fromEntries(
+      Object.entries(filters).filter(
+        ([, value]) => value !== undefined && value !== '',
+      ),
+    );
 
-  const handleApplyFilters = (newFilters: LeadFilters) => {
-    try {
-      // Map frontend filter names to backend field names
-      const mappedFilters = {
-        ...newFilters,
-        // Map stageId to engagementStageId if backend expects it
-        ...(newFilters.stageId && { engagementStageId: newFilters.stageId }),
-        // Remove the frontend field name if we're mapping it
-        ...(newFilters.stageId && { stageId: undefined }),
-      };
-
-      // Remove undefined values and empty strings
-      Object.keys(mappedFilters).forEach((key) => {
-        if (
-          mappedFilters[key as keyof LeadFilters] === undefined ||
-          mappedFilters[key as keyof LeadFilters] === ''
-        ) {
-          delete mappedFilters[key as keyof LeadFilters];
-        }
-      });
-
-      setActiveFilters(mappedFilters);
-      setCurrentPage(1); // Reset to first page when filters change
-
-      // Invalidate the leads cache to force a fresh fetch with new filters
-      queryClient.invalidateQueries(['leads']);
-
-      // Force refetch with new filters
-      if (leadsQueryResult.refetch) {
-        leadsQueryResult.refetch();
-      }
-    } catch (error) {
-      // Fallback: set empty filters
-      setActiveFilters({});
-    }
+    setActiveFilters(cleanedFilters);
+    setCurrentPage(1);
+    setIsFilterModalOpen(false);
   };
 
   const handleSearchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const value = e.target.value;
     setSearchValue(value);
-    setCurrentPage(1); // Reset to first page when search changes
 
-    // If search is cleared, invalidate cache to show all results
-    if (!value.trim()) {
-      queryClient.invalidateQueries(['leads']);
+    // Reset to first page when search changes
+    if (currentPage !== 1) {
+      setCurrentPage(1);
     }
   };
 
-  const handleClearFilters = () => {
-    setActiveFilters({});
+  // Handle search clearing
+  const handleSearchClear = () => {
     setSearchValue('');
+    setDebouncedSearchValue('');
     setCurrentPage(1);
 
-    // Invalidate all leads queries to ensure fresh data
-    queryClient.invalidateQueries(['leads']);
+    // Let React Query handle cache naturally - this preserves filter state
+  };
 
-    // Force refetch to get all leads without filters
-    if (leadsQueryResult.refetch) {
-      leadsQueryResult.refetch();
+  const handleClearFilters = () => {
+    // Clear all active filters
+    setActiveFilters({});
+
+    // Clear search value
+    setSearchValue('');
+
+    // Reset to first page
+    setCurrentPage(1);
+
+    // Close the filter modal if it's open
+    if (isFilterModalOpen) {
+      setIsFilterModalOpen(false);
     }
+
+    // Let React Query handle cache naturally - this prevents unnecessary API calls
   };
 
   const handlePageChange = (page: number) => {
@@ -239,34 +252,54 @@ export default function LeadsPage() {
                 placeholder="Search Leads"
                 value={searchValue}
                 onChange={handleSearchChange}
+                onClear={handleSearchClear}
+                allowClear
                 className="pl-10 border-gray-300 bg-white w-full"
                 prefix={<Search className="h-4 w-4 text-gray-400" />}
+                suffix={
+                  debouncedSearchValue !== searchValue &&
+                  searchValue && (
+                    <div className="text-xs text-gray-400 animate-pulse">
+                      Searching...
+                    </div>
+                  )
+                }
               />
             </div>
             <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-3 w-full sm:w-auto">
               {' '}
               {/* Responsive layout */}
-              <Button
-                className="relative border-blue-500 text-blue-500 bg-white hover:bg-blue-50 hover:shadow-lg hover:-translate-y-0.5 transition-all duration-200 py-[13px] px-3 rounded w-full sm:w-auto" // Responsive width
-                style={{
-                  borderColor: '#1890ff',
-                  color: '#1890ff',
-                }}
-                onClick={handleFilterClick}
-                icon={
-                  <Filter
-                    className="h-4 w-4 mr-2"
-                    style={{ color: '#1890ff' }}
-                  />
-                }
-              >
-                Filter
-                {Object.keys(activeFilters).length > 0 && (
-                  <span className="absolute -top-2 -right-2 bg-red-500 text-white text-xs font-bold rounded-full w-5 h-5 flex items-center justify-center animate-pulse">
-                    {Object.keys(activeFilters).length}
-                  </span>
-                )}
-              </Button>
+              <div className="relative">
+                <Button
+                  className="relative border-blue-500 text-blue-500 bg-white hover:bg-blue-50 hover:shadow-lg hover:-translate-y-0.5 transition-all duration-200 py-[13px] px-3 rounded w-full sm:w-auto" // Responsive width
+                  style={{
+                    borderColor: '#1890ff',
+                    color: '#1890ff',
+                  }}
+                  onClick={() => setIsFilterModalOpen(true)}
+                  icon={
+                    <Filter
+                      className="h-4 w-4 mr-2"
+                      style={{ color: '#1890ff' }}
+                    />
+                  }
+                >
+                  Filter
+                  {Object.keys(activeFilters).length > 0 && (
+                    <span className="absolute -top-2 -right-2 bg-red-500 text-white text-xs font-bold rounded-full w-5 h-5 flex items-center justify-center animate-pulse">
+                      {Object.keys(activeFilters).length}
+                    </span>
+                  )}
+                </Button>
+
+                <FilterModal
+                  isOpen={isFilterModalOpen}
+                  onClose={() => setIsFilterModalOpen(false)}
+                  onApplyFilters={handleApplyFilters}
+                  onClearFilters={handleClearFilters}
+                  currentFilters={activeFilters}
+                />
+              </div>
               {Object.keys(activeFilters).length > 0 && (
                 <Button
                   className="border-red-500 text-red-500 bg-white hover:bg-red-50 py-[13px] px-3 rounded w-full sm:w-auto"
@@ -595,15 +628,6 @@ export default function LeadsPage() {
           </div>
         </div>
       </div>
-
-      {/* Filter Modal */}
-      <FilterModal
-        isOpen={isFilterModalOpen}
-        onClose={() => setIsFilterModalOpen(false)}
-        onApplyFilters={handleApplyFilters}
-        onClearFilters={handleClearFilters}
-        currentFilters={activeFilters}
-      />
     </div>
   );
 }
