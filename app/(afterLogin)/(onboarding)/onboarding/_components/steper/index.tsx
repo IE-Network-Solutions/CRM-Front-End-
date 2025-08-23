@@ -125,7 +125,7 @@ const OnboardingSteper: React.FC = () => {
   };
   const timeZonePayload = {
     timezone: detectedTimeZone,
-    id: timeZoneRow ? timeZoneRow.id : '',
+    id: timeZoneRow?.[0]?.id ?? '',
   };
   const branchPayload = {
     name: 'HQ',

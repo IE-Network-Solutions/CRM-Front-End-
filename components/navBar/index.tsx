@@ -14,6 +14,7 @@ const { Header, Content, Sider } = Layout;
 import NavBar from './topNavBar';
 import { CiSettings } from 'react-icons/ci';
 import { LuUsers } from 'react-icons/lu';
+import { HiOutlineLightBulb } from 'react-icons/hi';
 import { removeCookie } from '@/helpers/storageHelper';
 import { useAuthenticationStore } from '@/store/uistate/features/authentication';
 import Logo from '../common/logo';
@@ -56,7 +57,6 @@ const Nav: React.FC<MyComponentProps> = ({ children }) => {
     setTenantId,
     setToken,
     setUserId,
-    setError,
     setActiveCalendar,
     setLoggedUserRole,
     setUserData,
@@ -75,10 +75,25 @@ const Nav: React.FC<MyComponentProps> = ({ children }) => {
     (string | number | bigint)[]
   >([pathname]);
 
+  // Prevent hydration issues by only rendering content on client side
+  const [isClient, setIsClient] = React.useState(false);
+
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+
+  React.useEffect(() => {
+    setIsClient(true);
+  }, []);
+
   // ===========> Fiscal Year Ended Section <=================
 
   const { token } = useAuthenticationStore();
   const { data: activeFiscalYear, refetch } = useGetActiveFiscalYearsData();
+
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+
+  // eslint-disable-next-line react-hooks/exhaustive-deps
 
   useEffect(() => {
     refetch();
@@ -108,6 +123,10 @@ const Nav: React.FC<MyComponentProps> = ({ children }) => {
     {
       key: '/employee-information/[id]',
       permissions: [], // No permissions required
+    },
+    {
+      key: '/leads/[id]',
+      permissions: [], // No permissions required for now
     },
   ];
 
@@ -207,6 +226,18 @@ const Nav: React.FC<MyComponentProps> = ({ children }) => {
           permissions: ['manage_employee_settings'],
         },
       ],
+    },
+    {
+      title: (
+        <span className="flex items-center gap-2 h-12">
+          <HiOutlineLightBulb size={18} />
+          <span>Leads</span>
+        </span>
+      ),
+      key: '/leads',
+      className: 'font-bold',
+      permissions: ['view_leads'],
+      disabled: hasEndedFiscalYear,
     },
   ];
 
@@ -310,6 +341,10 @@ const Nav: React.FC<MyComponentProps> = ({ children }) => {
   const { data: employeeData } = useGetEmployee(userId);
   const { setIsNavBarJobInfoModalVisible, setNavBarJobInfoModalWidth } =
     useEmployeeManagementStore();
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+
   useEffect(() => {
     if (!departments || !employeeData) return;
 
@@ -325,6 +360,10 @@ const Nav: React.FC<MyComponentProps> = ({ children }) => {
   }, [departments, employeeData, router]);
 
   // ✅ Check permission on pathname change
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+
   useEffect(() => {
     const checkPermissions = async () => {
       setIsCheckingPermissions(true);
@@ -345,7 +384,12 @@ const Nav: React.FC<MyComponentProps> = ({ children }) => {
     const selectedKey = info?.node?.key;
     if (!selectedKey) return;
 
-    if (info.node.children) {
+    // Only block routing if node has actual children (length > 0)
+    if (
+      info.node.children &&
+      Array.isArray(info.node.children) &&
+      info.node.children.length > 0
+    ) {
       setExpandedKeys((prev) =>
         prev.includes(selectedKey)
           ? prev.filter((key) => key !== selectedKey)
@@ -368,6 +412,10 @@ const Nav: React.FC<MyComponentProps> = ({ children }) => {
     }
   };
 
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+
   useEffect(() => {
     const handleResize = () => {
       setIsMobile(window.innerWidth <= 768);
@@ -386,34 +434,27 @@ const Nav: React.FC<MyComponentProps> = ({ children }) => {
     setMobileCollapsed(!mobileCollapsed);
   };
 
-  const handleLogout = async () => {
-    try {
-      setUserData({});
-      setLoggedUserRole('');
-      setActiveCalendar('');
-      setUserId('');
-      setError('');
-      setIs2FA(false);
-      setTwoFactorAuthEmail('');
-      setLocalId('');
-      setTenantId('');
-      setToken('');
-      setUser2FA({ email: '', pass: '' });
-
-      // Then remove cookies
-      removeCookie('token');
-      removeCookie('tenantId');
-      removeCookie('activeCalendar');
-      removeCookie('loggedUserRole');
-
-      // Finally clear the remaining state
-      setToken('');
-      setTenantId('');
-      setLocalId('');
-
-      router.push('/authentication/login');
-    } catch (error) {}
+  const handleLogout = () => {
+    removeCookie('token');
+    removeCookie('activeCalendar');
+    removeCookie('loggedUserRole');
+    setToken('');
+    setTenantId('');
+    setUserId('');
+    setLocalId('');
+    setUserData({});
+    setActiveCalendar('');
+    setLoggedUserRole('');
+    setIs2FA(false);
+    setTwoFactorAuthEmail('');
+    setUser2FA({ email: '', pass: '' });
+    router.push('/authentication/login');
   };
+
+  // Don't render anything until client-side hydration is complete
+  if (!isClient) {
+    return null;
+  }
 
   const filteredMenuItems = treeData
     .map((item) => {
