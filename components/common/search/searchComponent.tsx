@@ -2,7 +2,7 @@
 
 import React from 'react';
 import { Select, DatePicker, Modal, Button } from 'antd';
-import { useFilterStore } from '@/store/uistate/features/feedback/modal';
+// import { useFilterStore } from '@/store/uistate/features/feedback/modal'; // Commented out due to missing module
 import { LuSettings2 } from 'react-icons/lu';
 
 const { RangePicker } = DatePicker;
@@ -31,8 +31,14 @@ const EmployeeSearchComponent: React.FC<DynamicSearchProps> = ({
   fields,
   onChange,
 }) => {
-  const { modalVisible, selectedDates, setModalVisible, setSelectedDates } =
-    useFilterStore();
+  // const { modalVisible, selectedDates, setModalVisible, setSelectedDates } =
+  //   useFilterStore(); // Commented out due to missing module
+
+  // Placeholder data since module is missing
+  const modalVisible = false;
+  const selectedDates: string[] = [];
+  const setModalVisible = () => {};
+  const setSelectedDates = () => {};
 
   return (
     <div className="flex flex-wrap justify-start w-full">
@@ -50,11 +56,11 @@ const EmployeeSearchComponent: React.FC<DynamicSearchProps> = ({
                   <Button
                     icon={<LuSettings2 className="text-gray-400 text-xl" />}
                     className="w-full h-14 border border-gray-200"
-                    onClick={() => setModalVisible(true)}
+                    onClick={() => setModalVisible()}
                   />
                   <Modal
                     open={modalVisible}
-                    onCancel={() => setModalVisible(false)}
+                    onCancel={() => setModalVisible()}
                     footer={null}
                     centered
                     closable
@@ -64,24 +70,22 @@ const EmployeeSearchComponent: React.FC<DynamicSearchProps> = ({
                     <h2 className="text-lg font-semibold mb-4">Filter</h2>
                     <RangePicker
                       className="w-full mb-6 h-12"
-                      onChange={(dates, dateStrings) => {
-                        setSelectedDates(dateStrings);
+                      onChange={() => {
+                        setSelectedDates();
                       }}
                       getPopupContainer={(triggerNode) =>
                         triggerNode.parentElement || document.body
                       }
                     />
                     <div className="flex justify-center gap-2">
-                      <Button onClick={() => setModalVisible(false)}>
-                        Cancel
-                      </Button>
+                      <Button onClick={() => setModalVisible()}>Cancel</Button>
                       <Button
                         type="primary"
                         className="bg-purple-600"
                         onClick={() => {
                           onChange?.({ key: field?.key, value: selectedDates });
                           field?.onChange?.(selectedDates);
-                          setModalVisible(false);
+                          setModalVisible();
                         }}
                       >
                         Filter

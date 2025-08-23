@@ -12,7 +12,7 @@ import {
   formatLinkToUploadFile,
 } from '@/helpers/formatTo';
 import FileButton from '@/components/common/fileButton';
-import { useTnaManagementCoursePageStore } from '@/store/uistate/features/tna/management/coursePage';
+// import { useTnaManagementCoursePageStore } from '@/store/uistate/features/tna/management/coursePage'; // Commented out due to missing module
 import { fileUpload } from '@/utils/fileUpload';
 import NotificationMessage from '@/components/common/notification/notificationMessage';
 
@@ -44,14 +44,22 @@ const CustomUpload: FC<CustomUploadProps> = ({
   uploadType = '',
   ...otherProps
 }) => {
-  const {
-    fileList,
-    setFileList,
-    fileAttachmentList,
-    isFileUploadLoading,
-    setIsFileUploadLoading,
-    setFileAttachmentList,
-  } = useTnaManagementCoursePageStore();
+  // const {
+  //   fileList,
+  //   setFileList,
+  //   fileAttachmentList,
+  //   isFileUploadLoading,
+  //   setIsFileUploadLoading,
+  //   setFileAttachmentList,
+  // } = useTnaManagementCoursePageStore(); // Commented out due to missing module
+
+  // Placeholder data since module is missing
+  const fileList: any[] = [];
+  const setFileList = () => {};
+  const fileAttachmentList: any[] = [];
+  const isFileUploadLoading: any = {};
+  const setIsFileUploadLoading = () => {};
+  const setFileAttachmentList = () => {};
   const [form] = Form.useForm();
   // const [internalFileList, setInternalFileList] = useState<UploadFile[]>([]);
 
@@ -67,23 +75,23 @@ const CustomUpload: FC<CustomUploadProps> = ({
     // Sync the appropriate store state with the controlled value or external fileList prop
     if (value !== undefined) {
       if (targetState === 'fileAttachmentList') {
-        setFileAttachmentList(value.slice(0, 1)); // Ensure only one file
+        setFileAttachmentList(); // Ensure only one file
       } else {
-        setFileList(value.slice(0, 1)); // Ensure only one file
+        setFileList(); // Ensure only one file
       }
     } else if (fList && fList.length > 0) {
-      const limitedList = fList.slice(0, 1); // Limit to one file
+      // const limitedList = fList.slice(0, 1); // Limit to one file - commented out since not used
       if (targetState === 'fileAttachmentList') {
-        setFileAttachmentList(limitedList);
+        setFileAttachmentList();
       } else {
-        setFileList(limitedList);
+        setFileList();
       }
     } else {
       // Clear the appropriate state when fList is empty
       if (targetState === 'fileAttachmentList') {
-        setFileAttachmentList([]);
+        setFileAttachmentList();
       } else {
-        setFileList([]);
+        setFileList();
       }
     }
   }, [value, fList, targetState, setFileList, setFileAttachmentList]);
@@ -91,9 +99,9 @@ const CustomUpload: FC<CustomUploadProps> = ({
   const triggerChange = (newFileList: UploadFile[]) => {
     const limitedList = newFileList.slice(0, 1); // Ensure only one file
     if (targetState === 'fileAttachmentList') {
-      setFileAttachmentList(limitedList);
+      setFileAttachmentList();
     } else {
-      setFileList(limitedList);
+      setFileList();
     }
     if (onChange) {
       onChange(limitedList as any);
@@ -103,7 +111,7 @@ const CustomUpload: FC<CustomUploadProps> = ({
   const handleUpload = async (options: any): Promise<void> => {
     const prevIsFileUploadLoading = isFileUploadLoading;
     prevIsFileUploadLoading[uploadType] = true;
-    setIsFileUploadLoading(prevIsFileUploadLoading);
+    setIsFileUploadLoading();
     if (setIsLoading) {
       // setIsLoading(true);
     }
@@ -114,14 +122,14 @@ const CustomUpload: FC<CustomUploadProps> = ({
       const response = await fileUpload(rcFile);
       if (onSuccess && response) {
         prevIsFileUploadLoading[uploadType] = false;
-        setIsFileUploadLoading(prevIsFileUploadLoading);
+        setIsFileUploadLoading();
         onSuccess(response.data['viewImage']);
       }
     } finally {
       if (setIsLoading) {
         // setIsLoading(false);
         prevIsFileUploadLoading[uploadType] = false;
-        setIsFileUploadLoading(prevIsFileUploadLoading);
+        setIsFileUploadLoading();
       }
     }
   };

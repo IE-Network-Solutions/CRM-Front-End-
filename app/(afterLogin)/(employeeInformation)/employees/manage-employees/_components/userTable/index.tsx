@@ -99,10 +99,10 @@ const UserTable = () => {
   const { data: allFilterData } = useEmployeeAllFilter(
     pageSize,
     userCurrentPage,
-    searchParams.allOffices ? searchParams.allOffices : '',
-    searchParams.allJobs ? searchParams.allJobs : '',
     searchParams.employee_name,
+    searchParams.allOffices ? searchParams.allOffices : '',
     searchParams.allStatus ? searchParams.allStatus : '',
+    '', // department parameter (empty string since we removed department filtering)
     searchParams.gender ? searchParams.gender : '',
     searchParams.joinedDate ? searchParams.joinedDate : '',
     searchParams.joinedDateType || 'after',

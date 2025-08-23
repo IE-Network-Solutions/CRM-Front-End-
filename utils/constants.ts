@@ -1,5 +1,22 @@
 import { useAuthenticationStore } from '@/store/uistate/features/authentication';
 
+// CRM API Configuration
+export const CRM_URL =
+  process.env.CRM_URL || 'http://172.20.30.226:3000/api/v1';
+export const CRM_API_URL = CRM_URL; // Alias for backward compatibility
+
+// CRM Endpoints (for use throughout the app)
+export const CRM_ENDPOINTS = {
+  leads: '/leads',
+  companies: '/companies',
+  suppliers: '/suppliers',
+  source: '/source',
+  solution: '/solution',
+  engagementStage: '/engagement-stage',
+  currencies: '/currencies',
+} as const;
+
+// Other API URLs (from environment variables)
 export const ORG_AND_EMP_URL = process.env.ORG_AND_EMP_URL;
 export const OKR_URL = process.env.OKR_URL;
 export const PAYROLL_URL = process.env.PAYROLL_URL;

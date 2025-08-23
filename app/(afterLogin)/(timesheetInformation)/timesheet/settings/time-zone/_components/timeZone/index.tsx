@@ -1,7 +1,6 @@
 'use client';
 import { useEffect } from 'react';
 import { useUpdateTimeZone } from '@/store/server/features/timesheet/timeZone/mutation';
-import { useGetTimeZone } from '@/store/server/features/timesheet/timeZone/queries';
 import { Button, Form, Select } from 'antd';
 
 interface GmtOffsetOption {
@@ -40,7 +39,6 @@ const TimezoneComponent = ({
   autoDetectedTimeZone,
 }: TimezoneComponentProps) => {
   const [form] = Form.useForm();
-  const { data } = useGetTimeZone();
   const { mutate: updateTimeZone, isLoading } = useUpdateTimeZone();
 
   // Converts time zone like "Africa/Addis_Ababa" to "+03:00"
@@ -71,12 +69,10 @@ const TimezoneComponent = ({
     if (offset) {
       form.setFieldsValue({ timezone: offset });
     }
-  }, [autoDetectedTimeZone]);
+  }, [autoDetectedTimeZone, form]);
 
   const handleFinish = (values: any) => {
-    if (data) {
-      updateTimeZone({ ...values, id: data.id });
-    }
+    updateTimeZone(values);
   };
 
   return (

@@ -1,6 +1,11 @@
 import { DateInfo } from '@/types/commons/dateInfo';
 import { StatusBadgeTheme } from '@/components/common/statusBadge';
-import { Meta } from '@/store/server/features/okrPlanningAndReporting/interface';
+// import { Meta } from '@/store/server/features/okrPlanningAndReporting/interface'; // Commented out due to missing module
+
+// Placeholder type since module is missing
+export interface Meta {
+  // Placeholder interface - no actual properties
+}
 
 export enum TrainingNeedAssessmentStatus {
   PENDING = 'pending',

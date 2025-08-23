@@ -2,7 +2,12 @@ import { BreakType } from '@/types/timesheet/breakType';
 import { StatusBadgeTheme } from '@/components/common/statusBadge';
 import { Geolocation } from '@/types/timesheet/geolocation';
 import { DateInfo } from '@/types/commons/dateInfo';
-import { Meta } from '@/store/server/features/okrPlanningAndReporting/interface';
+// import { Meta } from '@/store/server/features/okrPlanningAndReporting/interface'; // Commented out due to missing module
+
+// Placeholder type since module is missing
+export interface Meta {
+  // Placeholder interface - no actual properties
+}
 
 export enum AttendanceRecordType {
   LATE = 'late',

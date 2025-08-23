@@ -11,6 +11,226 @@
   src: url('https://fonts.googleapis.com/css2?family=Manrope:wght@200..800&display=swap');
 }
 
+/* Custom table styles for leads */
+.custom-table {
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+/* Remove blank row below header in Ant Design Table */
+.custom-table .ant-table-tbody > tr.ant-table-placeholder {
+  display: none !important;
+}
+
+/* Remove spacing between table header and body */
+.custom-table .ant-table-thead {
+  margin-bottom: 0 !important;
+}
+
+.custom-table .ant-table-tbody {
+  margin-top: 0 !important;
+}
+
+/* Remove any default spacing in table container */
+.custom-table .ant-table-container {
+  border-spacing: 0 !important;
+}
+
+/* Ensure no gap between header and body rows */
+.custom-table .ant-table-thead + .ant-table-tbody {
+  margin-top: 0 !important;
+}
+
+/* Remove any default row spacing and ensure tight packing */
+.custom-table .ant-table-tbody > tr {
+  margin: 0 !important;
+  padding: 0 !important;
+}
+
+/* Remove any default spacing in table cells that might cause gaps */
+.custom-table .ant-table-tbody > tr > td {
+  margin: 0 !important;
+  vertical-align: top !important;
+}
+
+/* Ensure header cells also have no extra spacing */
+.custom-table .ant-table-thead > tr > th {
+  margin: 0 !important;
+  vertical-align: top !important;
+}
+
+/* Target the specific white space issue - remove any gap between thead and tbody */
+.custom-table .ant-table-thead {
+  border-bottom: none !important;
+}
+
+.custom-table .ant-table-tbody {
+  border-top: none !important;
+}
+
+/* Remove any default table spacing */
+.custom-table .ant-table {
+  border-spacing: 0 !important;
+  border-collapse: collapse !important;
+}
+
+/* Ensure the table body starts immediately after the header */
+.custom-table .ant-table-container table {
+  border-spacing: 0 !important;
+  border-collapse: collapse !important;
+}
+
+/* Remove any remaining white space - target the specific gap issue */
+.custom-table .ant-table-thead ~ .ant-table-tbody {
+  margin-top: 0 !important;
+  padding-top: 0 !important;
+}
+
+/* Force remove any default table spacing */
+.custom-table .ant-table-tbody > tr:first-child > td {
+  border-top: none !important;
+  padding-top: 12px !important; /* Match header padding for consistent height */
+}
+
+/* Ensure header has no bottom margin and seamless transition to first data row */
+.custom-table .ant-table-thead > tr:last-child > th {
+  border-bottom: none !important;
+  margin-bottom: 0 !important;
+  padding-bottom: 12px !important; /* Match first row padding for consistent height */
+}
+
+/* Create consistent zebra pattern starting from header */
+.custom-table .ant-table-thead > tr > th {
+  background-color: #f8fafc !important; /* Light gray header - first in zebra pattern */
+  border-bottom: none !important; /* Remove the 2px border that was creating separation */
+  padding: 12px 12px !important; /* Reduce padding to match data row height */
+  height: auto !important;
+  line-height: 1.2 !important; /* Tighter line height for header */
+}
+
+/* First row should be white to continue zebra pattern */
+.custom-table .ant-table-tbody > tr:first-child > td {
+  background-color: #ffffff !important; /* White first row - second in zebra pattern */
+  padding: 12px 8px !important; /* Match header padding for consistent height */
+}
+
+/* Remove the bottom border from header that was creating visual separation */
+.custom-table .ant-table-thead {
+  border-bottom: none !important;
+}
+
+.custom-table .ant-table-thead > tr > th {
+  background-color: #f8fafc !important;
+  border-bottom: none !important; /* Removed border to eliminate visual separation */
+  color: #1e293b !important; /* Increased color intensity from gray-600 to gray-800 */
+  font-weight: 800 !important; /* Increased from 700 to 800 for bolder text */
+  font-size: 14px !important;
+  text-transform: uppercase !important;
+  letter-spacing: 0.05em !important;
+  padding: 12px 12px !important; /* Reduced padding to match data row height */
+  font-family: 'Manrope', sans-serif !important;
+  height: auto !important;
+  line-height: 1.2 !important; /* Tighter line height for header */
+}
+
+.custom-table .ant-table-tbody > tr > td {
+  border-bottom: 2px solid rgba(0, 0, 0, 0.13) !important; /* Changed opacity to 0.13 */
+  padding: 12px 8px !important; /* Match header padding for consistent row height */
+  position: relative;
+}
+
+/* Zebra color effect continuing from first row */
+.custom-table .ant-table-tbody > tr:nth-child(even) > td {
+  background-color: #fafbfc !important; /* Light gray for even rows (2nd, 4th, 6th...) */
+}
+
+.custom-table .ant-table-tbody > tr:nth-child(odd) > td {
+  background-color: #ffffff !important; /* White for odd rows (1st, 3rd, 5th...) */
+}
+
+/* Ensure checkbox column also gets zebra effect */
+.custom-table .ant-table-tbody > tr:nth-child(even) > td:first-child {
+  background-color: #fafbfc !important; /* Light gray for even rows - checkbox column */
+}
+
+.custom-table .ant-table-tbody > tr:nth-child(odd) > td:first-child {
+  background-color: #ffffff !important; /* White for odd rows - checkbox column */
+}
+
+/* Add additional blurred line effect */
+.custom-table .ant-table-tbody > tr > td::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 1px; /* Reduced height for better blur effect */
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(0, 0, 0, 0.08),
+    transparent
+  ); /* Adjusted opacity */
+  filter: blur(0.3px); /* Reduced blur for cleaner effect */
+  pointer-events: none; /* Ensure it doesn't interfere with interactions */
+}
+
+/* Make checkboxes square instead of circular */
+.custom-table .ant-checkbox-inner {
+  border-radius: 0 !important; /* Square checkboxes */
+}
+
+/* Mobile table scrolling improvements */
+.custom-table {
+  -webkit-overflow-scrolling: touch; /* Smooth scrolling on iOS */
+  scrollbar-width: thin; /* Thin scrollbar on Firefox */
+}
+
+.custom-table::-webkit-scrollbar {
+  height: 6px; /* Height for horizontal scrollbar */
+}
+
+.custom-table::-webkit-scrollbar-track {
+  background: #f1f1f1; /* Light gray track */
+  border-radius: 3px;
+}
+
+.custom-table::-webkit-scrollbar-thumb {
+  background: #c1c1c1; /* Gray scrollbar thumb */
+  border-radius: 3px;
+}
+
+.custom-table::-webkit-scrollbar-thumb:hover {
+  background: #a8a8a8; /* Darker on hover */
+}
+
+.custom-table .ant-table-thead > tr > th:first-child {
+  padding: 12px 8px !important; /* Match other header cells for consistent height */
+}
+
+.custom-table .ant-table-tbody > tr > td:first-child {
+  padding: 12px 8px !important; /* Match other data cells for consistent height */
+}
+
+.custom-table .ant-table-tbody > tr:hover > td {
+  background-color: #f8fafc;
+}
+
+/* Status button styles for leads */
+.status-button {
+  border-radius: 6px;
+  font-weight: 500;
+  padding: 4px 12px;
+  border: none;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.status-button:hover {
+  opacity: 0.8;
+  transform: translateY(-1px);
+}
+
 /* Hide scrollbar while maintaining scroll functionality */
 .scrollbar-hide {
   -ms-overflow-style: none; /* Internet Explorer 10+ */

@@ -1,7 +1,6 @@
 import {
   useEmployeeAllFilter,
   useEmployeeBranches,
-  useEmployeeDepartments,
 } from '@/store/server/features/employees/employeeManagment/queries';
 import { useEmployeeManagementStore } from '@/store/uistate/features/employees/employeeManagment';
 import { useDebounce } from '@/utils/useDebounce';
@@ -22,17 +21,16 @@ const EmployeeSearch: React.FC = () => {
   const { data: allFilterData } = useEmployeeAllFilter(
     pageSize,
     userCurrentPage,
-    searchParams.allOffices ? searchParams.allOffices : '',
-    searchParams.allJobs ? searchParams.allJobs : '',
     searchParams.employee_name ? searchParams.employee_name : '',
+    searchParams.allOffices ? searchParams.allOffices : '',
     searchParams.allStatus ? searchParams.allStatus : '',
+    '', // department parameter (empty string since we removed department filtering)
     searchParams.gender ? searchParams.gender : '',
     searchParams.joinedDate ? searchParams.joinedDate : '',
     searchParams.joinedDateType || 'after',
   );
 
   const { data: EmployeeBranches } = useEmployeeBranches();
-  const { data: EmployeeDepartment } = useEmployeeDepartments();
   const { isMobileFilterVisible, setIsMobileFilterVisible } =
     useEmployeeManagementStore();
 
@@ -51,14 +49,19 @@ const EmployeeSearch: React.FC = () => {
     keyValue: keyof typeof searchParams,
   ) => {
     const trimmedValue = value.trim();
-    onSearchChange(trimmedValue, keyValue);
+
+    // Only search if there's actual content or if clearing
+    if (trimmedValue || value === '') {
+      onSearchChange(trimmedValue, keyValue);
+    }
+  };
+
+  // Handle search clearing
+  const handleSearchClear = (keyValue: keyof typeof searchParams) => {
+    onSelectChange('', keyValue);
   };
   const handleBranchChange = (value: string) => {
     onSelectChange(value, 'allOffices');
-  };
-
-  const handleDepartmentChange = (value: string) => {
-    onSelectChange(value, 'allJobs');
   };
 
   const handleStatusChange = (value: string) => {
@@ -95,9 +98,18 @@ const EmployeeSearch: React.FC = () => {
           <Input
             id={`inputEmployeeNames${searchParams.employee_name}`}
             placeholder="Search employee"
+            value={searchParams.employee_name}
             onChange={(e) => handleSearchInput(e.target.value, 'employee_name')}
-            className="w-full h-10 rounded-lg"
+            onClear={() => handleSearchClear('employee_name')}
             allowClear
+            className="w-full h-10 rounded-lg"
+            suffix={
+              searchParams.employee_name && (
+                <div className="text-xs text-gray-400">
+                  {searchParams.employee_name.length} chars
+                </div>
+              )
+            }
           />
         </Col>
         <Col xs={24} sm={24} lg={18}>
@@ -110,19 +122,6 @@ const EmployeeSearch: React.FC = () => {
               className="h-10 min-w-[120px]"
             >
               {EmployeeBranches?.items?.map((item: any) => (
-                <Option key={item?.id} value={item?.id}>
-                  {item?.name}
-                </Option>
-              ))}
-            </Select>
-            <Select
-              id={`selectDepartment${searchParams.allJobs}`}
-              placeholder="Department"
-              onChange={handleDepartmentChange}
-              allowClear
-              className="h-10 min-w-[120px]"
-            >
-              {EmployeeDepartment?.map((item: any) => (
                 <Option key={item?.id} value={item?.id}>
                   {item?.name}
                 </Option>
@@ -209,20 +208,6 @@ const EmployeeSearch: React.FC = () => {
           className="w-full mb-4"
         >
           {EmployeeBranches?.items?.map((item: any) => (
-            <Option key={item?.id} value={item?.id}>
-              {item?.name}
-            </Option>
-          ))}
-        </Select>
-
-        <Select
-          id={`selectDepartment${searchParams.allJobs}`}
-          placeholder="Department"
-          onChange={handleDepartmentChange}
-          allowClear
-          className="w-full mb-4"
-        >
-          {EmployeeDepartment?.map((item: any) => (
             <Option key={item?.id} value={item?.id}>
               {item?.name}
             </Option>
