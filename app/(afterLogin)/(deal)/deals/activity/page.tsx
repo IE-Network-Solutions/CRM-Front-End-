@@ -1,6 +1,6 @@
 'use client';
 
-import { Button, ConfigProvider } from 'antd';
+import { Button, ConfigProvider, Dropdown } from 'antd';
 import {
   ArrowLeftOutlined,
   PlusOutlined,
@@ -14,6 +14,9 @@ import {
 import { LuSettings2 } from 'react-icons/lu';
 import { RiExchange2Line } from 'react-icons/ri';
 import { Timeline } from './_components/timeline';
+import ActivitySideBar from './_components/sidebar';
+import { useState } from 'react';
+import ActivityFilterModal from './_components/filter';
 
 // const DatePill: React.FC<React.PropsWithChildren> = ({ children }) => (
 //   <div className="inline-flex rounded-full bg-white shadow-md border border-slate-200 text-slate-500 text-xs px-3 py-1">
@@ -174,7 +177,13 @@ import { Timeline } from './_components/timeline';
 // );
 
 export default function DealActivityPage() {
+  const [isSideBarOpen, setIsSideBarOpen] = useState(false);
+  const [isFilterOpen, setIsFilterOpen] = useState(false);
+  const handleFilter = () => {
+    console.log('Filter');
+  };
   return (
+    <>
     <ConfigProvider
       theme={{ token: { borderRadius: 12, colorPrimary: '#2563eb' } }}
     >
@@ -201,18 +210,48 @@ export default function DealActivityPage() {
               type="primary"
               icon={<PlusOutlined />}
               className="bg-[#4080f0] hover:bg-[#4080f0] text-white h-10"
+              onClick={() => {
+                setIsSideBarOpen(true);
+              }}
             >
               Create Activity
             </Button>
           </div>
           <div className="flex justify-end mt-5">
             <div className="flex gap-2">
-              <Button
+              {/* <Button
                 icon={<LuSettings2 className="text-[#4080f0]" size={20} />}
                 className="h-10 border-[#4080f0] text-[#4080f0]"
               >
                 Filter
-              </Button>
+              </Button> */}
+              <Dropdown
+            overlay={<ActivityFilterModal onFilter={handleFilter} />}
+            trigger={['click']}
+            placement="bottomRight"
+          >
+            <Button
+              icon={<LuSettings2 />}
+              onClick={() => setIsFilterOpen(!isFilterOpen)}
+              style={{
+                color: '#3b82f6',
+                borderColor: '#93c5fd',
+                borderWidth: '1px',
+                height: '50px',
+              }}
+              className="flex items-center hover:bg-blue-50 h-10"
+              onMouseEnter={(e) => {
+                e.currentTarget.style.color = '#1d4ed8';
+                e.currentTarget.style.borderColor = '#3b82f6';
+              }}
+              onMouseLeave={(e) => {
+                e.currentTarget.style.color = '#3b82f6';
+                e.currentTarget.style.borderColor = '#93c5fd';
+              }}
+            >
+              Filter
+            </Button>
+          </Dropdown>
               <Button
                 icon={<RiExchange2Line className="text-[#4080f0]" size={20} />}
                 className="h-10 border-[#4080f0] text-[#4080f0]"
@@ -314,5 +353,12 @@ export default function DealActivityPage() {
         </div>
       </div>
     </ConfigProvider>
+    <ActivitySideBar
+        open={isSideBarOpen}
+        onClose={() => {
+          setIsSideBarOpen(false);
+        }}
+      />
+    </>
   );
 }
