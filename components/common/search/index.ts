@@ -1,2 +1,2 @@
-export * from './employeeSearch';
+// Employee search removed
 export * from './searchComponent';

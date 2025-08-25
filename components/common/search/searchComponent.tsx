@@ -2,7 +2,7 @@
 
 import React from 'react';
 import { Select, DatePicker, Modal, Button } from 'antd';
-import { useFilterStore } from '@/store/uistate/features/feedback/modal';
+// import { useFilterStore } from '@/store/uistate/features/feedback/modal';
 import { LuSettings2 } from 'react-icons/lu';
 
 const { RangePicker } = DatePicker;
@@ -31,8 +31,17 @@ const EmployeeSearchComponent: React.FC<DynamicSearchProps> = ({
   fields,
   onChange,
 }) => {
-  const { modalVisible, selectedDates, setModalVisible, setSelectedDates } =
-    useFilterStore();
+  // Fallback for missing feedback/modal store
+  const modalVisible = false;
+  const selectedDates: string[] = [];
+  const setModalVisible = (
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    visible: boolean,
+  ) => {};
+  const setSelectedDates = (
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    dates: string[],
+  ) => {};
 
   return (
     <div className="flex flex-wrap justify-start w-full">
