@@ -100,7 +100,6 @@ export function Timeline() {
               <Card
                 bordered={false}
                 className="relative bg-transparent backdrop-blur-none shadow-none hover:border hover:border-gray-200 h-32"
-                bodyStyle={{ border: 'none' }}
               >
                 <div className="flex ">
                   <div className="w-20 flex-shrink-0 pr-3">
@@ -135,9 +134,9 @@ export function Timeline() {
                         <div className="mt-3 ">
                           <div className="relative">
                             <div className="border border-slate-200 hover:border-slate-300 rounded-xl transition-all p-2 h-14">
-                              <div className="flex items-start gap-2 mb-2">
-                                {/* {item.attachments.length > 0 && (
-                          <div className="flex flex-wrap gap-1">
+                              <div className="flex items-start gap-2">
+                                {item.attachments.length > 0 && (
+                          <div className="flex flex-nowrap gap-1 h-[18px]">
                             {item.attachments.map((attachment, index) => (
                               <div
                                 key={index}
@@ -150,7 +149,7 @@ export function Timeline() {
                               </div>
                             ))}
                           </div>
-                        )} */}
+                        )}
                               </div>
                               <Input.TextArea
                                 value={text}
