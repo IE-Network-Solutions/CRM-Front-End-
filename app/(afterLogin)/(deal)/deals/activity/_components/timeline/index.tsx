@@ -74,7 +74,7 @@ export function Timeline() {
   const notePlaceholder = 'Note';
 
   return (
-    <div className="relative mx-6">
+    <div className="relative mx-6 mb-6">
       <div className="absolute left-28 top-0 bottom-0 w-0.5 bg-gray-300"></div>
 
       <div className="space-y-8">
@@ -99,7 +99,8 @@ export function Timeline() {
             >
               <Card
                 bordered={false}
-                className="relative bg-transparent backdrop-blur-none shadow-sm hover:border hover:border-gray-200"
+                className="relative bg-transparent backdrop-blur-none shadow-none hover:border hover:border-gray-200 h-32"
+                bodyStyle={{ border: 'none' }}
               >
                 <div className="flex ">
                   <div className="w-20 flex-shrink-0 pr-3">
@@ -110,7 +111,7 @@ export function Timeline() {
 
                   {/* priority, title, assignee, category */}
                   <div className="flex-1 min-w-0 pl-10">
-                    <div className="flex items-center gap-2 mb-2">
+                    <div className="flex items-center gap-2 mb-1">
                       <Badge
                         color="green"
                         className="bg-[#eaf7ed] text-green-700 hover:bg-green-100 text-xs font-semibold px-3 rounded-md border  border-[#358648]"
@@ -119,21 +120,21 @@ export function Timeline() {
                       </Badge>
                     </div>
 
-                    <p className="font-semibold text-gray-900 mb-1">
+                    <p className="font-semibold text-gray-900 ">
                       {item.title}
                     </p>
-                    <p className="text-sm text-gray-600 mb-1">
+                    <p className="text-sm text-gray-600">
                       {item.assignee}
                     </p>
                     <p className="text-sm text-gray-500">{item.category}</p>
                   </div>
 
-                  <div className="bg-transparent backdrop-blur-none rounded-lg p-3 w-[750px]">
+                  <div className="bg-transparent backdrop-blur-none rounded-lg p-3 w-[600px]">
                     <div className="flex justify-between items-center gap-2">
                       <div className="flex-1">
                         <div className="mt-3 ">
                           <div className="relative">
-                            <div className="border border-slate-200 hover:border-slate-300 rounded-xl transition-all h-16 p-2">
+                            <div className="border border-slate-200 hover:border-slate-300 rounded-xl transition-all p-2 h-14">
                               <div className="flex items-start gap-2 mb-2">
                                 {/* {item.attachments.length > 0 && (
                           <div className="flex flex-wrap gap-1">
@@ -158,7 +159,7 @@ export function Timeline() {
                                 ) => setText(e.target.value)}
                                 placeholder={notePlaceholder}
                                 autoSize={{ minRows: 1, maxRows: 2 }}
-                                className="border-none shadow-none p-0 resize-none focus:shadow-none"
+                                className="border-none shadow-none p-1 resize-none focus:shadow-none"
                                 style={{ background: 'transparent' }}
                               />
                               <div className="absolute top-2 right-2">
